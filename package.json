@@ -1,0 +1,23 @@
+{
+  "name": "budget-planner-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:debug": "node --inspect-brk index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cuid": "^2.1.8",
+    "joi": "^17.6.4",
+    "level": "^8.0.0",
+    "lodash": "^4.17.21",
+    "luxon": "^3.1.0",
+    "node-telegram-bot-api": "0.59.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2"
+  }
+}
