@@ -6,7 +6,11 @@ const accountant = require("../accountant");
 
 const PAGE_SIZE = 10;
 
-const gui = {};
+const gui = {
+  PAGINATION_PREFIX: "page",
+};
+
+const getPageChoiceData = (page) => `${gui.PAGINATION_PREFIX}.${page}`;
 
 const listOfCommands = (() => {
   const commandsGroupedByCategory = groupBy(
@@ -49,18 +53,18 @@ gui.getOptionsList = (options, page) => {
     return optionsList;
   } else if (page === 0) {
     optionsList.push([
-      { text: ">>", callback_data: page + 1 },
-      { text: "В конец", callback_data: lastPage },
+      { text: ">>", callback_data: getPageChoiceData(page + 1) },
+      { text: "В конец", callback_data: getPageChoiceData(lastPage) },
     ]);
   } else if (end === options.length) {
     optionsList.push([
-      { text: "В начало", callback_data: 0 },
-      { text: "<<", callback_data: page - 1 },
+      { text: "В начало", callback_data: getPageChoiceData(0) },
+      { text: "<<", callback_data: getPageChoiceData(page - 1) },
     ]);
   } else {
     optionsList.push([
-      { text: "<<", callback_data: page - 1 },
-      { text: ">>", callback_data: page + 1 },
+      { text: "<<", callback_data: getPageChoiceData(page - 1) },
+      { text: ">>", callback_data: getPageChoiceData(page + 1) },
     ]);
   }
 

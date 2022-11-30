@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const { state, read, readAll, write, del } = require("../services/db");
+const { state, read, write, del } = require("../services/db");
 const { EntityManager } = require("../utils/entity-manager");
 
 const stateDto = Joi.object({
