@@ -1,40 +1,13 @@
+const path = require("node:path");
+
 const bot = require("../../services/telegram-bot");
 const log = require("../../lib/log");
-const {
-  processCommand,
-  processMessage,
-  processSelect,
-} = require("./processors");
+const { ScenariosRouter } = require("./lib/ScenariosRouter");
 
-bot.subscribeToCommand(async (...args) => {
-  try {
-    await processCommand(...args);
-  } catch (err) {
-    log.error(`Error processing command`);
-    log.error(`Context: ${JSON.stringify(args)}`);
-    log.error(err.stack);
-    log.error(err.cause);
-  }
-});
+const scenariosPath = path.join(__dirname, "./scenarios");
 
-bot.subscribeToMessage(async (...args) => {
-  try {
-    await processMessage(...args);
-  } catch (err) {
-    log.error(`Error processing message`);
-    log.error(`Context: ${JSON.stringify(args)}`);
-    log.error(err.stack);
-    log.error(err.cause);
-  }
-});
+const scenarioRouter = new ScenariosRouter(scenariosPath);
 
-bot.subscribeToSelect(async (...args) => {
-  try {
-    await processSelect(...args);
-  } catch (err) {
-    log.error(`Error processing select`);
-    log.error(`Context: ${JSON.stringify(args)}`);
-    log.error(err.stack);
-    log.error(err.cause);
-  }
-});
+bot.subscribeToCommand(scenarioRouter.handleCommand);
+bot.subscribeToMessage(scenarioRouter.handleMessage);
+bot.subscribeToSelect(scenarioRouter.handleChoice);

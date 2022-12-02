@@ -29,9 +29,9 @@ class Scenario extends EventEmitter {
     await state.setState({ userId, state: this.name });
 
     if (isEmpty(this.steps)) {
-      this.complete({ userId });
+      return this.complete({ userId });
     } else {
-      this.steps[0].initiate({ userId });
+      return this.steps[0].initiate({ userId });
     }
   }
 
@@ -54,9 +54,9 @@ class Scenario extends EventEmitter {
     const nextStep = await this.getNextStep({ userId });
 
     if (isNil(nextStep)) {
-      this.complete({ userId });
+      return this.complete({ userId });
     } else {
-      nextStep.initiate({ userId });
+      return nextStep.initiate({ userId });
     }
   }
 
