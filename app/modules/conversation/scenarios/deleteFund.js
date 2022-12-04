@@ -2,6 +2,7 @@ const { Scenario } = require("../lib/Scenario");
 
 const gui = require("../../gui");
 const fund = require("../../../entities/fund");
+const user = require("../../../entities/user");
 const { commands } = require("../../../lib/commands");
 const { ChoiceStep } = require("../lib/ChoiceStep");
 
@@ -15,11 +16,12 @@ scenario.on(Scenario.COMPLETED, async ({ userId, responsesList }) => {
   const [fundId] = responsesList;
 
   const deletedFund = await fund.find({ userId, id: fundId });
+  const balanceToTransfer = deletedFund.balance;
 
   await fund.delete({ userId, id: fundId });
   await user.updateBalanceBy({
     tgId: userId,
-    amount: deletedFund.balance,
+    amount: balanceToTransfer,
   });
   gui.respondWithCurrentBudgetState({ userId });
 });

@@ -1,7 +1,7 @@
 const { success } = require("./lib/log");
 
-function setup() {
-  require("./modules/conversation");
+async function setup() {
+  await require("./modules/conversation");
 
   success("Service started successfully!");
 }

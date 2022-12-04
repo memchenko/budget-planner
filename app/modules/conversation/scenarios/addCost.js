@@ -16,10 +16,10 @@ const categoryStep = new ChoiceStep({
   word: "Выберите категорию расходов",
   entity: categories,
 });
-categoryStep.getOptions = async function ({ userId }) {
+categoryStep.getItems = async function ({ userId }) {
   return this.entity.find({ userId, type: "cost" });
 };
-categoryStep.mapDataItemToOption = async function (category) {
+categoryStep.mapDataItemToOption = function (category) {
   return { id: category, text: category };
 };
 const fundStep = new ChoiceStep({ word: "Выберите фонд", entity: fund });

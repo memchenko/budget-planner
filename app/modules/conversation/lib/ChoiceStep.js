@@ -2,7 +2,7 @@ const { Step } = require("./Step");
 
 const gui = require("../../gui");
 
-const paginationRegEx = new RegExp(`^${gui.PAGINATION_PREFIX}\.(\d+)$`);
+const paginationRegEx = new RegExp(`^${gui.PAGINATION_PREFIX}\\.(\\d+)$`);
 
 class ChoiceStep extends Step {
   constructor({ word, entity }) {

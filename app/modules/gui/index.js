@@ -40,7 +40,7 @@ const listOfCommands = (() => {
 gui.getOptionsList = (options, page) => {
   const start = page * PAGE_SIZE;
   const end = Math.min(start + PAGE_SIZE, options.length);
-  const lastPage = Math.ceil(options.length / PAGE_SIZE);
+  const lastPage = Math.floor(options.length / PAGE_SIZE);
   const pageOptions = options.slice(start, end);
   const optionsList = pageOptions.map(({ id, text }) => [
     {

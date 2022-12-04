@@ -50,7 +50,7 @@ accountant.addIncome = async (data) => {
     amount,
   });
 
-  return await user.updateBalance({ tgId: userId, amount });
+  return await user.updateBalanceBy({ tgId: userId, amount });
 };
 
 accountant.addCost = async (data) => {
@@ -94,7 +94,7 @@ accountant.shareBalanceBetweenFundsByPriorities = async (data) => {
       balance -= amount;
 
       return {
-        userId: fund.userId,
+        userId: userId,
         fundId: fund.id,
         amount,
       };
@@ -104,7 +104,7 @@ accountant.shareBalanceBetweenFundsByPriorities = async (data) => {
   await user.update({ tgId: userId, balance });
 };
 
-accountant.shareBalanceBetweenFundsEqually = async () => {
+accountant.shareBalanceBetweenFundsEqually = async (data) => {
   const { userId } = data;
   const userData = await user.find({ tgId: userId });
   const funds = await fund.findAll({ userId });
@@ -113,14 +113,14 @@ accountant.shareBalanceBetweenFundsEqually = async () => {
   const share = Math.floor(balance / funds.length);
   const fundsUpdateData = funds.map((fund) => {
     return {
-      userId: fund.userId,
+      userId: userId,
       fundId: fund.id,
       amount: share,
     };
   });
 
   await Promise.all(fundsUpdateData.map((data) => fund.updateBalanceBy(data)));
-  await user.update({ tgId: userId, balance });
+  await user.update({ tgId: userId, balance: 0 });
 };
 
 module.exports = accountant;

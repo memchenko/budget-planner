@@ -1,4 +1,5 @@
 const fs = require("node:fs");
+const path = require("node:path");
 
 const { isNil } = require("lodash");
 
@@ -14,8 +15,10 @@ class ScenariosRouter {
     this.handleCommand = this.handleCommand.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
     this.handleChoice = this.handleChoice.bind(this);
+  }
 
-    this.loadScenarios();
+  async init() {
+    return this.loadScenarios();
   }
 
   async getScenarioInProgress({ userId }) {
@@ -30,7 +33,8 @@ class ScenariosRouter {
     const scenariosFiles = fs.readdirSync(this.scenariosPath);
 
     scenariosFiles.forEach((file) => {
-      const { scenario } = require(file);
+      const fullPath = path.resolve(this.scenariosPath, file);
+      const { scenario } = require(fullPath);
 
       this.scenarios[scenario.name] = scenario;
     });
@@ -60,7 +64,8 @@ class ScenariosRouter {
 
   async handleMessage({ userId, text }) {
     try {
-      const scenario = await this.getScenarioInProgress({ userId });
+      const key = await this.getScenarioInProgress({ userId });
+      const scenario = this.scenarios[key];
 
       if (isNil(scenario)) {
         return;
@@ -69,7 +74,7 @@ class ScenariosRouter {
       }
     } catch (err) {
       log.error(`Error processing message`);
-      log.error(`Context: ${JSON.stringify({ userId, command })}`);
+      log.error(`Context: ${JSON.stringify({ userId, text })}`);
       log.error(err.stack);
       log.error(err.cause);
     }

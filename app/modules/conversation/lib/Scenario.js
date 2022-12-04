@@ -12,6 +12,8 @@ class Scenario extends EventEmitter {
 
     this.name = name;
     this.steps = [];
+
+    this.registerStep = this.registerStep.bind(this);
   }
 
   registerMultipleSteps(...steps) {
@@ -37,7 +39,8 @@ class Scenario extends EventEmitter {
 
   async run({ userId, text }) {
     const { responsesList } = await state.find({ userId });
-    const currentStep = this.steps[responsesList.length - 1];
+    const stepIndex = responsesList.length;
+    const currentStep = this.steps[stepIndex];
 
     currentStep.run({ userId, text });
   }
@@ -47,11 +50,15 @@ class Scenario extends EventEmitter {
 
     await state.reset({ userId });
 
-    this.emit(Scenario.COMPLETED, { userId, responsesList });
+    this.emit(Scenario.COMPLETED, {
+      userId,
+      responsesList: responsesList.map((response) => JSON.parse(response)),
+    });
   }
 
   async handleStepComplete({ userId }) {
-    const nextStep = await this.getNextStep({ userId });
+    const stepIndex = await this.getNextStep({ userId });
+    const nextStep = this.steps[stepIndex];
 
     if (isNil(nextStep)) {
       return this.complete({ userId });

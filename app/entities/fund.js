@@ -70,7 +70,10 @@ module.exports = new EntityManager("fund", {
           );
 
           await Promise.all(
-            newData.map((newFund) => this.update({ userId, ...newFund }))
+            newData.map((newFund) => {
+              const clearedData = omit(newFund, ["createdAt", "updatedAt"]);
+              return this.update({ userId, ...clearedData });
+            })
           );
         }
 
@@ -156,11 +159,12 @@ module.exports = new EntityManager("fund", {
     handler: async function ({ userId, fundId, amount }, cb) {
       try {
         const fund = await this.find({ id: fundId, userId });
-        fund.balance += amount;
+        const cleanedData = omit(fund, ["createdAt", "updatedAt"]);
+        cleanedData.balance += amount;
 
-        await this.update({ userId, ...fund });
+        const updatedFund = await this.update({ userId, ...cleanedData });
 
-        return cb(undefined, fund);
+        return cb(undefined, updatedFund);
       } catch (err) {
         return cb(err);
       }

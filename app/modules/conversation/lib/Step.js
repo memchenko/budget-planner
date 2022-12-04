@@ -18,7 +18,7 @@ class Step extends EventEmitter {
   }
 
   initiate({ userId }) {
-    gui.sendMessage({ userId, text: this.word });
+    gui.respondWithMessage({ userId, text: this.word });
   }
 
   run({ userId, text }) {
@@ -32,13 +32,13 @@ class Step extends EventEmitter {
   async complete({ userId, text }) {
     const response = await this.prepareResponse(text);
 
-    await state.addResponse({ userId, response });
+    await state.addResponse({ userId, response: JSON.stringify(response) });
 
     this.emit(Step.COMPLETED, { userId });
   }
 
   tryAgain({ userId, text }) {
-    gui.sendMessage({ userId, text: `Неверный формат. ${this.word}` });
+    gui.respondWithMessage({ userId, text: `Неверный формат. ${this.word}` });
   }
 
   validate(text) {

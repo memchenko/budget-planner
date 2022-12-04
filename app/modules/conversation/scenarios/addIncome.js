@@ -15,10 +15,10 @@ const categoryStep = new ChoiceStep({
   word: "Выберите категорию доходов",
   entity: categories,
 });
-categoryStep.getOptions = async function ({ userId }) {
+categoryStep.getItems = async function ({ userId }) {
   return this.entity.find({ userId, type: "income" });
 };
-categoryStep.mapDataItemToOption = async function (category) {
+categoryStep.mapDataItemToOption = function (category) {
   return { id: category, text: category };
 };
 const noteStep = new Step({ word: `Введите заметку или просто "-"` });

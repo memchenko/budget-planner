@@ -11,10 +11,10 @@ const categoriesStep = new ChoiceStep({
   word: "Выберите категорию",
   entity: categories,
 });
-categories.getItems = async function () {
+categoriesStep.getItems = async function ({ userId }) {
   return this.entity.find({ userId, type: "income" });
 };
-categories.mapDataItemToOption = function (item) {
+categoriesStep.mapDataItemToOption = function (item) {
   return { id: item, text: item };
 };
 
