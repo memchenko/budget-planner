@@ -1,11 +1,12 @@
 {
   "name": "budget-planner-bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start:debug": "node --inspect-brk index.js"
+    "start:debug": "node --inspect-brk index.js",
+    "build": "echo 'built!'"
   },
   "author": "",
   "license": "ISC",
