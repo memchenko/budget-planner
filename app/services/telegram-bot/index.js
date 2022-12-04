@@ -4,7 +4,7 @@ const { isNil } = require("lodash");
 const { commands } = require("../../lib/commands");
 const { events, mediator } = require("../mediator");
 
-const token = "5601540649:AAHsFQPC2kJV8IbsQCOuAv67ksXy61DgjSQ";
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 const service = {};
