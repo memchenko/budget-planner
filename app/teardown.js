@@ -1,12 +1,27 @@
-function teardown() {
-  console.error("Begin graceful teardown");
+const { uploadBackup } = require("./services/firebase");
+const { info } = require("./lib/log");
+const user = require("./entities/user");
+const gui = require("./modules/gui");
 
-  // TODO send message to users like "Maintenance. Sorry for inconvenience"
-  // TODO write somewhere state that the server was shut down
-  // TODO disconnect from DB
-  // TODO stop the process
+async function teardown() {
+  info("Begin graceful teardown");
 
-  console.error("End graceful teardown");
+  await uploadBackup();
+
+  const users = await user.findAll();
+
+  await Promise.all(
+    users.map(({ tgId }) => {
+      return gui.respondWithMessage({
+        userId: tgId,
+        text: "Бот временно не работает. Ожидайте уведомления о восстановлении работоспособности. Спасибо!",
+      });
+    })
+  );
+
+  info("End graceful teardown");
+
+  process.exit(0);
 }
 
 module.exports = {

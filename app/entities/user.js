@@ -2,7 +2,7 @@ const Joi = require("joi");
 const { DateTime } = require("luxon");
 const { omit } = require("lodash");
 
-const { users, read, write, del } = require("../services/db");
+const { users, read, write, del, readAll } = require("../services/db");
 const { EntityManager } = require("../utils/entity-manager");
 
 const userDto = Joi.object({
@@ -63,6 +63,18 @@ module.exports = new EntityManager("user", {
     handler: async (data, cb) => {
       try {
         const result = await read(data.tgId, users);
+
+        return cb(undefined, result);
+      } catch (err) {
+        return cb(err);
+      }
+    },
+  },
+
+  findAll: {
+    handler: async (data, cb) => {
+      try {
+        const result = await readAll(users);
 
         return cb(undefined, result);
       } catch (err) {

@@ -9,7 +9,7 @@ module.exports.EntityManager = class EntityManager {
       this[key] = (data) => {
         log.info(`${name}.${key}: ${JSON.stringify(data)}`);
         return new Promise((resolve, reject) => {
-          const validationResult = dto.validate(data);
+          const validationResult = dto ? dto.validate(data) : { error: null };
 
           if (validationResult.error) {
             reject(new BadRequest(validationResult.error));
