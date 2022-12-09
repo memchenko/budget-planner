@@ -32,7 +32,7 @@ const credsPath = path.join(
   process.cwd(),
   `${config.firebase.credsFilename}.json`
 );
-fs.writeFileSync(credsPath, firebase.creds);
+fs.writeFileSync(credsPath, config.firebase.creds);
 process.env["GOOGLE_APPLICATION_CREDENTIALS"] = credsPath;
 
 module.exports = config;
