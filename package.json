@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "node ./app/scripts/initData.js",
-    "prepare:debug": "node --inspect-brk ./app/scripts/initData.js",
-    "start": "npm run prepare && node index.js",
-    "start:debug": "npm run prepare && node --inspect-brk index.js",
+    "start": "node index.js",
+    "start:debug": "node --inspect-brk index.js",
     "shutdown": "curl http://localhost:3000/shutdown",
     "backup": "curl http://localhost:3000/backup"
   },
