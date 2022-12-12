@@ -2,11 +2,15 @@ const { mediator, events } = require("./services/mediator");
 const { setup } = require("./setup");
 const { teardown } = require("./teardown");
 const { backup } = require("./scripts/backup");
+const { error } = require("./lib/log");
 
 mediator.once(events.FATAL_ERROR, teardown);
 
 mediator.once(events.SHUT_DOWN, teardown);
 
-mediator.once(events.BACKUP, backup);
+process.on("uncaughtException", (err) => {
+  error(err);
+  teardown();
+});
 
 setup();

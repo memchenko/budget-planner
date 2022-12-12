@@ -10,11 +10,6 @@ server.get("/shutdown", () => {
   return null;
 });
 
-server.get("/backup", () => {
-  mediator.emit(events.BACKUP);
-  return null;
-});
-
 async function start() {
   try {
     await server.listen({ port: api.port });

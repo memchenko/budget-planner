@@ -1,12 +1,9 @@
-const { uploadBackup } = require("./services/firebase");
 const { info } = require("./lib/log");
 const user = require("./entities/user");
 const gui = require("./modules/gui");
 
 async function teardown() {
   info("Begin graceful teardown");
-
-  await uploadBackup();
 
   const users = await user.findAll();
 

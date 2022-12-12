@@ -1,62 +1,65 @@
-const { Level } = require("level");
-const path = require("node:path");
+const { initializeApp, applicationDefault } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
-const dbPath = process.env.DB_PATH || path.join(process.cwd(), "data");
+const { firebase } = require("../../config");
 
-const db = new Level(dbPath, {
-  valueEncoding: "json",
+const app = initializeApp({
+  credential: applicationDefault(),
+  projectId: firebase.projectId,
 });
 
-module.exports.users = db.sublevel("users");
-module.exports.funds = db.sublevel("funds");
-module.exports.costs = db.sublevel("costs");
-module.exports.incomes = db.sublevel("incomes");
+const db = getFirestore(app);
+
+const users = db.collection("users");
+const funds = db.collection("funds");
+const costs = db.collection("costs");
+const incomes = db.collection("incomes");
 // module.exports.settings = db.sublevel("settings");
-module.exports.state = db.sublevel("states");
-module.exports.categories = db.sublevel("categories");
+const state = db.collection("states");
+const categories = db.collection("categories");
 // to record when a rule is being applied
 // export const log = db.sublevel("log");
 
-module.exports.read = async function read(key, fromDb) {
-  try {
-    const opts = {
-      valueEncoding: "json",
-    };
+const read = async function read(key, fromDb) {
+  const doc = await fromDb.doc(String(key)).get();
 
-    return await fromDb.get(String(key), opts);
-  } catch (err) {
-    if (err.message.includes("NotFound")) {
-      return null;
-    }
-
-    throw err;
+  if (!doc.exists) {
+    return null;
   }
+
+  return doc.data();
 };
 
-module.exports.readAll = async function readAll(fromDb) {
-  try {
-    const opts = { valueEncoding: "json" };
+const readAll = async function readAll(fromDb) {
+  const snapshot = await fromDb.get();
 
-    return await fromDb.values(opts).all();
-  } catch (err) {
-    throw err;
+  if (snapshot.empty) {
+    return [];
   }
+
+  return Promie.all(snapshot.map((doc) => doc.data()));
 };
 
-module.exports.write = async function write(key, value, toDb) {
-  try {
-    const opts = { valueEncoding: "json" };
-
-    return await toDb.put(String(key), value, opts);
-  } catch (err) {
-    throw err;
-  }
+const write = async function write(key, value, toDb) {
+  return await toDb.doc(key).set(value);
 };
 
-module.exports.del = async function del(key, fromDb) {
-  try {
-    return await fromDb.del(String(key));
-  } catch (err) {
-    throw err;
-  }
+const del = async function del(key, fromDb) {
+  return await fromDb.doc(key).delete();
+};
+
+module.exports = {
+  read,
+  readAll,
+  write,
+  del,
+
+  cached,
+
+  users,
+  funds,
+  costs,
+  incomes,
+  state,
+  categories,
 };

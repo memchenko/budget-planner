@@ -19,7 +19,6 @@
     "fastify": "^4.10.2",
     "firebase-admin": "^11.3.0",
     "joi": "^17.6.4",
-    "level": "^8.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
     "node-telegram-bot-api": "0.59.0"

@@ -5,13 +5,12 @@ const {
   TELEGRAM_TOKEN,
   FIREBASE_CREDS_FILENAME,
   FIREBASE_CREDS,
-  DATA_REF_PATH,
+  FIREBASE_PROJECT_ID,
 } = process.env;
 
 const config = {
   codebase: {
     root: path.join(__dirname, "../../"),
-    dataPath: path.join(__dirname, "../../data"),
   },
   telegram: {
     token: TELEGRAM_TOKEN,
@@ -19,9 +18,7 @@ const config = {
   firebase: {
     credsFilename: FIREBASE_CREDS_FILENAME,
     creds: FIREBASE_CREDS,
-  },
-  storage: {
-    dataRef: DATA_REF_PATH,
+    projectId: FIREBASE_PROJECT_ID,
   },
   api: {
     port: 3000,
