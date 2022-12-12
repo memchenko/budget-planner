@@ -1,7 +1,8 @@
+require("./config");
+
 const { mediator, events } = require("./services/mediator");
 const { setup } = require("./setup");
 const { teardown } = require("./teardown");
-const { backup } = require("./scripts/backup");
 const { error } = require("./lib/log");
 
 mediator.once(events.FATAL_ERROR, teardown);

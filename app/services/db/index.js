@@ -54,8 +54,6 @@ module.exports = {
   write,
   del,
 
-  cached,
-
   users,
   funds,
   costs,
