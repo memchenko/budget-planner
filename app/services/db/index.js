@@ -37,7 +37,7 @@ const readAll = async function readAll(fromDb) {
     return [];
   }
 
-  return Promie.all(snapshot.map((doc) => doc.data()));
+  return Promise.all(snapshot.map((doc) => doc.data()));
 };
 
 const write = async function write(key, value, toDb) {
