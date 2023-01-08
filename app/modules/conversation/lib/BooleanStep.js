@@ -1,8 +1,9 @@
+const gui = require("../../gui");
 const { Step } = require("./Step");
 
 class BooleanStep extends Step {
   constructor() {
-    super({ word: `Введите "да" или "нет"` });
+    super({ word: `Выберите "да" или "нет"` });
   }
 
   validate(text) {
@@ -11,6 +12,32 @@ class BooleanStep extends Step {
 
   prepareResponse(text) {
     return text === "да";
+  }
+
+  async initiate({ userId }) {
+    this.sendOptions({ userId });
+  }
+
+  async tryAgain({ userId, text }) {
+    this.sendOptions({ userId, text });
+  }
+
+  sendOptions({ userId }) {
+    const options = this.getOptions();
+
+    gui.respondWithList({
+      userId,
+      heading: this.word,
+      options,
+      page: 0,
+    });
+  }
+
+  getOptions() {
+    return [
+      { id: "да", text: "да" },
+      { id: "нет", text: "нет" },
+    ];
   }
 }
 
