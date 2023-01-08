@@ -36,7 +36,7 @@ module.exports = new EntityManager("user", {
           createdAt: DateTime.utc().toMillis(),
         };
 
-        await write(String(data.tgId), newUser, users);
+        await write(data.tgId, newUser, users);
 
         return cb(undefined, newUser);
       } catch (err) {

@@ -1,46 +1,44 @@
 const Joi = require("joi");
-const difference = require("lodash/difference");
+const { DateTime } = require("luxon");
 
-const { categories, read, write, del } = require("../services/db");
+const { categories, write, del, readAll } = require("../services/db");
 const { EntityManager } = require("../utils/entity-manager");
 
-const categoriesDto = Joi.object({
+const addCategoryDto = Joi.object({
   userId: Joi.number(),
   type: Joi.string().valid("cost", "income"),
-  list: Joi.array().items(Joi.string()),
+  title: Joi.string(),
 });
 
-const findDto = Joi.object({
+const removeDto = Joi.object({
+  id: Joi.string(),
+  type: Joi.string().valid("cost", "income"),
+  userIs: Joi.number(),
+});
+
+const findAllDto = Joi.object({
   userId: Joi.number(),
   type: Joi.string().valid("cost", "income"),
 });
+
+const getDB = (userId, type) => categories.doc(String(userId)).collection(type);
 
 module.exports = new EntityManager("categories", {
   add: {
-    dto: categoriesDto,
-    handler: async function ({ userId, type, ...data }, cb) {
+    dto: addCategoryDto,
+    handler: async function ({ userId, type, title }, cb) {
       try {
-        const currentValue = await this.find({ userId, type });
-        const newList = currentValue
-          ? currentValue.concat(data.list)
-          : data.list;
+        const id = DateTime.utc().toMillis().toString();
+        const allCategories = await this.findAll({ userId, type });
+        const isExistingCategory = allCategories.find(
+          (category) => category === title
+        );
 
-        await write(String(userId), newList, categories.sublevel(type));
+        if (!isExistingCategory) {
+          await write(id, { id, title }, getDB(userId, type));
+        }
 
-        return cb(undefined, { userId, type, list: newList });
-      } catch (err) {
-        return cb(err);
-      }
-    },
-  },
-
-  delete: {
-    dto: findDto,
-    handler: async ({ userId, type }, cb) => {
-      try {
-        const result = await del(String(userId), categories.sublevel(type));
-
-        return cb(undefined, result);
+        return cb(undefined, true);
       } catch (err) {
         return cb(err);
       }
@@ -48,13 +46,12 @@ module.exports = new EntityManager("categories", {
   },
 
   remove: {
-    dto: categoriesDto,
-    handler: async function ({ userId, type, ...data }, cb) {
+    dto: removeDto,
+    handler: async function ({ userId, type, id }, cb) {
       try {
-        const currentValue = await this.find({ userId, type });
-        const newList = currentValue ? difference(currentValue, data.list) : [];
+        await del(id, getDB(userId, type));
 
-        await write(String(userId), newList, categories.sublevel(type));
+        const newList = this.findAll({ userId, type });
 
         return cb(undefined, { userId, type, list: newList });
       } catch (err) {
@@ -63,13 +60,16 @@ module.exports = new EntityManager("categories", {
     },
   },
 
-  find: {
-    dto: findDto,
+  findAll: {
+    dto: findAllDto,
     handler: async ({ userId, type }, cb) => {
       try {
-        const result = await read(String(userId), categories.sublevel(type));
+        const result = await readAll(getDB(userId, type));
 
-        return cb(undefined, result);
+        return cb(
+          undefined,
+          result.map((item) => item.title)
+        );
       } catch (err) {
         return cb(err);
       }

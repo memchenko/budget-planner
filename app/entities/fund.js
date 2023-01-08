@@ -48,6 +48,8 @@ const updateAllBalancesByDto = Joi.object({
   amount: Joi.number(),
 });
 
+const getDB = (userId) => funds.doc(String(userId)).collection("default");
+
 module.exports = new EntityManager("fund", {
   create: {
     dto: fundDto,
@@ -71,8 +73,7 @@ module.exports = new EntityManager("fund", {
 
           await Promise.all(
             newData.map((newFund) => {
-              const clearedData = omit(newFund, ["createdAt", "updatedAt"]);
-              return this.update({ userId, ...clearedData });
+              return this.update({ userId, ...newFund });
             })
           );
         }
@@ -84,7 +85,7 @@ module.exports = new EntityManager("fund", {
           updatedAt: DateTime.utc().toMillis(),
         };
 
-        await write(newFund.id, newFund, funds.sublevel(String(userId)));
+        await write(newFund.id, newFund, getDB(userId));
 
         return cb(undefined, newFund);
       } catch (err) {
@@ -95,18 +96,18 @@ module.exports = new EntityManager("fund", {
 
   update: {
     dto: updateFundDto,
-    handler: async function (data, cb) {
+    handler: async function ({ userId, id, ...data }, cb) {
       try {
         const cleanedData = omit(data, ["id", "createdAt", "userId"]);
         const existingFund = await this.find({
-          userId: data.userId,
-          id: data.id,
+          userId,
+          id,
         });
         const updatedFund = Object.assign(existingFund, cleanedData, {
           updatedAt: DateTime.utc().toMillis(),
         });
 
-        await write(data.id, updatedFund, funds.sublevel(String(data.userId)));
+        await write(id, updatedFund, getDB(userId));
 
         return cb(undefined, updatedFund);
       } catch (err) {
@@ -117,9 +118,9 @@ module.exports = new EntityManager("fund", {
 
   delete: {
     dto: findOneDto,
-    handler: async (data, cb) => {
+    handler: async ({ id, userId }, cb) => {
       try {
-        const result = await del(data.id, funds.sublevel(String(data.userId)));
+        const result = await del(id, getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {
@@ -132,7 +133,7 @@ module.exports = new EntityManager("fund", {
     dto: findOneDto,
     handler: async ({ userId, id }, cb) => {
       try {
-        const result = await read(id, funds.sublevel(String(userId)));
+        const result = await read(id, getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {
@@ -145,7 +146,7 @@ module.exports = new EntityManager("fund", {
     dto: findAllDto,
     handler: async ({ userId }, cb) => {
       try {
-        const result = await readAll(funds.sublevel(String(userId)));
+        const result = await readAll(getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {
@@ -180,14 +181,9 @@ module.exports = new EntityManager("fund", {
           ...fund,
           amount: fund.amount + amount,
         }));
-        const batch = newValues.map((value) => ({
-          type: "put",
-          key: value.id,
-          value,
-          valueEncoding: "json",
-        }));
+        const batch = newValues.map((value) => this.update(value));
 
-        funds.sublevel(String(userId)).batch(batch);
+        await Promise.all(batch);
 
         return cb(undefined, newValues);
       } catch (err) {

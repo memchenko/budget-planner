@@ -28,7 +28,7 @@ module.exports = new EntityManager("state", {
     dto: stateDto,
     handler: async ({ userId, ...data }, cb) => {
       try {
-        await write(String(userId), data, state);
+        await write(userId, data, state);
 
         return cb(undefined, { userId, ...data });
       } catch (err) {
@@ -41,7 +41,7 @@ module.exports = new EntityManager("state", {
     dto: findDto,
     handler: async ({ userId }, cb) => {
       try {
-        const result = await del(String(userId), state);
+        const result = await del(userId, state);
 
         return cb(undefined, result);
       } catch (err) {
@@ -54,7 +54,7 @@ module.exports = new EntityManager("state", {
     dto: findDto,
     handler: async ({ userId }, cb) => {
       try {
-        const result = await read(String(userId), state);
+        const result = await read(userId, state);
 
         return cb(undefined, result);
       } catch (err) {
@@ -70,7 +70,7 @@ module.exports = new EntityManager("state", {
         const currentData = await this.find({ userId });
         const newData = Object.assign(currentData, { state: newState });
 
-        await write(String(userId), newData, state);
+        await write(userId, newData, state);
 
         return cb(undefined, newData);
       } catch (err) {
@@ -88,7 +88,7 @@ module.exports = new EntityManager("state", {
           responsesList: currentData.responsesList.concat(response),
         });
 
-        await write(String(userId), newData, state);
+        await write(userId, newData, state);
 
         return cb(undefined, newData);
       } catch (err) {
@@ -103,7 +103,7 @@ module.exports = new EntityManager("state", {
       try {
         const value = { state: null, responsesList: [] };
 
-        await write(String(userId), value, state);
+        await write(userId, value, state);
 
         return cb(undefined);
       } catch (err) {

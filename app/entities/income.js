@@ -23,6 +23,8 @@ const findAllDto = Joi.object({
   userId: Joi.number(),
 });
 
+const getDB = (userId) => incomes.doc(String(userId)).collection("default");
+
 module.exports = new EntityManager("income", {
   create: {
     dto: incomeDto,
@@ -35,7 +37,7 @@ module.exports = new EntityManager("income", {
           updatedAt: DateTime.utc().toMillis(),
         };
 
-        await write(newIncome.id, newIncome, incomes.sublevel(String(userId)));
+        await write(newIncome.id, newIncome, getDB(userId));
 
         return cb(undefined, newIncome);
       } catch (err) {
@@ -53,7 +55,7 @@ module.exports = new EntityManager("income", {
           updatedAt: DateTime.utc().toMillis(),
         };
 
-        await write(data.id, updatedIncome, incomes.sublevel(String(userId)));
+        await write(data.id, updatedIncome, getDB(userId));
 
         return cb(undefined, updatedIncome);
       } catch (err) {
@@ -66,7 +68,7 @@ module.exports = new EntityManager("income", {
     dto: findOneDto,
     handler: async ({ userId, id }, cb) => {
       try {
-        const result = await del(id, incomes.sublevel(String(userId)));
+        const result = await del(id, getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {
@@ -79,7 +81,7 @@ module.exports = new EntityManager("income", {
     dto: findOneDto,
     handler: async ({ userId, id }, cb) => {
       try {
-        const result = await read(id, incomes.sublevel(String(userId)));
+        const result = await read(id, getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {
@@ -92,7 +94,7 @@ module.exports = new EntityManager("income", {
     dto: findAllDto,
     handler: async ({ userId }, cb) => {
       try {
-        const result = await readAll(incomes.sublevel(String(userId)));
+        const result = await readAll(getDB(userId));
 
         return cb(undefined, result);
       } catch (err) {

@@ -16,7 +16,7 @@ scenario.registerStep(titleStep);
 scenario.on(Scenario.COMPLETED, async ({ userId, responsesList }) => {
   const [title] = responsesList;
 
-  await categories.add({ userId, type: "income", list: [title] });
+  await categories.add({ userId, type: "income", title });
 
   gui.respondWithMessage({
     userId,
