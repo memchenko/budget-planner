@@ -20,6 +20,7 @@ const state = db.collection("states");
 const categories = db.collection("categories");
 // to record when a rule is being applied
 // export const log = db.sublevel("log");
+const appState = db.collection("appState").doc("default");
 
 const withTransaction = async function transaction(db, fn) {
   try {
@@ -80,4 +81,6 @@ module.exports = {
   incomes,
   state,
   categories,
+
+  appState,
 };

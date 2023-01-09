@@ -77,6 +77,19 @@ module.exports = new EntityManager("income", {
     },
   },
 
+  deleteAll: {
+    dto: findAllDto,
+    handler: async ({ userId }, cb) => {
+      try {
+        await del(userId, incomes);
+
+        return cb(undefined, true);
+      } catch (err) {
+        return cb(err);
+      }
+    },
+  },
+
   find: {
     dto: findOneDto,
     handler: async ({ userId, id }, cb) => {

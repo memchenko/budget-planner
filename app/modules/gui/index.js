@@ -76,7 +76,10 @@ gui.respondWithCurrentBudgetState = async ({ userId }) => {
   const reserveText = `**Кошелек**: __${budget.reserve}__`;
   const fundsText = budget.funds
     .map(({ title, balance, capacity, dailyLimit, priority }) => {
-      const base = `**(${priority}) ${title}**: ${balance} / ${capacity}`;
+      const base = `**(${priority}) ${title}**: ${round(
+        balance,
+        2
+      )} / ${capacity}`;
 
       return isNil(dailyLimit) ? base : `${base} (${round(dailyLimit, 2)}/д)`;
     })

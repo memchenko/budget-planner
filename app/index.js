@@ -1,4 +1,5 @@
 require("./config");
+require("./services/errors");
 
 const { mediator, events } = require("./services/mediator");
 const { setup } = require("./setup");

@@ -48,6 +48,10 @@ const updateAllBalancesByDto = Joi.object({
   amount: Joi.number(),
 });
 
+const deleteAllDto = Joi.object({
+  userId: Joi.number(),
+});
+
 const getDB = (userId) => funds.doc(String(userId)).collection("default");
 
 module.exports = new EntityManager("fund", {
@@ -123,6 +127,19 @@ module.exports = new EntityManager("fund", {
         const result = await del(id, getDB(userId));
 
         return cb(undefined, result);
+      } catch (err) {
+        return cb(err);
+      }
+    },
+  },
+
+  deleteAll: {
+    dto: deleteAllDto,
+    handler: async ({ userId }, cb) => {
+      try {
+        await del(userId, funds);
+
+        return cb(undefined, true);
       } catch (err) {
         return cb(err);
       }

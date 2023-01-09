@@ -1,6 +1,7 @@
 const { info, error } = require("./lib/log");
 const user = require("./entities/user");
 const gui = require("./modules/gui");
+const { appState } = require("./services/db");
 
 async function teardown() {
   info("Begin graceful teardown");
@@ -16,6 +17,7 @@ async function teardown() {
         });
       })
     );
+    await appState.set({ isMaintenance: true });
   } catch (err) {
     error("Failed to graceful teardown");
     error(err);

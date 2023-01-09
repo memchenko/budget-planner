@@ -16,9 +16,13 @@ const removeDto = Joi.object({
   userIs: Joi.number(),
 });
 
-const findAllDto = Joi.object({
+const findDto = Joi.object({
   userId: Joi.number(),
   type: Joi.string().valid("cost", "income"),
+});
+
+const deleteDto = Joi.object({
+  userId: Joi.number(),
 });
 
 const getDB = (userId, type) => categories.doc(String(userId)).collection(type);
@@ -29,7 +33,7 @@ module.exports = new EntityManager("categories", {
     handler: async function ({ userId, type, title }, cb) {
       try {
         const id = DateTime.utc().toMillis().toString();
-        const allCategories = await this.findAll({ userId, type });
+        const allCategories = await this.find({ userId, type });
         const isExistingCategory = allCategories.find(
           (category) => category === title
         );
@@ -51,7 +55,7 @@ module.exports = new EntityManager("categories", {
       try {
         await del(id, getDB(userId, type));
 
-        const newList = this.findAll({ userId, type });
+        const newList = this.find({ userId, type });
 
         return cb(undefined, { userId, type, list: newList });
       } catch (err) {
@@ -60,8 +64,21 @@ module.exports = new EntityManager("categories", {
     },
   },
 
-  findAll: {
-    dto: findAllDto,
+  delete: {
+    dto: deleteDto,
+    handler: async function ({ userId }, cb) {
+      try {
+        await del(userId, categories);
+
+        return cb(undefined, true);
+      } catch (err) {
+        return cb(err);
+      }
+    },
+  },
+
+  find: {
+    dto: findDto,
     handler: async ({ userId, type }, cb) => {
       try {
         const result = await readAll(getDB(userId, type));
