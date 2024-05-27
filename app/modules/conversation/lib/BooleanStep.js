@@ -1,4 +1,4 @@
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const { Step } = require("./Step");
 
 class BooleanStep extends Step {
@@ -25,7 +25,7 @@ class BooleanStep extends Step {
   sendOptions({ userId }) {
     const options = this.getOptions();
 
-    gui.respondWithList({
+    telegram.respondWithList({
       userId,
       heading: this.word,
       options,

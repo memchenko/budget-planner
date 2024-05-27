@@ -1,12 +1,12 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const { commands } = require("../../../lib/commands");
 
 const scenario = new Scenario(commands.INTERRUPT.command);
 
 scenario.on(Scenario.COMPLETED, ({ userId }) => {
-  gui.respondWithCurrentBudgetState({ userId });
+  telegram.respondWithCurrentBudgetState({ userId });
 });
 
 module.exports = { scenario };

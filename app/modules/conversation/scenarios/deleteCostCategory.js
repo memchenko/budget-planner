@@ -1,6 +1,6 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const categories = require("../../../entities/categories");
 const { commands } = require("../../../lib/commands");
 const { ChoiceStep } = require("../lib/ChoiceStep");
@@ -25,11 +25,11 @@ scenario.on(Scenario.COMPLETED, async ({ userId, responsesList }) => {
 
   await categories.remove({ userId, type: "cost", list: [category] });
 
-  await gui.respondWithMessage({
+  await telegram.respondWithMessage({
     userId,
     text: `Категория расходов "${category}" удалена`,
   });
-  gui.respondWithCurrentBudgetState({ userId });
+  telegram.respondWithCurrentBudgetState({ userId });
 });
 
 module.exports = { scenario };

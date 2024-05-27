@@ -5,7 +5,7 @@ const { isNil } = require("lodash");
 
 const state = require("../../../entities/state");
 const log = require("../../../lib/log");
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 
 class ScenariosRouter {
   constructor(scenariosPath) {
@@ -47,7 +47,7 @@ class ScenariosRouter {
       const scenario = this.scenarios[command];
 
       if (isNil(scenario)) {
-        return gui.respondWithMessage({
+        return telegram.respondWithMessage({
           userId,
           text: "Мне неизвестна такая команда",
         });

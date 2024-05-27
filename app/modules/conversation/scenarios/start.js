@@ -1,6 +1,6 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const user = require("../../../entities/user");
 const { commands } = require("../../../lib/commands");
 
@@ -13,7 +13,7 @@ scenario.on(Scenario.COMPLETED, async ({ userId }) => {
     await user.create({ tgId: userId, balance: 0 });
   }
 
-  gui.respondWithCommands({ userId });
+  telegram.respondWithCommands({ userId });
 });
 
 module.exports = { scenario };

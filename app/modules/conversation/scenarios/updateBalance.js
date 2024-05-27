@@ -1,6 +1,6 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const user = require("../../../entities/user");
 const { commands } = require("../../../lib/commands");
 const { FloatStep } = require("../lib/FloatStep");
@@ -13,7 +13,7 @@ scenario.on(Scenario.COMPLETED, async ({ userId, responsesList }) => {
   const [balance] = responsesList;
 
   await user.update({ tgId: userId, balance });
-  await gui.respondWithCurrentBudgetState({ userId });
+  await telegram.respondWithCurrentBudgetState({ userId });
 });
 
 module.exports = { scenario };

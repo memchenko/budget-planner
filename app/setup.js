@@ -1,6 +1,6 @@
 const { success } = require("./lib/log");
 const user = require("./entities/user");
-const gui = require("./modules/gui");
+const telegram = require("./modules/telegram");
 const { events, mediator } = require("./services/mediator");
 const { appState } = require("./services/db");
 
@@ -21,7 +21,7 @@ async function setup() {
 
   if (isMaintenance) {
     users.forEach(({ tgId }) => {
-      gui
+      telegram
         .respondWithMessage({
           userId: tgId,
           text: "Бот восстановлен и вернулся к работе",

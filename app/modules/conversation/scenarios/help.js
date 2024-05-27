@@ -1,12 +1,12 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const { commands } = require("../../../lib/commands");
 
 const scenario = new Scenario(commands.HELP.command);
 
 scenario.on(Scenario.COMPLETED, async ({ userId }) => {
-  gui.respondWithCommands({ userId });
+  telegram.respondWithCommands({ userId });
 });
 
 module.exports = { scenario };

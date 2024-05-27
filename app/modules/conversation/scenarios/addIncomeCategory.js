@@ -1,6 +1,6 @@
 const { Scenario } = require("../lib/Scenario");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const categories = require("../../../entities/categories");
 const { commands } = require("../../../lib/commands");
 const { Step } = require("../lib/Step");
@@ -18,11 +18,11 @@ scenario.on(Scenario.COMPLETED, async ({ userId, responsesList }) => {
 
   await categories.add({ userId, type: "income", title });
 
-  gui.respondWithMessage({
+  telegram.respondWithMessage({
     userId,
     text: `Категория доходов "${title}" успешно добавлена`,
   });
-  gui.respondWithCurrentBudgetState({ userId });
+  telegram.respondWithCurrentBudgetState({ userId });
 });
 
 module.exports = { scenario };

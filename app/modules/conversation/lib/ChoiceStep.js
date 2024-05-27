@@ -1,8 +1,8 @@
 const { Step } = require("./Step");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 
-const paginationRegEx = new RegExp(`^${gui.PAGINATION_PREFIX}\\.(\\d+)$`);
+const paginationRegEx = new RegExp(`^${telegram.PAGINATION_PREFIX}\\.(\\d+)$`);
 
 class ChoiceStep extends Step {
   constructor({ word, entity }) {
@@ -23,7 +23,7 @@ class ChoiceStep extends Step {
     const options = await this.getOptions({ userId });
     const page = this.getPage(text);
 
-    gui.respondWithList({
+    telegram.respondWithList({
       userId,
       heading: this.word,
       options,

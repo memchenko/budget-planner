@@ -1,6 +1,6 @@
 const { info, error } = require("./lib/log");
 const user = require("./entities/user");
-const gui = require("./modules/gui");
+const telegram = require("./modules/telegram");
 const { appState } = require("./services/db");
 
 async function teardown() {
@@ -11,7 +11,7 @@ async function teardown() {
 
     await Promise.all(
       users.map(({ tgId }) => {
-        return gui.respondWithMessage({
+        return telegram.respondWithMessage({
           userId: tgId,
           text: "Бот временно не работает. Ожидайте уведомления о восстановлении работоспособности. Спасибо!",
         });

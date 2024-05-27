@@ -6,11 +6,11 @@ const accountant = require("../accountant");
 
 const PAGE_SIZE = 10;
 
-const gui = {
+const telegram = {
   PAGINATION_PREFIX: "page",
 };
 
-const getPageChoiceData = (page) => `${gui.PAGINATION_PREFIX}.${page}`;
+const getPageChoiceData = (page) => `${telegram.PAGINATION_PREFIX}.${page}`;
 
 const listOfCommands = (() => {
   const commandsGroupedByCategory = groupBy(
@@ -37,7 +37,7 @@ const listOfCommands = (() => {
     .trim();
 })();
 
-gui.getOptionsList = (options, page) => {
+telegram.getOptionsList = (options, page) => {
   const start = page * PAGE_SIZE;
   const end = Math.min(start + PAGE_SIZE, options.length);
   const lastPage = Math.floor(options.length / PAGE_SIZE);
@@ -71,7 +71,7 @@ gui.getOptionsList = (options, page) => {
   return optionsList;
 };
 
-gui.respondWithCurrentBudgetState = async ({ userId }) => {
+telegram.respondWithCurrentBudgetState = async ({ userId }) => {
   const budget = await accountant.getBudget({ userId });
   const reserveText = `**Кошелек**: __${budget.reserve}__`;
   const fundsText = budget.funds
@@ -90,20 +90,20 @@ gui.respondWithCurrentBudgetState = async ({ userId }) => {
   bot.sendText({ chatId: userId, text });
 };
 
-gui.respondWithCommands = ({ userId }) => {
+telegram.respondWithCommands = ({ userId }) => {
   const text = `**Список всех команд**:\n\n${listOfCommands}`;
 
   return bot.sendText({ chatId: userId, text });
 };
 
-gui.respondWithMessage = ({ userId, text }) => {
+telegram.respondWithMessage = ({ userId, text }) => {
   return bot.sendText({ chatId: userId, text });
 };
 
-gui.respondWithList = ({ userId, heading, options, page }) => {
-  const optionsMarkup = gui.getOptionsList(options, page);
+telegram.respondWithList = ({ userId, heading, options, page }) => {
+  const optionsMarkup = telegram.getOptionsList(options, page);
 
   return bot.sendSelect({ chatId: userId, heading, options: optionsMarkup });
 };
 
-module.exports = gui;
+module.exports = telegram;

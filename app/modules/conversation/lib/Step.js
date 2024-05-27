@@ -1,6 +1,6 @@
 const EventEmitter = require("node:events");
 
-const gui = require("../../gui");
+const telegram = require("../../telegram");
 const state = require("../../../entities/state");
 
 // Mission of a step is to get data from a user
@@ -18,7 +18,7 @@ class Step extends EventEmitter {
   }
 
   initiate({ userId }) {
-    gui.respondWithMessage({ userId, text: this.word });
+    telegram.respondWithMessage({ userId, text: this.word });
   }
 
   run({ userId, text }) {
@@ -38,7 +38,10 @@ class Step extends EventEmitter {
   }
 
   tryAgain({ userId, text }) {
-    gui.respondWithMessage({ userId, text: `Неверный формат. ${this.word}` });
+    telegram.respondWithMessage({
+      userId,
+      text: `Неверный формат. ${this.word}`,
+    });
   }
 
   validate(text) {
