@@ -1,8 +1,7 @@
 import * as z from 'zod';
 
 export const UserSchema = z.object({
-  tgId: z.string(),
-  balance: z.number(),
+  id: z.string(),
 });
 
 export type User = z.infer<typeof UserSchema>;

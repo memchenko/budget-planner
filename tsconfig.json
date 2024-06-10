@@ -2,6 +2,10 @@
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "typeRoots": ["./env.d.ts", "./common.d.ts"]
+    "typeRoots": ["./declarations.d.ts", "./node_modules/@types", "./node_modules/reflect-metadata"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "types": ["reflect-metadata"],
+    "target": "ES5"
   }
 }

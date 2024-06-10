@@ -1,7 +1,10 @@
 import * as z from 'zod';
 
+import { UserSchema } from './User';
+
 export const TagSchema = z.object({
-  userId: z.number(),
+  id: z.string(),
+  userId: UserSchema.shape.id,
   type: z.enum(['cost', 'income']),
   title: z.string(),
 });

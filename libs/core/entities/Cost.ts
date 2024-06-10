@@ -1,11 +1,12 @@
 import * as z from 'zod';
 
+import { UserSchema } from './User';
+
 export const CostSchema = z.object({
   id: z.string(),
-  userId: z.number(),
+  userId: UserSchema.shape.id,
   fundId: z.string(),
-  note: z.string(),
-  category: z.string(),
+  note: z.string().nullable(),
   amount: z.number(),
 });
 
