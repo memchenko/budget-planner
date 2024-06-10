@@ -22,7 +22,7 @@ export const buildDeleteEntityScenario = <E extends { id: unknown }>(params: {
     async revert(): Promise<void> {}
   }
 
-  (ScenarioClass as any).name = params.entityName;
+  (ScenarioClass as any).name = `Delete${params.entityName}`;
 
   return ScenarioClass;
 };
@@ -45,7 +45,32 @@ export const buildCreateEntityScenario = <E extends { id: unknown }>(params: {
     async revert(): Promise<void> {}
   }
 
-  (ScenarioClass as any).name = params.entityName;
+  (ScenarioClass as any).name = `Create${params.entityName}`;
+
+  return ScenarioClass;
+};
+
+export const buildUpdateEntityScenario = <E extends { id: unknown }>(params: {
+  repoType: (typeof TYPES)[keyof typeof TYPES];
+  entityName: (typeof ENTITY_NAME)[keyof typeof ENTITY_NAME];
+}) => {
+  class ScenarioClass extends BaseScenario<Partial<E>, E> {
+    @inject(params.repoType)
+    private readonly repo!: Repo<E, 'id'>;
+
+    async execute(): Promise<E> {
+      const { id, ...patch } = this.params;
+      const filters = { id } as { [Key in keyof E]: E[Key] };
+      const entity = await this.repo.updateOneBy(filters, patch);
+      assertEntity(entity, params.entityName);
+
+      return entity;
+    }
+
+    async revert(): Promise<void> {}
+  }
+
+  (ScenarioClass as any).name = `Update${params.entityName}`;
 
   return ScenarioClass;
 };

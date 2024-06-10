@@ -33,10 +33,12 @@ export class CreateUser extends BaseScenario<CreateUserParams, User> {
     this.fund = await this.fundRepo.create({
       userId: this.user.id,
       isMain: true,
-      title: '',
+      title: null,
       balance: 0,
       priority: -1,
       capacity: -1,
+      isCumulative: true,
+      isEager: false,
     });
 
     assert(this.fund !== null, CREATE_FUND_ERROR);
