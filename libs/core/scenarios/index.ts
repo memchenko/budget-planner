@@ -41,6 +41,8 @@ export const UpdateFund = buildUpdateEntityScenario<Fund>({
   repoType: TYPES.FundRepo,
 });
 
+export { DeleteFund } from './fund/DeleteFund';
+
 // Transactions scenarios
 export { AddCost } from './cost/AddCost';
 
