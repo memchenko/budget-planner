@@ -46,6 +46,7 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
 
       let addition!: number;
       if (fund.balance >= 0 && !fund.isCumulative) {
+        addition = Math.min(remainder, fund.capacity - fund.balance);
         remainder += fund.balance;
       } else if (fund.balance < 0 && fund.isEager) {
         addition = Math.min(remainder, Math.abs(fund.balance) + fund.capacity);
@@ -67,7 +68,7 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
 
     const updatedMainFund = await this.fundRepo.updateOneBy(
       { userId: this.params.userId, isMain: true },
-      { balance: remainder },
+      { balance: Math.max(remainder, 0) },
     );
     assert(updatedMainFund, UPDATE_MAIN_FUND_ERROR);
   }
