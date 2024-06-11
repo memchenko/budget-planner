@@ -4,7 +4,7 @@ import { assert } from 'ts-essentials';
 import { Repo } from '../../shared/types';
 import { User } from '../../entities/User';
 import { Fund } from '../../entities/Fund';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
@@ -16,10 +16,10 @@ const REVERT_SCENARIO_ERROR = "Couldn't revert scenario. User wasn't created";
 export interface CreateUserParams {}
 
 export class CreateUser extends BaseScenario<CreateUserParams, User> {
-  @inject(TYPES.UserRepo)
+  @inject(TOKENS.UserRepo)
   private readonly userRepo!: Repo<User, 'id'>;
 
-  @inject(TYPES.FundRepo)
+  @inject(TOKENS.FundRepo)
   private readonly fundRepo!: Repo<Fund, 'id'>;
 
   private user: User | null = null;

@@ -6,7 +6,7 @@ import { Cost } from '../../entities/Cost';
 import { Fund } from '../../entities/Fund';
 import { Tag } from '../../entities/Tag';
 import { CostTag } from '../../entities/CostTag';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
@@ -20,13 +20,13 @@ export type AddCostParams = Parameters<Repo<Cost, 'id'>['create']>[0] & {
 };
 
 export class AddCost extends BaseScenario<AddCostParams> {
-  @inject(TYPES.CostRepo)
+  @inject(TOKENS.CostRepo)
   private readonly costRepo!: Repo<Cost, 'id'>;
 
-  @inject(TYPES.FundRepo)
+  @inject(TOKENS.FundRepo)
   private readonly fundRepo!: Repo<Fund, 'id'>;
 
-  @inject(TYPES.CostTagRepo)
+  @inject(TOKENS.CostTagRepo)
   private readonly costTagRepo!: Repo<CostTag>;
 
   private cost: Cost | null = null;

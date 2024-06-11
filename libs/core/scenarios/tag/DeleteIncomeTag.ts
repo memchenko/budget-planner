@@ -3,7 +3,7 @@ import { assert } from 'ts-essentials';
 
 import { Tag } from '../../entities/Tag';
 import { IncomeTag } from '../../entities/IncomeTag';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { Repo } from '../../shared/types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
@@ -17,10 +17,10 @@ export interface DeleteIncomeTagParams {
 }
 
 export class DeleteIncomeTag extends BaseScenario<DeleteIncomeTagParams> {
-  @inject(TYPES.TagRepo)
+  @inject(TOKENS.TagRepo)
   private readonly tagRepo!: Repo<Tag, 'id'>;
 
-  @inject(TYPES.IncomeTagRepo)
+  @inject(TOKENS.IncomeTagRepo)
   private readonly incomeTagRepo!: Repo<IncomeTag>;
 
   private initialIncomeTags: IncomeTag[] = [];

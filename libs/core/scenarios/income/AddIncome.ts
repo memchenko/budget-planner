@@ -6,7 +6,7 @@ import { Income } from '../../entities/Income';
 import { Fund } from '../../entities/Fund';
 import { Tag } from '../../entities/Tag';
 import { IncomeTag } from '../../entities/IncomeTag';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
@@ -20,13 +20,13 @@ export type AddIncomeParams = Parameters<Repo<Income, 'id'>['create']>[0] & {
 };
 
 export class AddIncome extends BaseScenario<AddIncomeParams> {
-  @inject(TYPES.IncomeRepo)
+  @inject(TOKENS.IncomeRepo)
   private readonly incomeRepo!: Repo<Income, 'id'>;
 
-  @inject(TYPES.FundRepo)
+  @inject(TOKENS.FundRepo)
   private readonly fundRepo!: Repo<Fund, 'id'>;
 
-  @inject(TYPES.IncomeTagRepo)
+  @inject(TOKENS.IncomeTagRepo)
   private readonly incomeTagRepo!: Repo<IncomeTag>;
 
   private income: Income | null = null;

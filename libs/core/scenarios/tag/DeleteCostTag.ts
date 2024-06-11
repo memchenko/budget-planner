@@ -3,7 +3,7 @@ import { assert } from 'ts-essentials';
 
 import { Tag } from '../../entities/Tag';
 import { CostTag } from '../../entities/CostTag';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { Repo } from '../../shared/types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
@@ -17,10 +17,10 @@ export interface DeleteCostTagParams {
 }
 
 export class DeleteCostTag extends BaseScenario<DeleteCostTagParams> {
-  @inject(TYPES.TagRepo)
+  @inject(TOKENS.TagRepo)
   private readonly tagRepo!: Repo<Tag, 'id'>;
 
-  @inject(TYPES.CostTagRepo)
+  @inject(TOKENS.CostTagRepo)
   private readonly costTagRepo!: Repo<CostTag>;
 
   private initialCostTags: CostTag[] = [];

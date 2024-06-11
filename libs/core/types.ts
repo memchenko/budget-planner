@@ -1,4 +1,4 @@
-export const TYPES = {
+export const TOKENS = {
   UserRepo: Symbol.for('UserRepo'),
   CostRepo: Symbol.for('CostRepo'),
   FundRepo: Symbol.for('FundRepo'),

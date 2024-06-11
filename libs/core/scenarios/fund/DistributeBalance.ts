@@ -4,7 +4,7 @@ import { assert } from 'ts-essentials';
 import { Repo } from '../../shared/types';
 import { Fund } from '../../entities/Fund';
 import { User } from '../../entities/User';
-import { TYPES } from '../../types';
+import { TOKENS } from '../../types';
 import { BaseScenario } from '../BaseScenario';
 import { ScenarioError } from '../../errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
@@ -19,7 +19,7 @@ export interface DistributeBalanceParams {
 }
 
 export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
-  @inject(TYPES.FundRepo)
+  @inject(TOKENS.FundRepo)
   private readonly fundRepo!: Repo<Fund, 'id'>;
 
   private initialFundsBalances: Record<Fund['id'], number> = {};
