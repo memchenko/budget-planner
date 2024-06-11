@@ -2,18 +2,18 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 import { entities } from '../../../../../libs/core';
 
-export type EntityType = entities.Cost & {
+export type EntityType = entities.Fund & {
   createdAt: number;
   updatedAt: number;
 };
 
 export const adapter = createEntityAdapter<EntityType, string>({
-  selectId: (entity) => entity.id,
+  selectId: (fund) => fund.id,
   sortComparer: (a, b) => b.createdAt - a.createdAt,
 });
 
 export const slice = createSlice({
-  name: 'costs',
+  name: 'funds',
   initialState: adapter.getInitialState(),
   reducers: {
     create: adapter.addOne,

@@ -2,7 +2,7 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 import { entities } from '../../../../../libs/core';
 
-export type EntityType = entities.Cost & {
+export type EntityType = entities.User & {
   createdAt: number;
   updatedAt: number;
 };
@@ -13,7 +13,7 @@ export const adapter = createEntityAdapter<EntityType, string>({
 });
 
 export const slice = createSlice({
-  name: 'costs',
+  name: 'users',
   initialState: adapter.getInitialState(),
   reducers: {
     create: adapter.addOne,

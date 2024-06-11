@@ -25,21 +25,17 @@ export type RepoBuilderParams<E extends Entity> = {
   actions: Actions<E>;
   store: Store;
   getAll: (store: Store) => E[];
-  idPrefix: string;
-  repoName: string;
 };
 
 export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams<E>) => {
-  const { idPrefix, repoName, actions, store, getAll } = params;
+  const { actions, store, getAll } = params;
 
   @injectable()
   class RepoImpl implements Repo<E> {
-    name = repoName;
-
     async create(params: Omit<E, 'id'>) {
       const time = Date.now();
       const newEntity = {
-        id: uniqueId(idPrefix),
+        id: uniqueId(),
         ...params,
         createdAt: time,
         updatedAt: time,
