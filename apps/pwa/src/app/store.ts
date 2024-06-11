@@ -4,6 +4,7 @@ import * as incomes from '../entities/income';
 import * as funds from '../entities/fund';
 import * as tags from '../entities/tag';
 import * as users from '../entities/user';
+import * as dictionaries from '../entities/dictionaries';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     funds: funds.reducer,
     tags: tags.reducer,
     users: users.reducer,
+    dictionaries: dictionaries.reducer,
   },
 });
 
