@@ -1,11 +1,14 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
     "typeRoots": ["./declarations.d.ts", "./node_modules/@types", "./node_modules/reflect-metadata"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": ["reflect-metadata"],
-    "target": "ES5"
+    "target": "ES5",
+    "lib": ["es2023"],
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "module": "Node16"
   }
 }
