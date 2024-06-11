@@ -24,6 +24,10 @@ export const UpdateTag = buildUpdateEntityScenario<Tag>({
   repoType: TYPES.TagRepo,
 });
 
+export { DeleteCostTag } from '../scenarios/tag/DeleteCostTag';
+
+export { DeleteIncomeTag } from '../scenarios/tag/DeleteIncomeTag';
+
 // Fund entity scenarios
 export { DistributeBalance } from './fund/DistributeBalance';
 
