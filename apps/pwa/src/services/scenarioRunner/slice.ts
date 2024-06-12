@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Scenario, ScenarioPayloadMap } from './types';
+import { createSlice, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { Scenario, ExecuteActionPayload } from './types';
 import { ScenarioError } from '../../../../../libs/core';
+import { execute } from './actions';
 
 export type ScenarioState = 'idle' | 'in-progress' | 'error' | 'completed';
 
@@ -20,11 +21,6 @@ export const slice = createSlice({
   name: 'scenarioRunner',
   initialState,
   reducers: {
-    execute: (state, action: { payload: ScenarioPayloadMap[keyof Scenario] }) => {
-      state.name = action.payload.scenario;
-      state.state = 'in-progress';
-      state.error = null;
-    },
     complete: (state) => {
       state.state = 'completed';
     },
@@ -32,6 +28,13 @@ export const slice = createSlice({
       state.state = 'error';
       state.error = action.payload.error;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(execute as ActionCreatorWithPayload<ExecuteActionPayload, string>, (state, action) => {
+      state.name = action.payload.scenario;
+      state.state = 'in-progress';
+      state.error = null;
+    });
   },
 });
 

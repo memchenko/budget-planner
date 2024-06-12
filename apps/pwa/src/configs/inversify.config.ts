@@ -18,35 +18,35 @@ container.bind<Store>(TOKENS.Store).toConstantValue(store);
 container.bind<Repo<costs.EntityType>>(TOKENS.CostRepo).to(
   buildRepo<costs.EntityType>({
     getAll: costs.getAll,
-    actions: costs.actions,
+    actions: costs.slice.actions,
   }),
 );
 
 container.bind<Repo<funds.EntityType>>(TOKENS.FundRepo).to(
   buildRepo<funds.EntityType>({
     getAll: funds.getAll,
-    actions: funds.actions,
+    actions: funds.slice.actions,
   }),
 );
 
 container.bind<Repo<incomes.EntityType>>(TOKENS.IncomeRepo).to(
   buildRepo<incomes.EntityType>({
     getAll: incomes.getAll,
-    actions: incomes.actions,
+    actions: incomes.slice.actions,
   }),
 );
 
 container.bind<Repo<tags.EntityType>>(TOKENS.TagRepo).to(
   buildRepo<tags.EntityType>({
     getAll: tags.getAll,
-    actions: tags.actions,
+    actions: tags.slice.actions,
   }),
 );
 
 container.bind<Repo<users.EntityType>>(TOKENS.UserRepo).to(
   buildRepo<users.EntityType>({
     getAll: users.getAll,
-    actions: users.actions,
+    actions: users.slice.actions,
   }),
 );
 

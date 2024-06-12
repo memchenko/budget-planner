@@ -1,6 +1,8 @@
 import { Store } from '@reduxjs/toolkit';
-import { name, State } from './slice';
+import { slice, State } from './slice';
 import { entities } from '../../../../../libs/core';
+
+const { name } = slice;
 
 export type StateWithEntity = { [Key in typeof name]: State };
 

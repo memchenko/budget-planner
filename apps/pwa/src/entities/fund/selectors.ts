@@ -1,5 +1,7 @@
 import { EntityState, Store } from '@reduxjs/toolkit';
-import { adapter, EntityType, name } from './slice';
+import { adapter, EntityType, slice } from './slice';
+
+const { name } = slice;
 
 export type StateWithEntity = { [Key in typeof name]: EntityState<EntityType, 'id'> };
 

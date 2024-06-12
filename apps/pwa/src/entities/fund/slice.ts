@@ -23,5 +23,3 @@ export const slice = createSlice({
     updateMany: adapter.updateMany,
   },
 });
-
-export const { reducer, actions, name } = slice;

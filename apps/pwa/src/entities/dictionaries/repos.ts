@@ -3,8 +3,10 @@ import { injectable, inject } from 'inversify';
 import isNil from 'lodash/isNil';
 import { TOKENS } from '../../lib/misc/di';
 import { Repo, RepoFilters, entities } from '../../../../../libs/core';
-import { actions } from './slice';
+import { slice } from './slice';
 import { getAllByCategory } from './selectors';
+
+const { actions } = slice;
 
 @injectable()
 export class CostTagRepo implements Repo<entities.CostTag> {

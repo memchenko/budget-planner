@@ -1,13 +1,19 @@
-import { createListenerMiddleware } from '@reduxjs/toolkit';
+import { createListenerMiddleware, PayloadActionCreator } from '@reduxjs/toolkit';
 import { scenarios, ScenarioError } from '../../../../../libs/core';
 import { actions } from './slice';
+import { execute, EXECUTE_ACTION_TYPE } from './actions';
+import { ExecuteActionPayload } from './types';
 
 export * from './slice';
+export * from './types';
+export * from './actions';
 
 const listenerMiddlerware = createListenerMiddleware();
 
+type ExecuteActionCreatorType = PayloadActionCreator<ExecuteActionPayload, typeof EXECUTE_ACTION_TYPE>;
+
 listenerMiddlerware.startListening({
-  actionCreator: actions.execute,
+  actionCreator: execute as ExecuteActionCreatorType,
   effect: async (action, listenerApi) => {
     listenerApi.cancelActiveListeners();
 

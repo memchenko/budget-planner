@@ -62,5 +62,3 @@ export const slice = createSlice({
     },
   },
 });
-
-export const { reducer, actions, name } = slice;
