@@ -1,4 +1,4 @@
-export class ScenarioError<P extends {}, R> extends Error {
+export class ScenarioError extends Error {
   reason!: 'execution' | 'revertion';
   scenario!: Function;
   executionError!: unknown;

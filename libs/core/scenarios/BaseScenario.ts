@@ -6,7 +6,7 @@ export abstract class BaseScenario<P extends {}, R = void> implements Scenario<R
 
   error: unknown;
 
-  async run(this: BaseScenario<P, R>) {
+  async run() {
     try {
       return await this.execute();
     } catch (err: unknown) {
