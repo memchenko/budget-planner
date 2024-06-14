@@ -1,13 +1,19 @@
-import { createAction, PayloadAction } from '@reduxjs/toolkit';
-
-import { Scenario, ScenarioPayloadMap } from './types';
+import { createAsyncThunk, AsyncThunkAction } from '@reduxjs/toolkit';
+import { scenarios } from '../../../../../libs/core';
+import { ScenariosDict, ScenarioPayloadMap, ExecuteActionPayload } from './types';
+import { container } from '../../configs/inversify.config';
 
 export const EXECUTE_ACTION_TYPE = 'scenarioRunner/execute';
 
-export const execute = <S extends keyof Scenario>(
-  parameters: ScenarioPayloadMap[S],
-): PayloadAction<ScenarioPayloadMap[S], typeof EXECUTE_ACTION_TYPE> => {
-  const actionCreator = createAction<ScenarioPayloadMap[S], typeof EXECUTE_ACTION_TYPE>(EXECUTE_ACTION_TYPE);
+export const _execute = createAsyncThunk(EXECUTE_ACTION_TYPE, async (parameters: ExecuteActionPayload) => {
+  const { scenario: scenarioName, payload } = parameters;
+  const scenario = container.resolve<{ run: (arg: any) => {} }>(scenarios[scenarioName] as any);
 
-  return actionCreator(parameters);
+  await scenario.run(payload);
+});
+
+export const execute = <S extends keyof ScenariosDict>(
+  parameters: ScenarioPayloadMap[S],
+): AsyncThunkAction<any, any, any> => {
+  return _execute(parameters);
 };

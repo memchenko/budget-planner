@@ -1,3 +1,9 @@
+import { useController } from '../../lib/controller';
+
+import { MainController } from './controller';
+
 export const Main = () => {
-  return <div>Main</div>;
+  useController(MainController, {});
+
+  return <div className="bg-background">Main</div>;
 };

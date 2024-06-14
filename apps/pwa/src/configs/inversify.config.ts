@@ -1,7 +1,5 @@
-import { Store } from '@reduxjs/toolkit';
 import { Container } from 'inversify';
-import { Repo, entities } from '../../../../libs/core';
-import { store } from '../app/store';
+import { Repo, entities, scenarios } from '../../../../libs/core';
 import { buildRepo } from '../lib/redux/repo';
 import { TOKENS } from '../lib/misc/di';
 import * as costs from '../entities/cost';
@@ -11,9 +9,7 @@ import * as tags from '../entities/tag';
 import * as users from '../entities/user';
 import * as dictionaries from '../entities/dictionaries';
 
-export const container = new Container();
-
-container.bind<Store>(TOKENS.Store).toConstantValue(store);
+export const container = new Container({ defaultScope: 'Singleton' });
 
 container.bind<Repo<costs.EntityType>>(TOKENS.CostRepo).to(
   buildRepo<costs.EntityType>({
@@ -53,3 +49,7 @@ container.bind<Repo<users.EntityType>>(TOKENS.UserRepo).to(
 container.bind<Repo<entities.CostTag>>(TOKENS.CostTagRepo).to(dictionaries.CostTagRepo);
 
 container.bind<Repo<entities.IncomeTag>>(TOKENS.IncomeTagRepo).to(dictionaries.IncomeTagRepo);
+
+Object.values(scenarios).forEach((scenario: Parameters<Container['bind']>[0]) => {
+  container.bind(scenario).toSelf().inTransientScope();
+});

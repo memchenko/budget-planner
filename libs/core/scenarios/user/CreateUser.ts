@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
 import { Repo } from '../../shared/types';
@@ -15,12 +15,13 @@ const REVERT_SCENARIO_ERROR = "Couldn't revert scenario. User wasn't created";
 
 export interface CreateUserParams {}
 
+@injectable()
 export class CreateUser extends BaseScenario<CreateUserParams, User> {
   @inject(TOKENS.UserRepo)
-  private readonly userRepo!: Repo<User, 'id'>;
+  readonly userRepo!: Repo<User, 'id'>;
 
   @inject(TOKENS.FundRepo)
-  private readonly fundRepo!: Repo<Fund, 'id'>;
+  readonly fundRepo!: Repo<Fund, 'id'>;
 
   private user: User | null = null;
   private fund: Fund | null = null;

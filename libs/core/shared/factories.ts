@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 
 import { BaseScenario } from '../scenarios/BaseScenario';
 import { TOKENS } from '../types';
@@ -10,6 +10,7 @@ export const buildDeleteEntityScenario = <E extends { id: unknown }>(params: {
   repoType: (typeof TOKENS)[keyof typeof TOKENS];
   entityName: (typeof ENTITY_NAME)[keyof typeof ENTITY_NAME];
 }) => {
+  @injectable()
   class ScenarioClass extends BaseScenario<{ id: E['id'] }> {
     @inject(params.repoType)
     private readonly repo!: Repo<E, 'id'>;
@@ -22,7 +23,10 @@ export const buildDeleteEntityScenario = <E extends { id: unknown }>(params: {
     async revert(): Promise<void> {}
   }
 
-  (ScenarioClass as any).name = `Delete${params.entityName}`;
+  Object.defineProperty(ScenarioClass, 'name', {
+    value: params.entityName,
+    writable: true,
+  });
 
   return ScenarioClass;
 };
@@ -31,6 +35,7 @@ export const buildCreateEntityScenario = <E extends { id: unknown }>(params: {
   repoType: (typeof TOKENS)[keyof typeof TOKENS];
   entityName: (typeof ENTITY_NAME)[keyof typeof ENTITY_NAME];
 }) => {
+  @injectable()
   class ScenarioClass extends BaseScenario<Omit<E, 'id'>, E> {
     @inject(params.repoType)
     private readonly repo!: Repo<E, 'id'>;
@@ -45,7 +50,10 @@ export const buildCreateEntityScenario = <E extends { id: unknown }>(params: {
     async revert(): Promise<void> {}
   }
 
-  (ScenarioClass as any).name = `Create${params.entityName}`;
+  Object.defineProperty(ScenarioClass, 'name', {
+    value: params.entityName,
+    writable: true,
+  });
 
   return ScenarioClass;
 };
@@ -54,6 +62,7 @@ export const buildUpdateEntityScenario = <E extends { id: unknown }>(params: {
   repoType: (typeof TOKENS)[keyof typeof TOKENS];
   entityName: (typeof ENTITY_NAME)[keyof typeof ENTITY_NAME];
 }) => {
+  @injectable()
   class ScenarioClass extends BaseScenario<Partial<E>, E> {
     @inject(params.repoType)
     private readonly repo!: Repo<E, 'id'>;
@@ -70,7 +79,10 @@ export const buildUpdateEntityScenario = <E extends { id: unknown }>(params: {
     async revert(): Promise<void> {}
   }
 
-  (ScenarioClass as any).name = `Update${params.entityName}`;
+  Object.defineProperty(ScenarioClass, 'name', {
+    value: params.entityName,
+    writable: true,
+  });
 
   return ScenarioClass;
 };

@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
 import { Repo } from '../../shared/types';
@@ -19,6 +19,7 @@ export type AddIncomeParams = Parameters<Repo<Income, 'id'>['create']>[0] & {
   tagsIds: Tag['id'][];
 };
 
+@injectable()
 export class AddIncome extends BaseScenario<AddIncomeParams> {
   @inject(TOKENS.IncomeRepo)
   private readonly incomeRepo!: Repo<Income, 'id'>;

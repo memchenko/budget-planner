@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
 import { Repo } from '../../shared/types';
@@ -19,7 +19,10 @@ export type AddCostParams = Parameters<Repo<Cost, 'id'>['create']>[0] & {
   tagsIds: Tag['id'][];
 };
 
+@injectable()
 export class AddCost extends BaseScenario<AddCostParams> {
+  static TOKEN = Symbol.for('AddCost');
+
   @inject(TOKENS.CostRepo)
   private readonly costRepo!: Repo<Cost, 'id'>;
 

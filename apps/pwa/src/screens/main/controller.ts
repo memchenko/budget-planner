@@ -1,13 +1,14 @@
-import type { Store } from '@reduxjs/toolkit';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TOKENS } from '../../lib/misc/di';
 import { getAll } from '../../entities/user';
 import { execute } from '../../services/scenarioRunner';
-import { BaseController } from '../../lib/controller';
+import { BaseController, IController } from '../../lib/controller';
+import { container } from '../../configs/inversify.config';
 
-export class MainController extends BaseController {
+@injectable()
+export class MainController extends BaseController implements IController {
   @inject(TOKENS.Store)
-  private store!: Store;
+  store!: Store;
 
   initialize() {
     const users = getAll(this.store);
@@ -22,3 +23,5 @@ export class MainController extends BaseController {
     }
   }
 }
+
+container.bind<MainController>(MainController).toSelf().inTransientScope();

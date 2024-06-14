@@ -1,13 +1,15 @@
+import { injectable } from 'inversify';
 import { Scenario } from './types';
 import { ScenarioError } from '../errors/ScenarioError';
 
-export abstract class BaseScenario<P extends {}, R = void> implements Scenario<R> {
-  constructor(public params: P) {}
-
+@injectable()
+export abstract class BaseScenario<P extends {}, R = void> implements Scenario<P, R> {
   error: unknown;
+  params!: P;
 
-  async run() {
+  async run(params: P) {
     try {
+      this.params = params;
       return await this.execute();
     } catch (err: unknown) {
       let errorText = `Couldn't execute scenario ${this.constructor.name}`;

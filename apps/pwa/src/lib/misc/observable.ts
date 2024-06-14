@@ -1,9 +1,12 @@
+import { injectable } from 'inversify';
+
 export interface IObservable<EventsPayloadMap extends {}> {
   on<K extends keyof EventsPayloadMap>(event: K, fn: (data?: EventsPayloadMap[K]) => void): VoidFunction;
   off<K extends keyof EventsPayloadMap>(event: K, fn: (data?: EventsPayloadMap[K]) => void): void;
   emit<K extends keyof EventsPayloadMap>(event: K, payload?: EventsPayloadMap[K]): void;
 }
 
+@injectable()
 export class Observable<EventsPayloadMap extends {}> implements IObservable<EventsPayloadMap> {
   private subscribers: {
     [K in keyof EventsPayloadMap]?: Array<(payload?: EventsPayloadMap[K]) => void>;

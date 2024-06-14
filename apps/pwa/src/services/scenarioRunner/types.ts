@@ -1,12 +1,12 @@
 import { scenarios } from '../../../../../libs/core';
 
-export type Scenario = typeof scenarios;
+export type ScenariosDict = typeof scenarios;
 
 export type ScenarioPayloadMap = {
-  [Key in keyof Scenario]: {
+  [Key in keyof ScenariosDict]: {
     scenario: Key;
-    payload: ConstructorParameters<Scenario[Key]>[0];
+    payload: Parameters<ScenariosDict[Key]['prototype']['run']>[0];
   };
 };
 
-export type ExecuteActionPayload = ScenarioPayloadMap[keyof Scenario];
+export type ExecuteActionPayload = ScenarioPayloadMap[keyof ScenariosDict];

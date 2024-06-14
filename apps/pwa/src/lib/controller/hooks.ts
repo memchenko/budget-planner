@@ -1,10 +1,11 @@
 import React from 'react';
 
 import type { IController, Props } from './types';
+import { container } from '../../configs/inversify.config';
 
-export const useController = <C extends IController>(controller: C | (new () => C), props: Props<C>): C => {
+export const useController = <C extends IController>(Controller: new (...args: any[]) => C, props: Props<C>): C => {
   const [ctrl] = React.useState<C>(() => {
-    return typeof controller === 'function' ? new controller() : controller;
+    return container.resolve(Controller);
   });
   const [, update] = React.useState(0);
 

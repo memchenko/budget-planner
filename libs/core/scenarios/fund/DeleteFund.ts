@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
 import { Repo } from '../../shared/types';
@@ -19,7 +19,10 @@ export interface DeleteFundParams {
   fundId: Fund['id'];
 }
 
+@injectable()
 export class DeleteFund extends BaseScenario<DeleteFundParams> {
+  static TOKEN = Symbol.for('DeleteFund');
+
   @inject(TOKENS.FundRepo)
   private readonly fundRepo!: Repo<Fund, 'id'>;
 

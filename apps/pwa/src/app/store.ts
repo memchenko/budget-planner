@@ -8,6 +8,8 @@ import * as tags from '../entities/tag';
 import * as users from '../entities/user';
 import * as dictionaries from '../entities/dictionaries';
 import * as scenarioRunner from '../services/scenarioRunner';
+import { container } from '../configs/inversify.config';
+import { TOKENS } from '../lib/misc/di';
 
 const persistConfig = {
   key: 'root',
@@ -34,11 +36,17 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(scenarioRunner.middleware);
+    });
   },
 });
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+declare global {
+  type Store = typeof store;
+  type RootState = ReturnType<typeof store.getState>;
+  type AppDispatch = typeof store.dispatch;
+}
+
+container.bind<Store>(TOKENS.Store).toConstantValue(store);
+container.get<Store>(TOKENS.Store);

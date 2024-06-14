@@ -1,14 +1,13 @@
-import { createSlice, ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { Scenario, ExecuteActionPayload } from './types';
-import { ScenarioError } from '../../../../../libs/core';
-import { execute } from './actions';
+import { createSlice } from '@reduxjs/toolkit';
+import { ScenariosDict } from './types';
+import { _execute } from './actions';
 
 export type ScenarioState = 'idle' | 'in-progress' | 'error' | 'completed';
 
 export type State = {
-  name: keyof Scenario | null;
+  name: keyof ScenariosDict | null;
   state: ScenarioState;
-  error: ScenarioError | null;
+  error: unknown | null;
 };
 
 const initialState: State = {
@@ -20,20 +19,21 @@ const initialState: State = {
 export const slice = createSlice({
   name: 'scenarioRunner',
   initialState,
-  reducers: {
-    complete: (state) => {
-      state.state = 'completed';
-    },
-    error: (state, action: { payload: { error: ScenarioError } }) => {
-      state.state = 'error';
-      state.error = action.payload.error;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
-    builder.addCase(execute as ActionCreatorWithPayload<ExecuteActionPayload, string>, (state, action) => {
-      state.name = action.payload.scenario;
+    builder.addCase(_execute.pending, (state, action) => {
+      state.name = action.meta.arg.scenario;
       state.state = 'in-progress';
       state.error = null;
+    });
+
+    builder.addCase(_execute.rejected, (state, action) => {
+      state.state = 'error';
+      state.error = action.error ?? null;
+    });
+
+    builder.addCase(_execute.fulfilled, (state) => {
+      state.state = 'completed';
     });
   },
 });

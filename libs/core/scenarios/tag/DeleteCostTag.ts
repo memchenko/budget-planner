@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
 import { Tag } from '../../entities/Tag';
@@ -16,6 +16,7 @@ export interface DeleteCostTagParams {
   tagId: Tag['id'];
 }
 
+@injectable()
 export class DeleteCostTag extends BaseScenario<DeleteCostTagParams> {
   @inject(TOKENS.TagRepo)
   private readonly tagRepo!: Repo<Tag, 'id'>;
