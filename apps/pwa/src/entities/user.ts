@@ -1,4 +1,5 @@
-import { makeAutoObservable, observable, action } from 'mobx';
+import { makeAutoObservable, observable, action, computed } from 'mobx';
+import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '../../../../libs/core';
 import { injectable } from 'inversify';
 
@@ -13,6 +14,10 @@ export class User {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makePersistable(this, {
+      name: this.constructor.name,
+      properties: ['entries'],
+    });
   }
 
   @action
@@ -40,6 +45,11 @@ export class User {
     updatedEntities.forEach((updatedEntity) => {
       this.entries = this.entries.map((entry) => (entry.id === updatedEntity.id ? updatedEntity : entry));
     });
+  }
+
+  @computed
+  get isReady() {
+    return isHydrated(this);
   }
 
   getAll() {

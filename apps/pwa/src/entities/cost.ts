@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable, action } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 import { injectable } from 'inversify';
 import { entities } from '../../../../libs/core';
 
@@ -13,6 +14,10 @@ export class Cost {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makePersistable(this, {
+      name: this.constructor.name,
+      properties: ['entries'],
+    });
   }
 
   @action
@@ -40,5 +45,9 @@ export class Cost {
     updatedEntities.forEach((updatedEntity) => {
       this.entries = this.entries.map((entry) => (entry.id === updatedEntity.id ? updatedEntity : entry));
     });
+  }
+
+  getAll() {
+    return this.entries;
   }
 }

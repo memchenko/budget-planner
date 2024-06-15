@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable, action } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 import { entities } from '../../../../libs/core';
 import { injectable } from 'inversify';
 
@@ -14,6 +15,10 @@ export class Dictionaries {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makePersistable(this, {
+      name: this.constructor.name,
+      properties: ['costTags', 'incomeTags'],
+    });
   }
 
   @action

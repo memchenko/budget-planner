@@ -16,6 +16,7 @@ export class ScenarioRunner {
 
   @action
   async execute<S extends keyof ScenariosDict>(parameters: ScenarioPayloadMap[S]) {
+    debugger;
     const { scenario: scenarioName, payload } = parameters;
     const scenario = container.resolve<{ run: (arg: any) => {} }>(scenarios[scenarioName] as any);
 

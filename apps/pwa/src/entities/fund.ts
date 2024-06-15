@@ -1,4 +1,5 @@
 import { makeAutoObservable, observable, action, computed } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 import { entities } from '../../../../libs/core';
 import { injectable } from 'inversify';
 
@@ -13,6 +14,10 @@ export class Fund {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makePersistable(this, {
+      name: this.constructor.name,
+      properties: ['entries'],
+    });
   }
 
   @action
@@ -50,5 +55,9 @@ export class Fund {
   @computed
   get mainFundBalance() {
     return this.mainFund?.balance ?? null;
+  }
+
+  getAll() {
+    return this.entries;
   }
 }

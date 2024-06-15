@@ -1,16 +1,24 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
+import { reaction } from 'mobx';
 import { User } from '../../entities/user';
 import { ScenarioRunner } from '../../services/scenarioRunner';
 import { TOKENS } from '../../lib/misc/di';
 
 @provide(MainController)
 export class MainController {
-  constructor(@inject(TOKENS.UserStore) usersStore: User, @inject(ScenarioRunner) scenario: ScenarioRunner) {
-    const users = usersStore.getAll();
+  constructor(
+    @inject(TOKENS.UserStore) private usersStore: User,
+    @inject(ScenarioRunner) private scenario: ScenarioRunner,
+  ) {
+    reaction(() => usersStore.isReady, this.onUserStoreReady.bind(this));
+  }
+
+  onUserStoreReady() {
+    const users = this.usersStore.getAll();
 
     if (users.length === 0) {
-      scenario.execute({
+      this.scenario.execute({
         scenario: 'CreateUser',
         payload: {},
       });
