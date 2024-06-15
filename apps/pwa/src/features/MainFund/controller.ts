@@ -20,24 +20,43 @@ export class MainFundController {
     );
   }
 
-  @observable newBalance: number | null = null;
+  @observable newBalance: string | null = null;
+  @observable newTitle: string | null = null;
 
   @computed get mainFundBalance() {
     return this.funds.mainFundBalance;
+  }
+
+  @computed get mainFundTitle() {
+    return this.funds.mainFund?.title ?? '';
   }
 
   @computed get isBalanceChangeMode() {
     return this.newBalance !== null;
   }
 
-  @action
-  handleEditBalanceClick() {
-    this.newBalance = this.mainFundBalance;
+  @computed get isTitleChangeMode() {
+    return this.newTitle !== null;
   }
 
   @action
-  handleInputChange(value: string) {
-    this.newBalance = Number(value);
+  handleEditBalanceClick() {
+    this.newBalance = String(this.mainFundBalance);
+  }
+
+  @action
+  handleChangeTitleClick() {
+    this.newTitle = this.funds.mainFund?.title ?? '';
+  }
+
+  @action
+  handleNewBalanceInputChange(value: string) {
+    this.newBalance = value;
+  }
+
+  @action
+  handleNewTitleInputChange(value: string) {
+    this.newTitle = value;
   }
 
   @action
@@ -46,14 +65,31 @@ export class MainFundController {
       scenario: 'UpdateFund',
       payload: {
         id: this.funds.mainFund?.id,
-        balance: this.newBalance,
+        balance: Number(this.newBalance),
       },
     });
     this.newBalance = null;
   }
 
   @action
+  handleConfirmTitleClick() {
+    this.scenario.execute({
+      scenario: 'UpdateFund',
+      payload: {
+        id: this.funds.mainFund?.id,
+        title: this.newTitle,
+      },
+    });
+    this.newTitle = null;
+  }
+
+  @action
   handleCancelEditBalanceClick() {
     this.newBalance = null;
+  }
+
+  @action
+  handleCancelChangingTitleClick() {
+    this.newTitle = null;
   }
 }
