@@ -1,0 +1,5 @@
+.main {
+  @apply bg-background h-lvh p-4;
+  background-image: radial-gradient(circle at 20% 120%, theme(colors.blue[700] / 10%) 0%, theme(colors.transparent) 70%),
+    radial-gradient(circle at 80% 10%, theme(colors.violet[700] / 10%) 0%, theme(colors.transparent) 70%);
+}

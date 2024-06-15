@@ -1,11 +1,11 @@
-import { inject, injectable } from 'inversify';
+import { inject } from 'inversify';
+import { provide } from 'inversify-binding-decorators';
 import { TOKENS } from '../../lib/misc/di';
 import { getAll } from '../../entities/user';
 import { execute } from '../../services/scenarioRunner';
 import { BaseController, IController } from '../../lib/controller';
-import { container } from '../../configs/inversify.config';
 
-@injectable()
+@provide(MainController)
 export class MainController extends BaseController implements IController {
   @inject(TOKENS.Store)
   store!: Store;
@@ -23,5 +23,3 @@ export class MainController extends BaseController implements IController {
     }
   }
 }
-
-container.bind<MainController>(MainController).toSelf().inTransientScope();

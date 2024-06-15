@@ -69,6 +69,7 @@ export const buildUpdateEntityScenario = <E extends { id: unknown }>(params: {
 
     async execute(): Promise<E> {
       const { id, ...patch } = this.params;
+      debugger;
       const filters = { id } as { [Key in keyof E]: E[Key] };
       const entity = await this.repo.updateOneBy(filters, patch);
       assertEntity(entity, params.entityName);
