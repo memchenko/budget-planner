@@ -5,6 +5,8 @@ import localForage from 'localforage';
 import { NextUIProvider } from '@nextui-org/react';
 import './App.css';
 import { Main } from '../screens/main';
+import { AddFund } from '../screens/add-fund';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const NextUI = (props: PropsWithChildren<{}>) => {
   const navigate = useNavigate();
@@ -14,15 +16,19 @@ const NextUI = (props: PropsWithChildren<{}>) => {
 
 configurePersistable({
   storage: localForage,
+  stringify: false,
 });
 
 export function App() {
   return (
     <BrowserRouter>
       <NextUI>
-        <Routes>
-          <Route path="/" element={<Main />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/fund/new" element={<AddFund />} />
+          </Routes>
+        </ErrorBoundary>
       </NextUI>
     </BrowserRouter>
   );

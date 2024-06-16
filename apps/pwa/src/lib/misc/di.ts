@@ -8,4 +8,5 @@ export const TOKENS = {
   IncomeStore: Symbol.for('IncomeStore'),
   TagStore: Symbol.for('TagStore'),
   FundStore: Symbol.for('FundStore'),
+  NavigateFunction: Symbol.for('NavigateFunction'),
 };

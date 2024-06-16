@@ -28,7 +28,7 @@ export class MainFundController {
   }
 
   @computed get mainFundTitle() {
-    return this.funds.mainFund?.title ?? '';
+    return this.funds.mainFund?.title ?? 'my wallet';
   }
 
   @computed get isBalanceChangeMode() {

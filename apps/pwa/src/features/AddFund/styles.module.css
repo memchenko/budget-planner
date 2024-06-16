@@ -1,0 +1,4 @@
+.addFund {
+  @apply p-10 bg-background/10 cursor-pointer select-none !important;
+  @apply flex flex-grow gap-2 justify-center items-center flex-row !important;
+}
