@@ -20,8 +20,12 @@ export interface DistributeBalanceParams {
 
 @injectable()
 export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
-  @inject(TOKENS.FundRepo)
-  private readonly fundRepo!: Repo<Fund, 'id'>;
+  constructor(
+    @inject(TOKENS.FundRepo)
+    private fundRepo: Repo<Fund, 'id'>,
+  ) {
+    super();
+  }
 
   private initialFundsBalances: Record<Fund['id'], number> = {};
 

@@ -17,11 +17,14 @@ export interface CreateUserParams {}
 
 @injectable()
 export class CreateUser extends BaseScenario<CreateUserParams, User> {
-  @inject(TOKENS.UserRepo)
-  readonly userRepo!: Repo<User, 'id'>;
-
-  @inject(TOKENS.FundRepo)
-  readonly fundRepo!: Repo<Fund, 'id'>;
+  constructor(
+    @inject(TOKENS.UserRepo)
+    private userRepo: Repo<User, 'id'>,
+    @inject(TOKENS.FundRepo)
+    private fundRepo: Repo<Fund, 'id'>,
+  ) {
+    super();
+  }
 
   private user: User | null = null;
   private fund: Fund | null = null;

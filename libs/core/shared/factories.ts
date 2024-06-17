@@ -12,8 +12,12 @@ export const buildDeleteEntityScenario = <E extends { id: unknown }>(params: {
 }) => {
   @injectable()
   class ScenarioClass extends BaseScenario<{ id: E['id'] }> {
-    @inject(params.repoType)
-    private readonly repo!: Repo<E, 'id'>;
+    constructor(
+      @inject(params.repoType)
+      private repo: Repo<E, 'id'>,
+    ) {
+      super();
+    }
 
     async execute(): Promise<void> {
       const filters = { id: this.params.id } as { [Key in keyof E]: E[Key] };
@@ -37,8 +41,12 @@ export const buildCreateEntityScenario = <E extends { id: unknown }>(params: {
 }) => {
   @injectable()
   class ScenarioClass extends BaseScenario<Omit<E, 'id'>, E> {
-    @inject(params.repoType)
-    private readonly repo!: Repo<E, 'id'>;
+    constructor(
+      @inject(params.repoType)
+      private repo: Repo<E, 'id'>,
+    ) {
+      super();
+    }
 
     async execute(): Promise<E> {
       const entity = await this.repo.create(this.params);
@@ -64,8 +72,12 @@ export const buildUpdateEntityScenario = <E extends { id: unknown }>(params: {
 }) => {
   @injectable()
   class ScenarioClass extends BaseScenario<Partial<E>, E> {
-    @inject(params.repoType)
-    private readonly repo!: Repo<E, 'id'>;
+    constructor(
+      @inject(params.repoType)
+      private repo: Repo<E, 'id'>,
+    ) {
+      super();
+    }
 
     async execute(): Promise<E> {
       const { id, ...patch } = this.params;

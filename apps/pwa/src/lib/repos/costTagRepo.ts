@@ -7,8 +7,10 @@ import { Dictionaries } from '../../entities/dictionaries';
 
 @provide(TOKENS.CostTagRepo)
 export class CostTagRepo implements Repo<entities.CostTag> {
-  @inject(TOKENS.DictionariesStore)
-  private dictionaries!: Dictionaries;
+  constructor(
+    @inject(TOKENS.DictionariesStore)
+    private dictionaries: Dictionaries,
+  ) {}
 
   async create(params: entities.CostTag) {
     this.dictionaries.addCategory({

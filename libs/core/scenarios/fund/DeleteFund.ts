@@ -23,8 +23,12 @@ export interface DeleteFundParams {
 export class DeleteFund extends BaseScenario<DeleteFundParams> {
   static TOKEN = Symbol.for('DeleteFund');
 
-  @inject(TOKENS.FundRepo)
-  private readonly fundRepo!: Repo<Fund, 'id'>;
+  constructor(
+    @inject(TOKENS.FundRepo)
+    private fundRepo: Repo<Fund, 'id'>,
+  ) {
+    super();
+  }
 
   private initialMainFundBalance: number | null = null;
 

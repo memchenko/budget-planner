@@ -7,10 +7,12 @@ import { ScenarioRunner } from '../../services/scenarioRunner';
 
 @provide(MainFundController)
 export class MainFundController {
-  @inject(TOKENS.FundStore) funds!: Fund;
-  @inject(ScenarioRunner) scenario!: ScenarioRunner;
-
-  constructor() {
+  constructor(
+    @inject(TOKENS.FundStore)
+    private funds: Fund,
+    @inject(ScenarioRunner)
+    private scenario: ScenarioRunner,
+  ) {
     makeAutoObservable(
       this,
       {},

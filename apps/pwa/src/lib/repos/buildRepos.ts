@@ -31,8 +31,10 @@ export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) 
 
   @injectable()
   class RepoImpl implements Repo<E> {
-    @inject(storeToken)
-    private store!: Store<E>;
+    constructor(
+      @inject(storeToken)
+      private store: Store<E>,
+    ) {}
 
     async create(params: Omit<E, 'id'>) {
       const time = Date.now();

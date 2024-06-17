@@ -21,14 +21,16 @@ export type AddIncomeParams = Parameters<Repo<Income, 'id'>['create']>[0] & {
 
 @injectable()
 export class AddIncome extends BaseScenario<AddIncomeParams> {
-  @inject(TOKENS.IncomeRepo)
-  private readonly incomeRepo!: Repo<Income, 'id'>;
-
-  @inject(TOKENS.FundRepo)
-  private readonly fundRepo!: Repo<Fund, 'id'>;
-
-  @inject(TOKENS.IncomeTagRepo)
-  private readonly incomeTagRepo!: Repo<IncomeTag>;
+  constructor(
+    @inject(TOKENS.IncomeRepo)
+    private incomeRepo: Repo<Income, 'id'>,
+    @inject(TOKENS.FundRepo)
+    private fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.IncomeTagRepo)
+    private incomeTagRepo: Repo<IncomeTag>,
+  ) {
+    super();
+  }
 
   private income: Income | null = null;
   private fund: Fund | null = null;

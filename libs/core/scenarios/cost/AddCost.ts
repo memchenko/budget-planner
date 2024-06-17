@@ -23,14 +23,16 @@ export type AddCostParams = Parameters<Repo<Cost, 'id'>['create']>[0] & {
 export class AddCost extends BaseScenario<AddCostParams> {
   static TOKEN = Symbol.for('AddCost');
 
-  @inject(TOKENS.CostRepo)
-  private readonly costRepo!: Repo<Cost, 'id'>;
-
-  @inject(TOKENS.FundRepo)
-  private readonly fundRepo!: Repo<Fund, 'id'>;
-
-  @inject(TOKENS.CostTagRepo)
-  private readonly costTagRepo!: Repo<CostTag>;
+  constructor(
+    @inject(TOKENS.CostRepo)
+    private costRepo: Repo<Cost, 'id'>,
+    @inject(TOKENS.FundRepo)
+    private fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.CostTagRepo)
+    private costTagRepo: Repo<CostTag>,
+  ) {
+    super();
+  }
 
   private cost: Cost | null = null;
   private fund: Fund | null = null;
