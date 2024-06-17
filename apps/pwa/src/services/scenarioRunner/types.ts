@@ -5,7 +5,7 @@ export type ScenariosDict = typeof scenarios;
 export type ScenarioPayloadMap = {
   [Key in keyof ScenariosDict]: {
     scenario: Key;
-    payload: Parameters<ScenariosDict[Key]['prototype']['run']>[0];
+    payload: InstanceType<ScenariosDict[Key]>['params'];
   };
 };
 

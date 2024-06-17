@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card {
+    @apply bg-background/80 border-1.5 border-primary-900/50;
+  }
+
+  .card-element {
+    @apply p-4;
+  }
+
+  .line {
+    @apply bg-primary-900/50;
+  }
+
+  .typography {
+    @apply font-sans text-2xl text-primary-900;
+  }
+}

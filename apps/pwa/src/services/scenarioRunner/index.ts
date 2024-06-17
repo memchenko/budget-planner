@@ -4,6 +4,8 @@ import { ScenariosDict, ScenarioPayloadMap, ScenarioState } from './types';
 import { scenarios } from '../../../../../libs/core';
 import { container } from '../../configs/inversify.config';
 
+export * from './types';
+
 @injectable()
 export class ScenarioRunner {
   constructor() {

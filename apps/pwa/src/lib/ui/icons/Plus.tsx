@@ -1,6 +1,5 @@
 export interface PlusIconProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const PlusIcon = (props: PlusIconProps) => {
@@ -14,7 +13,7 @@ export const PlusIcon = (props: PlusIconProps) => {
       className={props.className}
     >
       <path
-        className={props.pathClassName}
+        className="stroke-current"
         d="M4 12H20M12 4V20"
         stroke="#000000"
         strokeWidth="2"

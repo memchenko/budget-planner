@@ -3,7 +3,7 @@ import uniqueId from 'lodash/uniqueId';
 import capitalize from 'lodash/capitalize';
 import { Repo, RepoFilters } from '../../../../../libs/core';
 import { getOneByRepoFilters, getManyByRepoFilters } from './helpers';
-import { TOKENS } from '../misc/di';
+import { TOKENS } from '../app/di';
 
 export type Entity = {
   id: string;

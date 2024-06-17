@@ -1,6 +1,5 @@
 export interface PencilIconProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const PencilIcon = (props: PencilIconProps) => {
@@ -12,7 +11,7 @@ export const PencilIcon = (props: PencilIconProps) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={props.pathClassName}
+        className="stroke-current"
       />
     </svg>
   );

@@ -3,15 +3,15 @@ import { useController } from '../../lib/hooks/useController';
 import { MainController } from './controller';
 import { MainFund } from '../../features/MainFund';
 import { AddFund } from '../../features/AddFund';
-import styles from './styles.module.css';
+import { Screen } from '../../layouts/screen';
 
 export const Main = observer(() => {
   useController(MainController);
 
   return (
-    <div className={styles.main}>
+    <Screen>
       <MainFund />
       <AddFund />
-    </div>
+    </Screen>
   );
 });

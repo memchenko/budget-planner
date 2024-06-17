@@ -1,9 +1,0 @@
-.main {
-  @apply bg-background h-lvh p-4 flex flex-col gap-4;
-  /* background-image: radial-gradient(
-      circle at 20% 120%,
-      theme(colors.yellow[500] / 50%) 0%,
-      theme(colors.transparent) 70%
-    ),
-    radial-gradient(circle at 80% 10%, theme(colors.violet[500] / 50%) 0%, theme(colors.transparent) 70%); */
-}

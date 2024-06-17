@@ -3,7 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { reaction } from 'mobx';
 import { User } from '../../entities/user';
 import { ScenarioRunner } from '../../services/scenarioRunner';
-import { TOKENS } from '../../lib/misc/di';
+import { TOKENS } from '../../lib/app/di';
 
 @provide(MainController)
 export class MainController {

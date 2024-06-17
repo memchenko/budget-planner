@@ -2,7 +2,7 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable } from 'mobx';
 import { Fund } from '../../entities/fund';
-import { TOKENS } from '../../lib/misc/di';
+import { TOKENS } from '../../lib/app/di';
 import { ScenarioRunner } from '../../services/scenarioRunner';
 
 @provide(MainFundController)
@@ -23,11 +23,15 @@ export class MainFundController {
   @observable newBalance: string | null = null;
   @observable newTitle: string | null = null;
 
-  @computed get mainFundBalance() {
+  @computed get balance() {
     return this.funds.mainFundBalance;
   }
 
-  @computed get mainFundTitle() {
+  @computed get formattedBalance() {
+    return new Intl.NumberFormat().format(this.balance ?? 0);
+  }
+
+  @computed get title() {
     return this.funds.mainFund?.title ?? 'my wallet';
   }
 
@@ -39,28 +43,59 @@ export class MainFundController {
     return this.newTitle !== null;
   }
 
-  @action
-  handleEditBalanceClick() {
-    this.newBalance = String(this.mainFundBalance);
+  @computed get isEditing() {
+    return this.isBalanceChangeMode || this.isTitleChangeMode;
+  }
+
+  @computed get inputValue() {
+    if (this.isBalanceChangeMode) {
+      return String(this.newBalance ?? this.balance);
+    } else {
+      return this.newTitle ?? this.title;
+    }
   }
 
   @action
-  handleChangeTitleClick() {
+  handleInputChange(value: string) {
+    if (this.isBalanceChangeMode) {
+      this.newBalance = value;
+    } else {
+      this.newTitle = value;
+    }
+  }
+
+  @action
+  handleLeftButtonClick() {
+    if (!this.isBalanceChangeMode && !this.isTitleChangeMode) {
+      this.startChangingTitle();
+    } else if (this.isBalanceChangeMode || this.isTitleChangeMode) {
+      this.cancel();
+    }
+  }
+
+  @action
+  handleRightButtonClick() {
+    if (!this.isBalanceChangeMode && !this.isTitleChangeMode) {
+      this.startEditingBalance();
+    } else if (this.isBalanceChangeMode) {
+      this.confirmNewBalance();
+    } else if (this.isTitleChangeMode) {
+      this.confirmNewTitle();
+    }
+  }
+
+  @action
+  startEditingBalance() {
+    this.newBalance = String(this.balance);
+  }
+
+  @action
+  startChangingTitle() {
     this.newTitle = this.funds.mainFund?.title ?? '';
   }
 
   @action
-  handleNewBalanceInputChange(value: string) {
-    this.newBalance = value;
-  }
-
-  @action
-  handleNewTitleInputChange(value: string) {
-    this.newTitle = value;
-  }
-
-  @action
-  handleConfirmBalanceClick() {
+  confirmNewBalance() {
     this.scenario.execute({
       scenario: 'UpdateFund',
       payload: {
@@ -72,7 +107,7 @@ export class MainFundController {
   }
 
   @action
-  handleConfirmTitleClick() {
+  confirmNewTitle() {
     this.scenario.execute({
       scenario: 'UpdateFund',
       payload: {
@@ -84,12 +119,8 @@ export class MainFundController {
   }
 
   @action
-  handleCancelEditBalanceClick() {
+  cancel() {
     this.newBalance = null;
-  }
-
-  @action
-  handleCancelChangingTitleClick() {
     this.newTitle = null;
   }
 }

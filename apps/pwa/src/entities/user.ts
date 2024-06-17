@@ -55,4 +55,8 @@ export class User {
   getAll() {
     return this.entries;
   }
+
+  getCurrent() {
+    return this.entries[0];
+  }
 }

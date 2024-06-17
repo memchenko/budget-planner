@@ -7,6 +7,7 @@ import './App.css';
 import { Main } from '../screens/main';
 import { AddFund } from '../screens/add-fund';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { pages } from '../lib/app/pages';
 
 const NextUI = (props: PropsWithChildren<{}>) => {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ export function App() {
       <NextUI>
         <ErrorBoundary>
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/fund/new" element={<AddFund />} />
+            <Route path={pages.index} element={<Main />} />
+            <Route path={pages.addFund} element={<AddFund />} />
           </Routes>
         </ErrorBoundary>
       </NextUI>

@@ -1,6 +1,5 @@
 export interface EditBalanceIconProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const EditBalanceIcon = (props: EditBalanceIconProps) => {
@@ -19,7 +18,7 @@ export const EditBalanceIcon = (props: EditBalanceIconProps) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={props.pathClassName}
+        className="stroke-current"
       />
     </svg>
   );

@@ -1,6 +1,5 @@
 export interface CheckIconProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const CheckIcon = (props: CheckIconProps) => {
@@ -14,7 +13,7 @@ export const CheckIcon = (props: CheckIconProps) => {
       className={props.className}
     >
       <path
-        className={props.pathClassName}
+        className="stroke-current"
         d="M4 12.6111L8.92308 17.5L20 6.5"
         stroke="#000000"
         strokeWidth="2"

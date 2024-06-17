@@ -1,3 +1,30 @@
+@import '../../styles/components.css';
+@import '../../lib/ui/card-title/styles.module.css';
+
+.mainFund {
+  @apply bg-background/80 border-1.5 border-primary-900/50;
+}
+
+.header {
+  @apply card-element flex justify-between !important;
+}
+
+.name {
+  @apply flex flex-row gap-4;
+}
+
+.wallet {
+  @apply size-8;
+}
+
+.balance {
+  @apply card-title;
+}
+
+.footer {
+  @apply flex justify-center p-0 !important;
+}
+
 .buttonGroup * {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
