@@ -1,6 +1,7 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import isNil from 'lodash/isNil';
+import { when } from 'mobx';
 import { Repo, RepoFilters, entities } from '../../../../../libs/core';
 import { TOKENS } from '../../lib/app/di';
 import { Dictionaries } from '../../entities/dictionaries';
@@ -13,6 +14,7 @@ export class IncomeTagRepo implements Repo<entities.IncomeTag> {
   ) {}
 
   async create(params: entities.IncomeTag) {
+    await when(() => this.dictionaries.isReady);
     this.dictionaries.addCategory({
       type: 'income',
       id: params.incomeId,
@@ -91,6 +93,7 @@ export class IncomeTagRepo implements Repo<entities.IncomeTag> {
   }
 
   async getAll() {
+    await when(() => this.dictionaries.isReady);
     return this.dictionaries.getAllByCategory('income');
   }
 }

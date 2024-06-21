@@ -1,5 +1,5 @@
-import { makeAutoObservable, observable, action } from 'mobx';
-import { makePersistable } from 'mobx-persist-store';
+import { makeAutoObservable, observable, action, computed } from 'mobx';
+import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '../../../../libs/core';
 import { injectable } from 'inversify';
 
@@ -47,7 +47,13 @@ export class Income {
     });
   }
 
-  getAll() {
+  @computed
+  get isReady() {
+    return isHydrated(this);
+  }
+
+  @computed
+  get all() {
     return this.entries;
   }
 }

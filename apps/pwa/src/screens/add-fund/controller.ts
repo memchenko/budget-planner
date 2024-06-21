@@ -29,7 +29,7 @@ export class AddFundController {
       priority: data.priority ?? 0,
       isCumulative: data.isCumulative ?? false,
       isMain: false,
-      userId: this.userStore.getCurrent().id,
+      userId: this.userStore.current.id,
       balance: data.initialBalance ?? 0,
       isEager: data.takeDeficitFromWallet ?? false,
     };

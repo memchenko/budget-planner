@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import uniqueId from 'lodash/uniqueId';
 import capitalize from 'lodash/capitalize';
+import { when } from 'mobx';
 import { Repo, RepoFilters } from '../../../../../libs/core';
 import { getOneByRepoFilters, getManyByRepoFilters } from './helpers';
 import { TOKENS } from '../app/di';
@@ -12,12 +13,13 @@ export type Entity = {
 };
 
 export type Store<E extends Entity> = {
+  isReady: boolean;
+  all: E[];
   add: (entity: E) => void;
   remove: (id: string) => boolean;
   removeMany: (ids: string[]) => boolean;
   update: (entity: E) => void;
   updateMany: (entities: E[]) => void;
-  getAll: () => E[];
 };
 
 export type RepoBuilderParams = {
@@ -44,6 +46,8 @@ export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) 
         createdAt: time,
         updatedAt: time,
       } as E;
+
+      await when(() => this.store.isReady);
 
       this.store.add(newEntity);
 
@@ -84,7 +88,9 @@ export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) 
     }
 
     async getAll() {
-      return this.store.getAll();
+      await when(() => this.store.isReady);
+
+      return this.store.all;
     }
 
     async updateOneBy(filters: RepoFilters<E>, values: Partial<Omit<E, 'id'>>) {

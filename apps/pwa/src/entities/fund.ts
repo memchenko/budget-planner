@@ -67,7 +67,13 @@ export class Fund {
     return isHydrated(this);
   }
 
-  getAll() {
+  @computed
+  get all() {
     return this.entries;
+  }
+
+  @computed
+  get allButMain() {
+    return this.entries.filter(({ isMain }) => !isMain);
   }
 }

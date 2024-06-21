@@ -52,11 +52,13 @@ export class User {
     return isHydrated(this);
   }
 
-  getAll() {
+  @computed
+  get all() {
     return this.entries;
   }
 
-  getCurrent() {
+  @computed
+  get current() {
     return this.entries[0];
   }
 }

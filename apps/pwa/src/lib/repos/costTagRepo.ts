@@ -1,5 +1,6 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
+import { when } from 'mobx';
 import isNil from 'lodash/isNil';
 import { Repo, RepoFilters, entities } from '../../../../../libs/core';
 import { TOKENS } from '../../lib/app/di';
@@ -13,6 +14,8 @@ export class CostTagRepo implements Repo<entities.CostTag> {
   ) {}
 
   async create(params: entities.CostTag) {
+    await when(() => this.dictionaries.isReady);
+
     this.dictionaries.addCategory({
       type: 'cost',
       id: params.costId,
@@ -91,6 +94,8 @@ export class CostTagRepo implements Repo<entities.CostTag> {
   }
 
   async getAll() {
+    await when(() => this.dictionaries.isReady);
+
     return this.dictionaries.getAllByCategory('cost');
   }
 }

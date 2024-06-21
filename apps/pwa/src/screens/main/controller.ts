@@ -22,7 +22,7 @@ export class MainController {
   }
 
   onUserStoreReady() {
-    const users = this.usersStore.getAll();
+    const users = this.usersStore.all;
 
     if (users.length === 0) {
       this.scenario.execute({
