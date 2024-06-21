@@ -1,11 +1,7 @@
-import * as z from 'zod';
+import { Income } from './Income';
+import { Tag } from './Tag';
 
-import { IncomeSchema } from './Income';
-import { TagSchema } from './Tag';
-
-export const IncomeTagSchema = z.object({
-  incomeId: IncomeSchema.shape.id,
-  tagId: TagSchema.shape.id,
-});
-
-export type IncomeTag = z.infer<typeof IncomeTagSchema>;
+export type IncomeTag = {
+  incomeId: Income['id'];
+  tagId: Tag['id'];
+};
