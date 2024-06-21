@@ -1,11 +1,4 @@
 .addFund {
-  @apply p-8 bg-background/10 cursor-pointer select-none !important;
-  @apply flex gap-2 justify-center items-center flex-row !important;
-  @apply border-1.5 border-primary-900/50;
-}
-
-.call {
-  @apply text-center;
 }
 
 .icon {

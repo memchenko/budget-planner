@@ -1,5 +1,5 @@
 @import '../../styles/components.css';
-@import '../../lib/ui/card-title/styles.module.css';
+@import '../../lib/ui/card-title/styles.css';
 
 .mainFund {
   @apply bg-background/80 border-1.5 border-primary-900/50;
