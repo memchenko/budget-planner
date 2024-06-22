@@ -76,4 +76,12 @@ export class Fund {
   get allButMain() {
     return this.entries.filter(({ isMain }) => !isMain);
   }
+
+  getFund(fundId: entities.Fund['id']) {
+    return this.entries.find((entry) => entry.id === fundId);
+  }
+
+  getFundBalance(fundId: entities.Fund['id']) {
+    return this.getFund(fundId)?.balance ?? null;
+  }
 }

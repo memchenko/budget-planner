@@ -7,4 +7,5 @@ export type Cost = {
   fundId: Fund['id'];
   note: string | null;
   amount: number;
+  date: number;
 };

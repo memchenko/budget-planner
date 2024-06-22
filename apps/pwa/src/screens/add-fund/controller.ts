@@ -32,6 +32,7 @@ export class AddFundController {
       userId: this.userStore.current.id,
       balance: data.initialBalance ?? 0,
       isEager: data.takeDeficitFromWallet ?? false,
+      calculateDailyLimit: data.calculateDailyLimit ?? false,
     };
 
     this.scenarioRunner.execute({

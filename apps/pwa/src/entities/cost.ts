@@ -56,4 +56,8 @@ export class Cost {
   get all() {
     return this.entries;
   }
+
+  getCostsByFundAndDateRange(fundId: entities.Fund['id'], from: number, to: number) {
+    return this.entries.filter((entry) => entry.fundId === fundId && entry.date >= from && entry.date <= to);
+  }
 }

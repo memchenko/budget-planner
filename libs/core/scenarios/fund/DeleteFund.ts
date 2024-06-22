@@ -1,6 +1,5 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
-
 import { Repo } from '../../shared/types';
 import { Fund } from '../../entities/Fund';
 import { User } from '../../entities/User';

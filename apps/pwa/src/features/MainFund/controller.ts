@@ -4,6 +4,7 @@ import { observable, computed, action, makeAutoObservable } from 'mobx';
 import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
 import { ScenarioRunner } from '../../services/scenarioRunner';
+import { asMoney } from '../../../../../libs/formatting/money';
 
 @provide(MainFundController)
 export class MainFundController {
@@ -30,7 +31,7 @@ export class MainFundController {
   }
 
   @computed get formattedBalance() {
-    return new Intl.NumberFormat().format(this.balance ?? 0);
+    return asMoney(this.balance ?? 0);
   }
 
   @computed get title() {

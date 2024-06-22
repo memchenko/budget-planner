@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import uniqueId from 'lodash/uniqueId';
+import { nanoid } from 'nanoid';
 import capitalize from 'lodash/capitalize';
 import { when } from 'mobx';
 import { Repo, RepoFilters } from '../../../../../libs/core';
@@ -41,7 +41,7 @@ export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) 
     async create(params: Omit<E, 'id'>) {
       const time = Date.now();
       const newEntity = {
-        id: uniqueId(),
+        id: nanoid(),
         ...params,
         createdAt: time,
         updatedAt: time,

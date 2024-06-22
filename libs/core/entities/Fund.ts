@@ -15,4 +15,6 @@ export type Fund = {
   // whether negative balance should be
   // covered by balance from main fund
   isEager: boolean;
+  // view setting
+  calculateDailyLimit: boolean;
 };
