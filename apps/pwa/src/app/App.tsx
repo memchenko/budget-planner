@@ -12,7 +12,11 @@ import { pages } from '../lib/app/pages';
 const NextUI = (props: PropsWithChildren<{}>) => {
   const navigate = useNavigate();
 
-  return <NextUIProvider navigate={navigate}>{props.children}</NextUIProvider>;
+  return (
+    <NextUIProvider navigate={navigate}>
+      <main className="dark text-foreground bg-background">{props.children}</main>
+    </NextUIProvider>
+  );
 };
 
 configurePersistable({

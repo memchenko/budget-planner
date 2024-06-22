@@ -1,6 +1,6 @@
 @layer components {
   .card {
-    @apply bg-background/80 border-1.5 border-primary-900/50;
+    @apply bg-background;
   }
 
   .card-element {

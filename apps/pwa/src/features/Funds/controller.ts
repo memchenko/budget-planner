@@ -4,7 +4,6 @@ import { computed, makeAutoObservable } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
-import { asMoney } from '../../../../../libs/formatting/money';
 
 @provide(FundsController)
 export class FundsController {
@@ -23,18 +22,19 @@ export class FundsController {
           balance,
           capacity,
           title: title || 'Untitled',
-          ratioText: `${asMoney(balance)} of ${asMoney(capacity)}`,
           remainderGeometry: { width: '0', left: '100%' },
+          dailyRemainder: null as number | null,
         };
 
         if (calculateDailyLimit) {
           const dailyRemainder = this.getDailyRemainder(id);
           const relativeWidth = Math.abs(dailyRemainder / capacity) * 100;
-          console.log(dailyRemainder, capacity, dailyRemainder / capacity, relativeWidth);
+
           result.remainderGeometry = {
             width: relativeWidth + '%',
             left: dailyRemainder < 0 ? '100%' : 100 - relativeWidth + '%',
           };
+          result.dailyRemainder = dailyRemainder;
         }
 
         return result;

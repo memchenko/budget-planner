@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useController } from '../../lib/hooks/useController';
 import { FundsController } from './controller';
 import styles from './styles.module.css';
+import { ValueLabel } from './components/value-label';
 
 export const Funds = observer(() => {
   const ctrl = useController(FundsController);
@@ -23,7 +24,9 @@ export const Funds = observer(() => {
                 showValueLabel
                 label={fund.title}
                 value={fund.balance}
-                valueLabel={fund.ratioText}
+                valueLabel={
+                  <ValueLabel capacity={fund.capacity} balance={fund.balance} dailyRemainder={fund.dailyRemainder} />
+                }
                 maxValue={fund.capacity}
                 classNames={{
                   indicator: cn(styles.indicator, {

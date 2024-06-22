@@ -1,10 +1,6 @@
 @import '../../styles/components.css';
 @import '../../lib/ui/card-title/styles.css';
 
-.mainFund {
-  @apply bg-background/80 border-1.5 border-primary-900/50;
-}
-
 .header {
   @apply card-element flex justify-between !important;
 }
@@ -26,6 +22,5 @@
 }
 
 .buttonGroup * {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+  @apply !rounded-l-none;
 }
