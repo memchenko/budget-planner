@@ -1,7 +1,10 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Progress } from '@nextui-org/progress';
+import { Button } from '@nextui-org/button';
 import cn from 'classnames';
 import { CardTitle } from '../../lib/ui/card-title';
+import { DotsVerticalIcon } from '../../lib/ui/icons/DotsVertical';
+import { GridDotsVerticalIcon } from '../../lib/ui/icons/GridDotsVertical';
 import { observer } from 'mobx-react-lite';
 import { useController } from '../../lib/hooks/useController';
 import { FundsController } from './controller';
@@ -19,7 +22,10 @@ export const Funds = observer(() => {
       <CardBody>
         <ul className="flex gap-4 flex-col">
           {ctrl.funds.map((fund) => (
-            <li key={fund.id}>
+            <li key={fund.id} className="flex items-end gap-2">
+              <Button isIconOnly variant="light" size="sm">
+                <GridDotsVerticalIcon className="size-8" pathClassName="stroke-foreground/40" />
+              </Button>
               <Progress
                 showValueLabel
                 label={fund.title}
@@ -42,6 +48,9 @@ export const Funds = observer(() => {
                 color="primary"
                 size="lg"
               />
+              <Button isIconOnly variant="light">
+                <DotsVerticalIcon pathClassName="stroke-foreground" />
+              </Button>
             </li>
           ))}
         </ul>
