@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Progress } from '@nextui-org/progress';
 import { Button } from '@nextui-org/button';
+import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort';
 import cn from 'classnames';
 import { CardTitle } from '../../lib/ui/card-title';
 import { DotsVerticalIcon } from '../../lib/ui/icons/DotsVertical';
@@ -20,40 +21,48 @@ export const Funds = observer(() => {
         <CardTitle>Funds</CardTitle>
       </CardHeader>
       <CardBody>
-        <ul className="flex gap-4 flex-col">
+        <SortableList
+          className="flex gap-4 flex-col"
+          draggedItemClassName={styles.dragged}
+          onSortEnd={ctrl.handleSortEnd}
+        >
           {ctrl.funds.map((fund) => (
-            <li key={fund.id} className="flex items-end gap-2">
-              <Button isIconOnly variant="light" size="sm">
-                <GridDotsVerticalIcon className="size-8" pathClassName="stroke-foreground/40" />
-              </Button>
-              <Progress
-                showValueLabel
-                label={fund.title}
-                value={fund.balance}
-                valueLabel={
-                  <ValueLabel capacity={fund.capacity} balance={fund.balance} dailyRemainder={fund.dailyRemainder} />
-                }
-                maxValue={fund.capacity}
-                classNames={{
-                  indicator: cn(styles.indicator, {
-                    [styles.insufficientRemainder]: fund.remainderGeometry.left === '100%',
-                  }),
-                }}
-                style={
-                  {
-                    '--remainder-width': `${fund.remainderGeometry.width}`,
-                    '--remainder-left': `${fund.remainderGeometry.left}`,
-                  } as React.CSSProperties
-                }
-                color="primary"
-                size="lg"
-              />
-              <Button isIconOnly variant="light">
-                <DotsVerticalIcon pathClassName="stroke-foreground" />
-              </Button>
-            </li>
+            <SortableItem key={fund.id}>
+              <div className="flex items-end gap-2">
+                <SortableKnob>
+                  <div>
+                    <GridDotsVerticalIcon className="size-8 text-foreground/40" />
+                  </div>
+                </SortableKnob>
+                <Progress
+                  showValueLabel
+                  label={fund.title}
+                  value={fund.balance}
+                  valueLabel={
+                    <ValueLabel capacity={fund.capacity} balance={fund.balance} dailyRemainder={fund.dailyRemainder} />
+                  }
+                  maxValue={fund.capacity}
+                  classNames={{
+                    indicator: cn(styles.indicator, {
+                      [styles.insufficientRemainder]: fund.remainderGeometry.left === '100%',
+                    }),
+                  }}
+                  style={
+                    {
+                      '--remainder-width': `${fund.remainderGeometry.width}`,
+                      '--remainder-left': `${fund.remainderGeometry.left}`,
+                    } as React.CSSProperties
+                  }
+                  color="primary"
+                  size="lg"
+                />
+                <Button isIconOnly variant="light">
+                  <DotsVerticalIcon className="text-foreground" />
+                </Button>
+              </div>
+            </SortableItem>
           ))}
-        </ul>
+        </SortableList>
       </CardBody>
     </Card>
   );

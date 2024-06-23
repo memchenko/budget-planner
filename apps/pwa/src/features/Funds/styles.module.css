@@ -15,3 +15,7 @@
   --remainder-color: theme('colors.danger-400');
   @apply !rounded-r-none;
 }
+
+.dragged {
+  @apply !text-foreground-500 !opacity-100 stroke-foreground-500;
+}

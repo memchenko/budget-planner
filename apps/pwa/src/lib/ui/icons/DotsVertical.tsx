@@ -1,6 +1,5 @@
 export interface DotsVerticalProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const DotsVerticalIcon = (props: DotsVerticalProps) => {
@@ -19,7 +18,7 @@ export const DotsVerticalIcon = (props: DotsVerticalProps) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={props.pathClassName}
+        className="stroke-current"
       />
     </svg>
   );

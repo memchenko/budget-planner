@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { computed, makeAutoObservable } from 'mobx';
+import { action, computed, makeAutoObservable } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
@@ -51,4 +51,7 @@ export class FundsController {
 
     return fundBalance - expectedIdealBalance;
   }
+
+  @action
+  handleSortEnd(oldIndex: number, newIndex: number) {}
 }

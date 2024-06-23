@@ -1,6 +1,5 @@
 export interface GridDotsVerticalProps {
   className?: string;
-  pathClassName?: string;
 }
 
 export const GridDotsVerticalIcon = (props: GridDotsVerticalProps) => {
@@ -19,7 +18,7 @@ export const GridDotsVerticalIcon = (props: GridDotsVerticalProps) => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={props.pathClassName}
+        className="stroke-current"
       />
     </svg>
   );
