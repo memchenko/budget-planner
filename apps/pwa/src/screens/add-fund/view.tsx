@@ -68,33 +68,6 @@ export const AddFund = observer(() => {
         </Card>
         <Card className="card">
           <CardHeader className="card-element gap-1 items-start">
-            <CardTitle>Priority</CardTitle>
-            <Hint>optional</Hint>
-          </CardHeader>
-          <CardBody className="card-element">
-            <Controller
-              name="priority"
-              control={control}
-              render={({ field: { value, onChange, ...field } }) => (
-                <Input
-                  {...field}
-                  type="number"
-                  step="1"
-                  min="0"
-                  label="Priority"
-                  placeholder="0"
-                  size="lg"
-                  value={String(value)}
-                  onChange={(event) => {
-                    onChange(parseInt(event.target.value));
-                  }}
-                />
-              )}
-            />
-          </CardBody>
-        </Card>
-        <Card className="card">
-          <CardHeader className="card-element gap-1 items-start">
             <CardTitle>Initial Balance</CardTitle>
             <Hint>optional</Hint>
           </CardHeader>

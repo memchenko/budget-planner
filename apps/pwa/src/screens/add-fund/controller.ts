@@ -26,7 +26,7 @@ export class AddFundController {
     const payload: ScenarioPayloadMap['CreateFund']['payload'] = {
       title: data.name,
       capacity: data.capacity,
-      priority: data.priority ?? 0,
+      priority: Number.MAX_SAFE_INTEGER,
       isCumulative: data.isCumulative ?? false,
       isMain: false,
       userId: this.userStore.current.id,

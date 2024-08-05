@@ -1,9 +1,14 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { action, computed, makeAutoObservable } from 'mobx';
+import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
+
+export enum Mode {
+  View = 'view',
+  Reorder = 'reorder',
+}
 
 @provide(FundsController)
 export class FundsController {
@@ -11,29 +16,31 @@ export class FundsController {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
+  @observable mode: Mode = Mode.View;
+
   @computed
   get funds() {
     return this.fundsStore.allButMain
       .slice()
-      .sort((a, b) => b.priority - a.priority)
-      .map(({ id, balance, capacity, title, calculateDailyLimit }) => {
+      .sort((a, b) => a.priority - b.priority)
+      .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {
         const result = {
           id,
           balance,
           capacity,
           title: title || 'Untitled',
-          remainderGeometry: { width: '0', left: '100%' },
+          remainderLeft: '100%',
+          remainderWidth: '0',
           dailyRemainder: null as number | null,
+          priority,
         };
 
         if (calculateDailyLimit) {
           const dailyRemainder = this.getDailyRemainder(id);
           const relativeWidth = Math.abs(dailyRemainder / capacity) * 100;
 
-          result.remainderGeometry = {
-            width: relativeWidth + '%',
-            left: dailyRemainder < 0 ? '100%' : 100 - relativeWidth + '%',
-          };
+          result.remainderLeft = dailyRemainder < 0 ? '100%' : 100 - relativeWidth + '%';
+          result.remainderWidth = relativeWidth + '%';
           result.dailyRemainder = dailyRemainder;
         }
 
@@ -53,5 +60,26 @@ export class FundsController {
   }
 
   @action
-  handleSortEnd(oldIndex: number, newIndex: number) {}
+  enableViewMode() {
+    this.mode = Mode.View;
+  }
+
+  @action
+  enableReorderMode() {
+    this.mode = Mode.Reorder;
+  }
+
+  @action
+  reprioiritize(fundIds: string[]) {
+    const funds = this.fundsStore.getManyFunds(fundIds);
+    const updatedFunds = funds.map((fund) => {
+      return {
+        ...fund,
+        priority: fundIds.indexOf(fund.id),
+      };
+    });
+    this.fundsStore.updateMany(updatedFunds);
+
+    this.enableViewMode();
+  }
 }

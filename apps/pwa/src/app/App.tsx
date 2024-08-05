@@ -14,7 +14,7 @@ const NextUI = (props: PropsWithChildren<{}>) => {
 
   return (
     <NextUIProvider navigate={navigate}>
-      <main className="dark text-foreground bg-background">{props.children}</main>
+      <main className="dark">{props.children}</main>
     </NextUIProvider>
   );
 };

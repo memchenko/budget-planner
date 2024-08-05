@@ -43,7 +43,13 @@ export class Fund {
   @action
   updateMany(updatedEntities: EntityType[]) {
     updatedEntities.forEach((updatedEntity) => {
-      this.entries = this.entries.map((entry) => (entry.id === updatedEntity.id ? updatedEntity : entry));
+      const entryIndex = this.entries.findIndex((entry) => entry.id === updatedEntity.id);
+
+      if (entryIndex === -1) {
+        return;
+      }
+
+      this.entries[entryIndex] = updatedEntity;
     });
   }
 
@@ -79,6 +85,10 @@ export class Fund {
 
   getFund(fundId: entities.Fund['id']) {
     return this.entries.find((entry) => entry.id === fundId);
+  }
+
+  getManyFunds(fundIds: entities.Fund['id'][]) {
+    return this.entries.filter((entry) => fundIds.includes(entry.id));
   }
 
   getFundBalance(fundId: entities.Fund['id']) {
