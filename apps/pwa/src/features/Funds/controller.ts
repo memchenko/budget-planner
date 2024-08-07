@@ -3,7 +3,9 @@ import { provide } from 'inversify-binding-decorators';
 import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '../../entities/fund';
+import { User } from '../../entities/user';
 import { TOKENS } from '../../lib/app/di';
+import { ScenarioRunner } from '../../services/scenarioRunner';
 
 export enum Mode {
   View = 'view',
@@ -12,7 +14,14 @@ export enum Mode {
 
 @provide(FundsController)
 export class FundsController {
-  constructor(@inject(TOKENS.FundStore) private fundsStore: Fund) {
+  constructor(
+    @inject(TOKENS.FundStore)
+    private fundsStore: Fund,
+    @inject(ScenarioRunner)
+    private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.UserStore)
+    private userStore: User,
+  ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
@@ -81,5 +90,15 @@ export class FundsController {
     this.fundsStore.updateMany(updatedFunds);
 
     this.enableViewMode();
+  }
+
+  @action
+  distribute() {
+    this.scenarioRunner.execute({
+      scenario: 'DistributeBalance',
+      payload: {
+        userId: this.userStore.current.id,
+      },
+    });
   }
 }

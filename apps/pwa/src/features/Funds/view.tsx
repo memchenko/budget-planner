@@ -14,7 +14,7 @@ export const Funds = observer(() => {
     <Card className="card">
       <CardHeader className="flex justify-between items-center">
         <CardTitle>Funds</CardTitle>
-        <Menu onChangePriority={ctrl.enableReorderMode} />
+        <Menu onChangePriority={ctrl.enableReorderMode} onDistribute={ctrl.distribute} />
       </CardHeader>
       <CardBody className="flex gap-4 flex-col">
         {ctrl.mode === Mode.View && <FundsState list={ctrl.funds} />}
