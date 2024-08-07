@@ -6,6 +6,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import './App.css';
 import { Main } from '../screens/main';
 import { AddFund } from '../screens/add-fund';
+import { EditFund } from '../screens/edit-fund';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { pages } from '../lib/app/pages';
 
@@ -32,6 +33,7 @@ export function App() {
           <Routes>
             <Route path={pages.index} element={<Main />} />
             <Route path={pages.addFund} element={<AddFund />} />
+            <Route path={pages.editFund} element={<EditFund />} />
           </Routes>
         </ErrorBoundary>
       </NextUI>

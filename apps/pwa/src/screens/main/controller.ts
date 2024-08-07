@@ -24,7 +24,7 @@ export class MainController {
   onUserStoreReady() {
     const users = this.usersStore.all;
 
-    if (users.length === 0) {
+    if (this.usersStore.isReady && users.length === 0) {
       this.scenario.execute({
         scenario: 'CreateUser',
         payload: {},

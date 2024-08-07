@@ -5,6 +5,7 @@ import { ScenarioRunner, ScenarioPayloadMap } from '../../services/scenarioRunne
 import { schema } from './schema';
 import { z } from 'zod';
 import { User } from '../../entities/user';
+import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
 
 @provide(AddFundController)

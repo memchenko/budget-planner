@@ -7,7 +7,12 @@ import { FundsState } from './components/funds-state';
 import { FundsOrder } from './components/funds-order';
 import { Menu } from './components/menu';
 
-export const Funds = observer(() => {
+export interface FundsProps {
+  onFundClick: (id: string) => void;
+}
+
+export const Funds = observer((props: FundsProps) => {
+  const { onFundClick } = props;
   const ctrl = useController(FundsController);
 
   return (
@@ -17,7 +22,7 @@ export const Funds = observer(() => {
         <Menu onChangePriority={ctrl.enableReorderMode} onDistribute={ctrl.distribute} />
       </CardHeader>
       <CardBody className="flex gap-4 flex-col">
-        {ctrl.mode === Mode.View && <FundsState list={ctrl.funds} />}
+        {ctrl.mode === Mode.View && <FundsState list={ctrl.funds} onFundClick={onFundClick} />}
         {ctrl.mode === Mode.Reorder && (
           <FundsOrder list={ctrl.funds} onConfirm={ctrl.reprioiritize} onCancel={ctrl.enableViewMode} />
         )}

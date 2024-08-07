@@ -8,15 +8,16 @@ import { Switch } from '../../lib/ui/switch';
 import { CardTitle } from '../../lib/ui/card-title';
 import { Hint } from '../../lib/ui/hint';
 import { PrimaryButton } from '../../lib/ui/primary-button';
+import { DangerButton } from '../../lib/ui/danger-button';
 import { Screen } from '../../layouts/screen';
-import { AddFundController } from './controller';
+import { EditFundController } from './controller';
 import { useController } from '../../lib/hooks/useController';
 import { z } from 'zod';
-
 import { schema } from './schema';
+import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 
-export const AddFund = observer(() => {
-  const ctrl = useController(AddFundController);
+export const EditFund = observer(() => {
+  const ctrl = useController(EditFundController);
   const {
     handleSubmit,
     control,
@@ -73,7 +74,7 @@ export const AddFund = observer(() => {
           </CardHeader>
           <CardBody className="card-element">
             <Controller
-              name="initialBalance"
+              name="balance"
               control={control}
               render={({ field: { value, onChange, ...field } }) => (
                 <Input
@@ -145,7 +146,12 @@ export const AddFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <PrimaryButton type="submit">Submit</PrimaryButton>
+        <DangerButton type="submit" name={DELETE_BUTTON_NAME}>
+          Delete this fund
+        </DangerButton>
+        <PrimaryButton type="submit" name={SUBMIT_BUTTON_NAME}>
+          Submit
+        </PrimaryButton>
       </Screen>
       {ctrl.isSubmitted && <Navigate to="../" relative="route" />}
     </form>
