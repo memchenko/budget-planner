@@ -4,7 +4,7 @@ export type Fund = {
   id: string;
   isMain: boolean;
   userId: User['id'];
-  title: string | null;
+  title: string;
   balance: number;
   priority: number;
   capacity: number;

@@ -1,4 +1,4 @@
-import { action, computed, makeAutoObservable, observable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
@@ -7,16 +7,19 @@ import { ScenarioRunner, ScenarioPayloadMap } from '../../services/scenarioRunne
 import { schema } from './schema';
 import { z } from 'zod';
 import { User } from '../../entities/user';
-import { Fund } from '../../entities/fund';
+import { Fund, EntityType as FundEntity } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
 import { pages } from '../../lib/app/pages';
 import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
-import { hasProperty } from '../../lib/type-guards';
 import omitBy from 'lodash/reject';
 import isNil from 'lodash/isNil';
+import get from 'lodash/get';
 
 @provide(EditFundController)
 export class EditFundController {
+  id!: string;
+  fund!: FundEntity;
+
   constructor(
     @inject(ScenarioRunner)
     private scenarioRunner: ScenarioRunner,
@@ -26,40 +29,59 @@ export class EditFundController {
     private fundStore: Fund,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
-  }
 
-  id?: string;
+    this.getFundId();
+    this.getFund();
+  }
 
   @observable
   isSubmitted = false;
 
-  @computed
-  get fund() {
-    const match = matchPath<ParamParseKey<typeof pages.editFund>, typeof pages.editFund>(
+  getFundId() {
+    const id = matchPath<ParamParseKey<typeof pages.editFund>, typeof pages.editFund>(
       pages.editFund,
       window.location.pathname,
-    );
+    )?.params.id;
 
-    assert(match?.params.id, 'Invalid route. ID of fund is missing.');
+    assert(id, 'Invalid route. ID of fund is missing.');
 
-    const fund = this.fundStore.getFund(match.params.id);
+    this.id = id;
+  }
 
-    assert(fund, `Fund with ID ${match.params.id} doesn't exist.`);
+  getFund() {
+    const fund = this.fundStore.getFund(this.id);
 
-    return fund;
+    assert(fund, `Fund with ID ${this.id} doesn't exist.`);
+
+    this.fund = fund;
+  }
+
+  get initialValues(): z.infer<typeof schema> {
+    const { title, capacity, balance, isCumulative, isEager, calculateDailyLimit } = this.fund;
+
+    return {
+      name: title,
+      capacity: capacity,
+      balance: balance,
+      isCumulative: isCumulative,
+      takeDeficitFromWallet: isEager,
+      calculateDailyLimit: calculateDailyLimit,
+    };
   }
 
   @action
   handleSubmit(data: z.infer<typeof schema>, event?: React.BaseSyntheticEvent) {
-    assert(event && hasProperty(event, 'name'), 'Cannot update fund. Event is missing.');
+    const name = get(event, ['nativeEvent', 'submitter', 'name']);
+
+    assert(name, 'Cannot update fund. Event is missing.');
     assert(this.fund.id, 'Cannot delete fund. ID is missing.');
 
-    if (event.name === SUBMIT_BUTTON_NAME) {
+    if (name === SUBMIT_BUTTON_NAME) {
       this.handleEdit(this.fund.id, data);
-    } else if (event.name === DELETE_BUTTON_NAME) {
+    } else if (name === DELETE_BUTTON_NAME) {
       this.handleDelete(this.fund.id);
     } else {
-      throw new Error(`Unknown event: ${event.name}`);
+      throw new Error(`Unknown event: ${name}`);
     }
 
     this.isSubmitted = true;

@@ -24,12 +24,13 @@ export const EditFund = observer(() => {
     formState: { errors },
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    values: ctrl.initialValues,
   });
 
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>
       <Screen>
-        <Card className="card">
+        <Card className="card flex-shrink-0">
           <CardHeader className="card-element">
             <CardTitle>Name</CardTitle>
           </CardHeader>
@@ -41,7 +42,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card">
+        <Card className="card flex-shrink-0">
           <CardHeader className="card-element">
             <CardTitle>Capacity</CardTitle>
           </CardHeader>
@@ -67,7 +68,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card">
+        <Card className="card flex-shrink-0">
           <CardHeader className="card-element gap-1 items-start">
             <CardTitle>Initial Balance</CardTitle>
             <Hint>optional</Hint>
@@ -94,7 +95,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card">
+        <Card className="card flex-shrink-0">
           <CardHeader className="card-element">
             <CardTitle>Settings</CardTitle>
           </CardHeader>
@@ -105,7 +106,7 @@ export const EditFund = observer(() => {
               render={({ field: { value, onChange, ...field } }) => (
                 <Switch
                   {...field}
-                  checked={value}
+                  isSelected={value}
                   onChange={(event) => {
                     onChange(event.target.checked);
                   }}
@@ -120,7 +121,7 @@ export const EditFund = observer(() => {
               render={({ field: { value, onChange, ...field } }) => (
                 <Switch
                   {...field}
-                  checked={value}
+                  isSelected={value}
                   onChange={(event) => {
                     onChange(event.target.checked);
                   }}
@@ -135,7 +136,7 @@ export const EditFund = observer(() => {
               render={({ field: { value, onChange, ...field } }) => (
                 <Switch
                   {...field}
-                  checked={value}
+                  isSelected={value}
                   onChange={(event) => {
                     onChange(event.target.checked);
                   }}
@@ -146,10 +147,10 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <DangerButton type="submit" name={DELETE_BUTTON_NAME}>
+        <DangerButton type="submit" name={DELETE_BUTTON_NAME} className="flex-shrink-0">
           Delete this fund
         </DangerButton>
-        <PrimaryButton type="submit" name={SUBMIT_BUTTON_NAME}>
+        <PrimaryButton type="submit" name={SUBMIT_BUTTON_NAME} className="flex-shrink-0">
           Submit
         </PrimaryButton>
       </Screen>
