@@ -56,4 +56,8 @@ export class Income {
   get all() {
     return this.entries;
   }
+
+  getIncomeByDateRange(from: number, to: number) {
+    return this.entries.filter((income) => income.date >= from && income.date <= to);
+  }
 }

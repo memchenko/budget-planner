@@ -30,7 +30,7 @@ export const EditFund = observer(() => {
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>
       <Screen>
-        <Card className="card flex-shrink-0">
+        <Card className="card">
           <CardHeader className="card-element">
             <CardTitle>Name</CardTitle>
           </CardHeader>
@@ -42,7 +42,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card flex-shrink-0">
+        <Card className="card">
           <CardHeader className="card-element">
             <CardTitle>Capacity</CardTitle>
           </CardHeader>
@@ -68,7 +68,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card flex-shrink-0">
+        <Card className="card">
           <CardHeader className="card-element gap-1 items-start">
             <CardTitle>Initial Balance</CardTitle>
             <Hint>optional</Hint>
@@ -95,7 +95,7 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <Card className="card flex-shrink-0">
+        <Card className="card">
           <CardHeader className="card-element">
             <CardTitle>Settings</CardTitle>
           </CardHeader>

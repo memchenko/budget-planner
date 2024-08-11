@@ -61,9 +61,25 @@ export class Dictionaries {
     return tags.map((tagId) => ({ costId, tagId }));
   }
 
+  getCostTagsMany(costIds: string[]) {
+    return costIds.reduce((acc, costId) => {
+      const costTags = this.getCostTags(costId);
+
+      return acc.concat(costTags);
+    }, [] as entities.CostTag[]);
+  }
+
   getIncomeTags(incomeId: string) {
     const tags = this.incomeTags[incomeId] ?? [];
     return tags.map((tagId) => ({ incomeId, tagId }));
+  }
+
+  getIncomeTagsMany(incomeIds: string[]) {
+    return incomeIds.reduce((acc, incomeId) => {
+      const incomeTags = this.getIncomeTags(incomeId);
+
+      return acc.concat(incomeTags);
+    }, [] as entities.IncomeTag[]);
   }
 
   getAllByCategory<C extends entities.Tag['type'], Result = C extends 'cost' ? entities.CostTag : entities.IncomeTag>(

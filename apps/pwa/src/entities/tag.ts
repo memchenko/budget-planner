@@ -1,7 +1,12 @@
 import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '../../../../libs/core';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
+import { Cost } from './cost';
+import { Income } from './income';
+import { Dictionaries } from './dictionaries';
+import { TOKENS } from '../lib/app/di';
+import { DateTime } from 'luxon';
 
 export type EntityType = entities.Tag & {
   createdAt: number;
@@ -12,7 +17,11 @@ export type EntityType = entities.Tag & {
 export class Tag {
   @observable entries: EntityType[] = [];
 
-  constructor() {
+  constructor(
+    @inject(TOKENS.CostStore) private cost: Cost,
+    @inject(TOKENS.IncomeStore) private income: Income,
+    @inject(TOKENS.DictionariesStore) private dictionaries: Dictionaries,
+  ) {
     makeAutoObservable(this, {}, { autoBind: true });
     makePersistable(this, {
       name: this.constructor.name,
@@ -45,6 +54,41 @@ export class Tag {
     updatedEntities.forEach((updatedEntity) => {
       this.entries = this.entries.map((entry) => (entry.id === updatedEntity.id ? updatedEntity : entry));
     });
+  }
+
+  getOneById(id: EntityType['id']) {
+    return this.entries.find((tag) => tag.id === id);
+  }
+
+  getMostPopularTags(type: EntityType['type']) {
+    const tags = this.entries.filter((tag) => tag.type === type);
+    const now = DateTime.now().toMillis();
+    const monthAgo = DateTime.now().minus({ month: 1 }).toMillis();
+    const tagsIds: string[] = [];
+
+    if (type === 'cost') {
+      const entriesForMonth = this.cost.getCostByDateRange(monthAgo, now);
+      const tagsIds = entriesForMonth.map((entry) => entry.id);
+      const costTags = new Set(this.dictionaries.getCostTagsMany(tagsIds).map((tag) => tag.tagId));
+
+      tagsIds.push(...costTags);
+    } else {
+      const entriesForMonth = this.income.getIncomeByDateRange(monthAgo, now);
+      const tagsIds = entriesForMonth.map((entry) => entry.id);
+      const incomeTags = new Set(this.dictionaries.getIncomeTagsMany(tagsIds).map((tag) => tag.tagId));
+
+      tagsIds.push(...incomeTags);
+    }
+
+    return tags.filter((tag) => tagsIds.includes(tag.id));
+  }
+
+  getTagsBySubstring(substr: string, type: EntityType['type']) {
+    return this.entries.filter((tag) => tag.type === type && tag.title.includes(substr));
+  }
+
+  getAllByType(type: EntityType['type']) {
+    return this.entries.filter((tag) => tag.type === type);
   }
 
   @computed

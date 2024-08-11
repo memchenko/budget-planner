@@ -7,6 +7,7 @@ import { MainFund } from '../../features/main-fund';
 import { AddFund } from '../../features/add-fund';
 import { Funds } from '../../features/funds';
 import { Screen } from '../../layouts/screen';
+import { MakeRecord } from '../../features/make-record';
 
 export const Main = observer(() => {
   const ctrl = useController(MainController);
@@ -21,6 +22,7 @@ export const Main = observer(() => {
       <MainFund />
       {ctrl.shouldDisplayFunds && <Funds onFundClick={handleFundClick} />}
       <AddFund />
+      <MakeRecord />
     </Screen>
   );
 });

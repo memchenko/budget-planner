@@ -5,4 +5,5 @@ export type Income = {
   userId: User['id'];
   note: string | null;
   amount: number;
+  date: number;
 };

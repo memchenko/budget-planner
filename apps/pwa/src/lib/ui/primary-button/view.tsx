@@ -6,7 +6,7 @@ export const PrimaryButton = (props: ButtonProps) => {
 
   return (
     <Button
-      className={cn('bg-primary uppercase typography text-xl font-semibold text-primary-50', className)}
+      className={cn('bg-primary uppercase typography text-xl font-semibold text-primary-900', className)}
       size="lg"
       {...restProps}
     />

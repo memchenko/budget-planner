@@ -1,0 +1,8 @@
+.makeRecord {
+  @apply fixed bottom-0 left-0 right-0;
+}
+
+.card {
+  @apply !bg-foreground-50 shadow-2xl shadow-overlay p-2;
+  @apply !rounded-none !rounded-t-3xl border-foreground-200 border-t-1;
+}
