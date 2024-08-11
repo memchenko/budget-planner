@@ -28,6 +28,11 @@ export class FundsController {
   @observable mode: Mode = Mode.View;
 
   @computed
+  get hasFunds() {
+    return this.fundsStore.allButMain.length > 0;
+  }
+
+  @computed
   get funds() {
     return this.fundsStore.allButMain
       .slice()

@@ -21,10 +21,18 @@ export class TagsListController {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  getMostPopularTags() {
+  get shouldDisplayCreateTagButton() {
     assert(this.type, 'Type of tags is not defined');
 
-    return this.tag.getMostPopularTags(this.type);
+    return this.searchQuery.length > 0 && !this.tag.hasTag(this.searchQuery, this.type);
+  }
+
+  get mostPopularTags() {
+    assert(this.type, 'Type of tags is not defined');
+
+    const popularTags = this.tag.getMostPopularTags(this.type);
+
+    return popularTags.length > 0 ? popularTags : this.allTags.slice(0, 5);
   }
 
   @computed

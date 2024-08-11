@@ -1,5 +1,5 @@
 .indicator {
-  --remainder-color: theme('colors.warning-400');
+  --remainder-color: theme('colors.success-400');
   @apply relative after:content-[''];
 
   &:after {

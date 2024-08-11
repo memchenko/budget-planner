@@ -1,0 +1,11 @@
+.tagsList {
+  @apply flex flex-col gap-4;
+}
+
+.label {
+  @apply text-lg;
+}
+
+.chipsList {
+  @apply flex flex-wrap gap-2;
+}

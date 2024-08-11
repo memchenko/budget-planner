@@ -91,6 +91,10 @@ export class Tag {
     return this.entries.filter((tag) => tag.type === type);
   }
 
+  hasTag(title: string, type: EntityType['type']) {
+    return this.entries.some((tag) => tag.type === type && tag.title === title);
+  }
+
   @computed
   get isReady() {
     return isHydrated(this);

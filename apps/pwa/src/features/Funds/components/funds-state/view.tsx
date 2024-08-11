@@ -35,7 +35,7 @@ export const FundsState = (props: FundsStateProps) => {
                 maxValue={capacity}
                 classNames={{
                   indicator: cn(styles.indicator, {
-                    [styles.insufficientRemainder]: remainderLeft === '100%',
+                    [styles.insufficientRemainder]: remainderLeft === '100%' && dailyRemainder !== null,
                   }),
                 }}
                 style={
