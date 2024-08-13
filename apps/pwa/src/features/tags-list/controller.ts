@@ -44,6 +44,10 @@ export class TagsListController {
     });
   }
 
+  getTagById(id: EntityType['id']) {
+    return this.tag.getOneById(id);
+  }
+
   @action
   handleCreateTagClick() {
     assert(this.type, 'Type of tags is not defined');
@@ -54,20 +58,6 @@ export class TagsListController {
       scenario: 'CreateTag',
       payload: { userId, title: this.searchQuery, type: this.type },
     });
-  }
-
-  @action
-  handleTagSelect(tag: EntityType['id']) {
-    const tagEntity = this.tag.getOneById(tag);
-
-    if (tagEntity) {
-      this.selectedTags.push(tagEntity);
-    }
-  }
-
-  @action
-  handleTagUnselect(tag: EntityType['id']) {
-    this.selectedTags = this.selectedTags.filter((selectedTag) => selectedTag.id !== tag);
   }
 
   @action

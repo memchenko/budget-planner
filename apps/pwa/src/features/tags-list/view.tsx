@@ -7,14 +7,37 @@ import { useController } from '../../lib/hooks/useController';
 import { TagsListController } from './controller';
 import styles from './styles.module.css';
 import { getTagColor } from './helpers';
+import { useFormContext } from 'react-hook-form';
+import { EntityType } from '../../entities/tag';
 
 export interface TagsListProps {
   type: TagsListController['type'];
 }
 
+export const PROPERTY_NAME = 'selectedTags';
+
 export const TagsList = observer((props: TagsListProps) => {
   const ctrl = useController(TagsListController);
   ctrl.type = props.type;
+  const { setValue, getValues } = useFormContext<{
+    [PROPERTY_NAME]: EntityType[];
+  }>();
+  ctrl.selectedTags = getValues(PROPERTY_NAME);
+
+  const handleTagSelect = (tag: EntityType['id']) => {
+    const tagEntity = ctrl.getTagById(tag);
+
+    if (tagEntity) {
+      setValue(PROPERTY_NAME, [...ctrl.selectedTags, tagEntity]);
+    }
+  };
+
+  const handleTagUnselect = (tag: EntityType['id']) => {
+    setValue(
+      PROPERTY_NAME,
+      ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag),
+    );
+  };
 
   return (
     <div className={styles.tagsList}>
@@ -29,7 +52,7 @@ export const TagsList = observer((props: TagsListProps) => {
                   size="lg"
                   variant="flat"
                   className="cursor-pointer"
-                  onClick={() => ctrl.handleTagSelect(tag.id)}
+                  onClick={() => handleTagSelect(tag.id)}
                 >
                   {tag.title}
                 </Chip>
@@ -57,7 +80,7 @@ export const TagsList = observer((props: TagsListProps) => {
         selectedKey={null}
         onInputChange={ctrl.handleSearchQueryChange}
         onSelectionChange={(key) => {
-          return ctrl.handleTagSelect(String(key));
+          return handleTagSelect(String(key));
         }}
         onClick={(e) => {
           e.currentTarget.focus();
@@ -83,8 +106,8 @@ export const TagsList = observer((props: TagsListProps) => {
                   size="lg"
                   variant="flat"
                   className="cursor-pointer"
-                  onClick={() => ctrl.handleTagUnselect(tag.id)}
-                  onClose={() => ctrl.handleTagUnselect(tag.id)}
+                  onClick={() => handleTagUnselect(tag.id)}
+                  onClose={() => handleTagUnselect(tag.id)}
                 >
                   {tag.title}
                 </Chip>
