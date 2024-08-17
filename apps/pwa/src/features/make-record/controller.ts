@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { computed, makeAutoObservable, observable, action } from 'mobx';
+import { makeAutoObservable, action } from 'mobx';
 import { TOKENS } from '../../lib/app/di';
 import { Cost } from '../../entities/cost';
 import { Income } from '../../entities/income';
@@ -31,6 +31,17 @@ export class MakeRecordController {
 
   @action
   start() {
-    this.state = State.TagsStep;
+    this.state = State.TypeOfRecordStep;
+  }
+
+  @action
+  next() {
+    switch (this.state) {
+      case State.TypeOfRecordStep:
+        this.state = State.TagsStep;
+        break;
+      default:
+        this.state = State.Idle;
+    }
   }
 }

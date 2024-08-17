@@ -3,40 +3,33 @@ import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { observer } from 'mobx-react-lite';
-import { useController } from '../../lib/hooks/useController';
+import { useController } from '../../../lib/hooks/useController';
 import { TagsListController } from './controller';
 import styles from './styles.module.css';
 import { getTagColor } from './helpers';
-import { useFormContext } from 'react-hook-form';
-import { EntityType } from '../../entities/tag';
+import { EntityType } from '../../../entities/tag';
 
 export interface TagsListProps {
   type: TagsListController['type'];
+  onChange(selectedTags: TagsListController['selectedTags']): void;
 }
-
-export const PROPERTY_NAME = 'selectedTags';
 
 export const TagsList = observer((props: TagsListProps) => {
   const ctrl = useController(TagsListController);
   ctrl.type = props.type;
-  const { setValue, getValues } = useFormContext<{
-    [PROPERTY_NAME]: EntityType[];
-  }>();
-  ctrl.selectedTags = getValues(PROPERTY_NAME);
 
   const handleTagSelect = (tag: EntityType['id']) => {
     const tagEntity = ctrl.getTagById(tag);
 
     if (tagEntity) {
-      setValue(PROPERTY_NAME, [...ctrl.selectedTags, tagEntity]);
+      ctrl.selectedTags = [...ctrl.selectedTags, tagEntity];
+      props.onChange(ctrl.selectedTags);
     }
   };
 
   const handleTagUnselect = (tag: EntityType['id']) => {
-    setValue(
-      PROPERTY_NAME,
-      ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag),
-    );
+    ctrl.selectedTags = ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag);
+    props.onChange(ctrl.selectedTags);
   };
 
   return (

@@ -1,10 +1,10 @@
 import { makeAutoObservable, action, computed } from 'mobx';
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { Tag, EntityType } from '../../entities/tag';
-import { User } from '../../entities/user';
-import { TOKENS } from '../../lib/app/di';
-import { ScenarioRunner } from '../../services/scenarioRunner';
+import { Tag, EntityType } from '../../../entities/tag';
+import { User } from '../../../entities/user';
+import { TOKENS } from '../../../lib/app/di';
+import { ScenarioRunner } from '../../../services/scenarioRunner';
 import { assert } from 'ts-essentials';
 
 @provide(TagsListController)
