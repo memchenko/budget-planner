@@ -38,6 +38,9 @@ export class MakeRecordController {
   next() {
     switch (this.state) {
       case State.TypeOfRecordStep:
+        this.state = State.AmountStep;
+        break;
+      case State.AmountStep:
         this.state = State.TagsStep;
         break;
       default:
