@@ -29,6 +29,14 @@ export const getTitle = (state: State) => {
   }
 };
 
+export const getNextButtonTitle = (state: State) => {
+  if (state === State.TagsStep) {
+    return 'Finish';
+  } else {
+    return 'Next';
+  }
+};
+
 export const shouldEnableNextButton = (
   state: State,
   getValue: <K extends keyof FormValues>(key: K) => FormValues[K],
@@ -44,5 +52,20 @@ export const shouldEnableNextButton = (
       return getValue(FUND_PROPERTY_NAME)?.length ?? -1 > 0;
     default:
       return false;
+  }
+};
+
+export const getSelectedKey = (state: State) => {
+  switch (state) {
+    case State.TypeOfRecordStep:
+      return '1';
+    case State.AmountStep:
+      return '2';
+    case State.FundStep:
+      return '3';
+    case State.TagsStep:
+      return '4';
+    default:
+      return '';
   }
 };

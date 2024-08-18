@@ -50,4 +50,7 @@ export class MakeRecordController {
         this.state = State.Idle;
     }
   }
+
+  @action
+  finish() {}
 }
