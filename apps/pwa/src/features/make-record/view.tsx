@@ -9,13 +9,20 @@ import { MakeRecordController, State } from './controller';
 import styles from './styles.module.css';
 import { useForm, Controller } from 'react-hook-form';
 import { TypeOfRecord } from './type-of-record';
-import { TAGS_LIST_PROPERTY_NAME, TYPE_OF_RECORD_PROPERTY_NAME, AMOUNT_PROPERTY_NAME } from './constants';
+import {
+  TAGS_LIST_PROPERTY_NAME,
+  TYPE_OF_RECORD_PROPERTY_NAME,
+  AMOUNT_PROPERTY_NAME,
+  FUND_PROPERTY_NAME,
+} from './constants';
 import { Input } from '@nextui-org/input';
+import { FundsList } from './funds-list';
 
 const defaultValues: FormValues = {
   [TAGS_LIST_PROPERTY_NAME]: [],
   [TYPE_OF_RECORD_PROPERTY_NAME]: 'cost',
   [AMOUNT_PROPERTY_NAME]: 0,
+  [FUND_PROPERTY_NAME]: null,
 };
 
 export const MakeRecord = observer(() => {
@@ -70,6 +77,7 @@ export const MakeRecord = observer(() => {
               )}
             />
           )}
+          {ctrl.state === State.FundStep && <FundsList onChange={setValue.bind(form, FUND_PROPERTY_NAME)} />}
         </CardBody>
         {ctrl.state !== State.Idle && (
           <CardFooter className="flex justify-end gap-2">

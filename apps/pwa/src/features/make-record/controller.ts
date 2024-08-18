@@ -41,6 +41,9 @@ export class MakeRecordController {
         this.state = State.AmountStep;
         break;
       case State.AmountStep:
+        this.state = State.FundStep;
+        break;
+      case State.FundStep:
         this.state = State.TagsStep;
         break;
       default:
