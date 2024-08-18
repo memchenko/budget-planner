@@ -52,5 +52,10 @@ export class MakeRecordController {
   }
 
   @action
+  forceStep(state: State) {
+    this.state = state;
+  }
+
+  @action
   finish() {}
 }

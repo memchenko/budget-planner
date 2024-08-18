@@ -17,7 +17,8 @@ import {
 } from './constants';
 import { Input } from '@nextui-org/input';
 import { FundsList } from './funds-list';
-import { Accordion, AccordionItem } from '@nextui-org/accordion';
+import { Accordion, AccordionItem, AccordionProps } from '@nextui-org/accordion';
+import cn from 'classnames';
 
 const defaultValues: FormValues = {
   [TAGS_LIST_PROPERTY_NAME]: [],
@@ -26,11 +27,14 @@ const defaultValues: FormValues = {
   [FUND_PROPERTY_NAME]: null,
 };
 
+const possibleSteps = new Set(Object.values(State).filter((value) => typeof value === 'number'));
+
 export const MakeRecord = observer(() => {
   const ctrl = useController(MakeRecordController);
   const form = useForm<FormValues>({
     defaultValues,
   });
+
   const { setValue, getValues, watch, reset, control } = form;
 
   const typeOfRecord = getValues(TYPE_OF_RECORD_PROPERTY_NAME);
@@ -42,12 +46,33 @@ export const MakeRecord = observer(() => {
     ctrl.reset();
     reset(defaultValues);
   };
+  const handleAccordionSelection: AccordionProps['onSelectionChange'] = (keys) => {
+    if (keys === 'all') {
+      return;
+    }
+
+    const key = Number(keys.values().next().value);
+
+    if (possibleSteps.has(key)) {
+      ctrl.forceStep(key);
+    }
+  };
 
   const accordionItems = [
-    <AccordionItem key="1" startContent="1." className={styles.itemContent} title={getTitle(State.TypeOfRecordStep)}>
+    <AccordionItem
+      key={State.TypeOfRecordStep}
+      startContent="1."
+      className={cn({ [styles.itemContent]: ctrl.state === State.TypeOfRecordStep })}
+      title={getTitle(State.TypeOfRecordStep)}
+    >
       <TypeOfRecord defaultValue={typeOfRecord} onChange={setValue.bind(form, TYPE_OF_RECORD_PROPERTY_NAME)} />
     </AccordionItem>,
-    <AccordionItem key="2" startContent="2." className={styles.itemContent} title={getTitle(State.AmountStep)}>
+    <AccordionItem
+      key={State.AmountStep}
+      startContent="2."
+      className={cn({ [styles.itemContent]: ctrl.state === State.AmountStep })}
+      title={getTitle(State.AmountStep)}
+    >
       <Controller
         name={AMOUNT_PROPERTY_NAME}
         control={control}
@@ -69,9 +94,9 @@ export const MakeRecord = observer(() => {
       />
     </AccordionItem>,
     <AccordionItem
-      key="4"
+      key={State.TagsStep}
       startContent={shouldIncludeFundStep ? '4.' : '3.'}
-      className={styles.itemContent}
+      className={cn({ [styles.itemContent]: ctrl.state === State.TagsStep })}
       title={getTitle(State.TagsStep)}
     >
       <TagsList type={typeOfRecord} onChange={setValue.bind(form, TAGS_LIST_PROPERTY_NAME)} />
@@ -82,7 +107,12 @@ export const MakeRecord = observer(() => {
     accordionItems.splice(
       2,
       0,
-      <AccordionItem key="3" startContent="3." className={styles.itemContent} title={getTitle(State.FundStep)}>
+      <AccordionItem
+        key={State.FundStep}
+        startContent="3."
+        className={cn({ [styles.itemContent]: ctrl.state === State.FundStep })}
+        title={getTitle(State.FundStep)}
+      >
         <FundsList onChange={setValue.bind(form, FUND_PROPERTY_NAME)} />
       </AccordionItem>,
     );
@@ -90,7 +120,7 @@ export const MakeRecord = observer(() => {
 
   return (
     <div className={styles.makeRecord}>
-      <Card isBlurred classNames={{ base: styles.card }}>
+      <Card classNames={{ base: styles.card }}>
         {ctrl.state !== State.Idle && <CardHeader className="text-large uppercase">{getTitle(ctrl.state)}</CardHeader>}
         <CardBody>
           {ctrl.state === State.Idle && (
@@ -100,7 +130,7 @@ export const MakeRecord = observer(() => {
           )}
 
           {ctrl.state !== State.Idle && (
-            <Accordion selectedKeys={[getSelectedKey(ctrl.state)]} className="bg-background">
+            <Accordion selectedKeys={[getSelectedKey(ctrl.state)]} onSelectionChange={handleAccordionSelection}>
               {accordionItems}
             </Accordion>
           )}
