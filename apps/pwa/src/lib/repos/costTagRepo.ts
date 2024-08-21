@@ -1,12 +1,11 @@
-import { inject } from 'inversify';
-import { provide } from 'inversify-binding-decorators';
+import { inject, injectable } from 'inversify';
 import { when } from 'mobx';
 import isNil from 'lodash/isNil';
 import { Repo, RepoFilters, entities } from '../../../../../libs/core';
 import { TOKENS } from '../../lib/app/di';
 import { Dictionaries } from '../../entities/dictionaries';
 
-@provide(TOKENS.CostTagRepo)
+@injectable()
 export class CostTagRepo implements Repo<entities.CostTag> {
   constructor(
     @inject(TOKENS.DictionariesStore)

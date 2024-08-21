@@ -1,21 +1,14 @@
-import { useState } from 'react';
 import { ButtonGroup, Button } from '@nextui-org/button';
 
 export type TypeOfRecordValue = 'income' | 'cost';
 
 export interface TypeOfRecordProps {
-  defaultValue: TypeOfRecordValue;
+  value: TypeOfRecordValue;
   onChange(value: TypeOfRecordValue): void;
 }
 
 export const TypeOfRecord = (props: TypeOfRecordProps) => {
-  const { defaultValue, onChange } = props;
-  const [value, setValue] = useState<TypeOfRecordValue>(defaultValue);
-
-  const handleButtonClick = (value: TypeOfRecordValue) => {
-    setValue(value);
-    onChange(value);
-  };
+  const { value, onChange } = props;
 
   return (
     <ButtonGroup fullWidth size="lg">
@@ -23,7 +16,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         className="uppercase"
         variant={value === 'income' ? 'bordered' : 'ghost'}
         color={value === 'income' ? 'success' : 'default'}
-        onClick={handleButtonClick.bind(null, 'income')}
+        onClick={onChange.bind(null, 'income')}
       >
         Income
       </Button>
@@ -31,7 +24,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         className="uppercase"
         variant={value === 'cost' ? 'bordered' : 'ghost'}
         color={value === 'cost' ? 'danger' : 'default'}
-        onClick={handleButtonClick.bind(null, 'cost')}
+        onClick={onChange.bind(null, 'cost')}
       >
         Expense
       </Button>

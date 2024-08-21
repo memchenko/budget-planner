@@ -4,48 +4,31 @@ import { PrimaryButton } from '../../lib/ui/primary-button';
 import { Button } from '../../lib/ui/button';
 import { useController } from '../../lib/hooks/useController';
 import { TagsList } from './tags-list';
-import { getTitle, shouldEnableNextButton, FormValues, getNextButtonTitle, getSelectedKey } from './helpers';
-import { MakeRecordController, State } from './controller';
+import { getTitle, getNextButtonTitle, getSelectedKey } from './helpers';
+import { MakeRecordController } from './controller';
 import styles from './styles.module.css';
-import { useForm, Controller } from 'react-hook-form';
 import { TypeOfRecord } from './type-of-record';
 import {
   TAGS_LIST_PROPERTY_NAME,
   TYPE_OF_RECORD_PROPERTY_NAME,
   AMOUNT_PROPERTY_NAME,
   FUND_PROPERTY_NAME,
+  State,
+  possibleSteps,
 } from './constants';
 import { Input } from '@nextui-org/input';
 import { FundsList } from './funds-list';
 import { Accordion, AccordionItem, AccordionProps } from '@nextui-org/accordion';
 import cn from 'classnames';
 
-const defaultValues: FormValues = {
-  [TAGS_LIST_PROPERTY_NAME]: [],
-  [TYPE_OF_RECORD_PROPERTY_NAME]: 'cost',
-  [AMOUNT_PROPERTY_NAME]: 0,
-  [FUND_PROPERTY_NAME]: null,
-};
-
-const possibleSteps = new Set(Object.values(State).filter((value) => typeof value === 'number'));
-
 export const MakeRecord = observer(() => {
   const ctrl = useController(MakeRecordController);
-  const form = useForm<FormValues>({
-    defaultValues,
-  });
 
-  const { setValue, getValues, watch, reset, control } = form;
-
-  const typeOfRecord = getValues(TYPE_OF_RECORD_PROPERTY_NAME);
-  const isNextButtonDisabled = !shouldEnableNextButton(ctrl.state, watch);
+  const typeOfRecord = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME];
+  const isNextButtonDisabled = !ctrl.shouldEnableNextButton;
   const nextButtonTitle = getNextButtonTitle(ctrl.state);
-  const shouldIncludeFundStep = watch(TYPE_OF_RECORD_PROPERTY_NAME) === 'cost';
+  const shouldIncludeFundStep = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME] === 'cost';
 
-  const handleReset = () => {
-    ctrl.reset();
-    reset(defaultValues);
-  };
   const handleAccordionSelection: AccordionProps['onSelectionChange'] = (keys) => {
     if (keys === 'all') {
       return;
@@ -65,7 +48,7 @@ export const MakeRecord = observer(() => {
       className={cn({ [styles.itemContent]: ctrl.state === State.TypeOfRecordStep })}
       title={getTitle(State.TypeOfRecordStep)}
     >
-      <TypeOfRecord defaultValue={typeOfRecord} onChange={setValue.bind(form, TYPE_OF_RECORD_PROPERTY_NAME)} />
+      <TypeOfRecord value={typeOfRecord} onChange={ctrl.setValue.bind(ctrl, TYPE_OF_RECORD_PROPERTY_NAME)} />
     </AccordionItem>,
     <AccordionItem
       key={State.AmountStep}
@@ -73,24 +56,18 @@ export const MakeRecord = observer(() => {
       className={cn({ [styles.itemContent]: ctrl.state === State.AmountStep })}
       title={getTitle(State.AmountStep)}
     >
-      <Controller
-        name={AMOUNT_PROPERTY_NAME}
-        control={control}
-        render={({ field: { value, onChange, ...field } }) => (
-          <Input
-            {...field}
-            type="number"
-            step="0.01"
-            min="0"
-            label="Amount"
-            placeholder="0.00"
-            size="lg"
-            value={String(value)}
-            onChange={(event) => {
-              onChange(parseFloat(event.target.value));
-            }}
-          />
-        )}
+      <Input
+        autoFocus
+        type="number"
+        step="0.01"
+        min="0"
+        label="Amount"
+        placeholder="0.00"
+        size="lg"
+        value={String(ctrl.values[AMOUNT_PROPERTY_NAME])}
+        onChange={(event) => {
+          ctrl.setValue(AMOUNT_PROPERTY_NAME, parseFloat(event.target.value));
+        }}
       />
     </AccordionItem>,
     <AccordionItem
@@ -99,7 +76,7 @@ export const MakeRecord = observer(() => {
       className={cn({ [styles.itemContent]: ctrl.state === State.TagsStep })}
       title={getTitle(State.TagsStep)}
     >
-      <TagsList type={typeOfRecord} onChange={setValue.bind(form, TAGS_LIST_PROPERTY_NAME)} />
+      <TagsList type={typeOfRecord} onChange={ctrl.setValue.bind(ctrl, TAGS_LIST_PROPERTY_NAME)} />
     </AccordionItem>,
   ];
 
@@ -113,7 +90,7 @@ export const MakeRecord = observer(() => {
         className={cn({ [styles.itemContent]: ctrl.state === State.FundStep })}
         title={getTitle(State.FundStep)}
       >
-        <FundsList onChange={setValue.bind(form, FUND_PROPERTY_NAME)} />
+        <FundsList onChange={ctrl.setValue.bind(ctrl, FUND_PROPERTY_NAME)} />
       </AccordionItem>,
     );
   }
@@ -138,7 +115,7 @@ export const MakeRecord = observer(() => {
 
         {ctrl.state !== State.Idle && (
           <CardFooter className="flex justify-end gap-2">
-            <Button variant="faded" className="flex-1" onClick={handleReset}>
+            <Button variant="faded" className="flex-1" onClick={ctrl.reset}>
               Cancel
             </Button>
             <PrimaryButton

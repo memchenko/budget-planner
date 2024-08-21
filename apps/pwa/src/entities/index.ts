@@ -8,10 +8,10 @@ import { User } from './user';
 import { Dictionaries } from './dictionaries';
 
 export const entitiesModule = new ContainerModule((bind) => {
-  bind(TOKENS.CostStore).to(Cost);
-  bind(TOKENS.FundStore).to(Fund);
-  bind(TOKENS.IncomeStore).to(Income);
-  bind(TOKENS.TagStore).to(Tag);
-  bind(TOKENS.UserStore).to(User);
-  bind(TOKENS.DictionariesStore).to(Dictionaries);
+  bind(TOKENS.CostStore).to(Cost).inSingletonScope();
+  bind(TOKENS.FundStore).to(Fund).inSingletonScope();
+  bind(TOKENS.IncomeStore).to(Income).inSingletonScope();
+  bind(TOKENS.TagStore).to(Tag).inSingletonScope();
+  bind(TOKENS.UserStore).to(User).inSingletonScope();
+  bind(TOKENS.DictionariesStore).to(Dictionaries).inSingletonScope();
 });

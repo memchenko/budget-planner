@@ -11,9 +11,9 @@ export const reposModule = new ContainerModule((bind) => {
     const providerTokenKey = `${capitalize(entityName)}Repo` as keyof typeof TOKENS;
     const providerToken = TOKENS[providerTokenKey];
 
-    bind(providerToken).to(buildRepo({ entityName }));
+    bind(providerToken).to(buildRepo({ entityName })).inSingletonScope();
   });
 
-  bind<Repo<entities.CostTag>>(TOKENS.CostTagRepo).to(CostTagRepo);
-  bind<Repo<entities.IncomeTag>>(TOKENS.IncomeTagRepo).to(IncomeTagRepo);
+  bind<Repo<entities.CostTag>>(TOKENS.CostTagRepo).to(CostTagRepo).inSingletonScope();
+  bind<Repo<entities.IncomeTag>>(TOKENS.IncomeTagRepo).to(IncomeTagRepo).inSingletonScope();
 });
