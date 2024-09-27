@@ -1,7 +1,5 @@
 ## Plans
 
-- Add cost
-- Add income
 - Menu
 - connected profiles
 - synchronized fund
