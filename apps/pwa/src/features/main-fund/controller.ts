@@ -3,7 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable } from 'mobx';
 import { Fund } from '../../entities/fund';
 import { TOKENS } from '../../lib/app/di';
-import { ScenarioRunner } from '../../services/scenarioRunner';
+import { ScenarioRunner } from '../../services/scenario-runner';
 import { asMoney } from '../../../../../libs/formatting/money';
 
 @provide(MainFundController)

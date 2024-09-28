@@ -12,7 +12,7 @@ import {
   defaultValues,
 } from './constants';
 import { FormValues, formSchema } from './schema';
-import { ScenarioRunner } from '../../services/scenarioRunner';
+import { ScenarioRunner } from '../../services/scenario-runner';
 
 @provide(MakeRecordController)
 export class MakeRecordController {

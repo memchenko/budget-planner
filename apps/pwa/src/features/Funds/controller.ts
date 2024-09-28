@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { Fund } from '../../entities/fund';
 import { User } from '../../entities/user';
 import { TOKENS } from '../../lib/app/di';
-import { ScenarioRunner } from '../../services/scenarioRunner';
+import { ScenarioRunner } from '../../services/scenario-runner';
 
 export enum Mode {
   View = 'view',

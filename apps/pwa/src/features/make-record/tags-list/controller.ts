@@ -4,7 +4,7 @@ import { provide } from 'inversify-binding-decorators';
 import { Tag, EntityType } from '../../../entities/tag';
 import { User } from '../../../entities/user';
 import { TOKENS } from '../../../lib/app/di';
-import { ScenarioRunner } from '../../../services/scenarioRunner';
+import { ScenarioRunner } from '../../../services/scenario-runner';
 import { assert } from 'ts-essentials';
 
 @provide(TagsListController)

@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
-import { ScenarioRunner, ScenarioPayloadMap } from '../../services/scenarioRunner';
+import { ScenarioRunner, ScenarioPayloadMap } from '../../services/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
 import { User } from '../../entities/user';
