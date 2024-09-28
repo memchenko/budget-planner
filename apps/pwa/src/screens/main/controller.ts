@@ -2,7 +2,7 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { reaction } from 'mobx';
 import { User } from '../../entities/user';
-import { ScenarioRunner } from '../../services/scenario-runner';
+import { ScenarioRunner } from '../../modules/scenario-runner';
 import { TOKENS } from '../../lib/app/di';
 
 @provide(MainController)

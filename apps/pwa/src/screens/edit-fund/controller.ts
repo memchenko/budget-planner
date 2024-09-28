@@ -3,7 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
 import { assert } from 'ts-essentials';
-import { ScenarioRunner, ScenarioPayloadMap } from '../../services/scenario-runner';
+import { ScenarioRunner, ScenarioPayloadMap } from '../../modules/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
 import { User } from '../../entities/user';

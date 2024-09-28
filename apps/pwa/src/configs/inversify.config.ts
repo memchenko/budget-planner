@@ -3,7 +3,7 @@ import { buildProviderModule } from 'inversify-binding-decorators';
 import { scenariosModule } from '../../../../libs/core';
 import { reposModule } from '../lib/repos';
 import { entitiesModule } from '../entities';
-import { ScenarioRunner } from '../services/scenario-runner';
+import { ScenarioRunner } from '../modules/scenario-runner';
 
 export const container = new Container({ defaultScope: 'Singleton' });
 
