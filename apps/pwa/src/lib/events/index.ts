@@ -1,18 +1,25 @@
-import * as cost from '../../entities/cost';
-import * as income from '../../entities/income';
-import * as tag from '../../entities/tag';
+import { ContainerModule } from 'inversify';
 
-export type CostFromCollaborator = {
-  typeOfUpdate: 'new-cost';
-  payload: cost.EntityType;
-}
+import { CostFromCollaborator, IncomeFromCollaborator, TagFromCollaborator } from './types';
+import { EVENTS } from './constants';
+import { TOKENS } from '../app/di';
+import { EventBus } from '../../modules/event-bus';
 
-export type IncomeFromCollaborator = {
-  typeOfUpdate: 'new-income';
-  payload: income.EntityType;
-}
+export const eventsModule = new ContainerModule((bind) => {
+  const eventBus = new EventBus();
 
-export type TagFromCollaborator = {
-  typeOfUpdate: 'new-tag';
-  payload: tag.EntityType;
-}
+  bind(TOKENS.EventBus).toConstantValue(eventBus);
+
+  bind(TOKENS.CostFromCollaborator).toConstantValue(
+    eventBus.register<CostFromCollaborator>(EVENTS.COST_FROM_COLLABORATOR),
+  );
+  bind(TOKENS.IncomeFromCollaborator).toConstantValue(
+    eventBus.register<IncomeFromCollaborator>(EVENTS.INCOME_FROM_COLLABORATOR),
+  );
+  bind(TOKENS.TagFromCollaborator).toConstantValue(
+    eventBus.register<TagFromCollaborator>(EVENTS.TAG_FROM_COLLABORATOR),
+  );
+});
+
+export { EVENTS };
+export * from './types';
