@@ -1,9 +1,13 @@
-import { User } from './User';
+import { z } from 'zod';
 
-export type Income = {
-  id: string;
-  userId: User['id'];
-  note: string | null;
-  amount: number;
-  date: number;
-};
+import { userSchema } from './User';
+
+export const incomeSchema = z.object({
+  id: z.string(),
+  userId: userSchema.pick({ id: true }),
+  note: z.string().nullable(),
+  amount: z.number().positive(),
+  date: z.number().int(),
+});
+
+export type Income = z.infer<typeof incomeSchema>;

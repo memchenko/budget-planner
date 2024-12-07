@@ -8,9 +8,13 @@ export const TOKENS = {
   IncomeStore: Symbol.for('IncomeStore'),
   TagStore: Symbol.for('TagStore'),
   FundStore: Symbol.for('FundStore'),
-  
-  // Events
+
+  // Modules
   EventBus: Symbol.for('EventBus'),
+  WebRTC: Symbol.for('WebRTC'),
+  Synchronizer: Symbol.for('Synchronizer'),
+
+  // Events
   CostFromCollaborator: Symbol.for('CostFromCollaborator'),
   IncomeFromCollaborator: Symbol.for('IncomeFromCollaborator'),
   TagFromCollaborator: Symbol.for('TagFromCollaborator'),

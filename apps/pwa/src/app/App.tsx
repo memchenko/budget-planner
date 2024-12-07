@@ -7,10 +7,11 @@ import './App.css';
 import { Main } from '../screens/main';
 import { AddFund } from '../screens/add-fund';
 import { EditFund } from '../screens/edit-fund';
+import { P2PSynchronization } from '../screens/p2p-synchronization';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { pages } from '../lib/app/pages';
 
-const NextUI = (props: PropsWithChildren<{}>) => {
+const NextUI = (props: PropsWithChildren<unknown>) => {
   const navigate = useNavigate();
 
   return (
@@ -34,6 +35,7 @@ export function App() {
             <Route path={pages.index} element={<Main />} />
             <Route path={pages.addFund} element={<AddFund />} />
             <Route path={pages.editFund} element={<EditFund />} />
+            <Route path={pages.p2pSynchronization} element={<P2PSynchronization />} />
           </Routes>
         </ErrorBoundary>
       </NextUI>

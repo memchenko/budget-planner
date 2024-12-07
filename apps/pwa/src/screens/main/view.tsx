@@ -25,6 +25,7 @@ export const Main = observer(() => {
       <MainFund />
       <Funds onFundClick={handleFundClick} onAddNewFund={handleAddNewFundClick} />
       <MakeRecord />
+      <button onClick={() => navigate(pages.p2pSynchronization)}>Synchronize</button>
     </Screen>
   );
 });

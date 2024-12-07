@@ -1,8 +1,12 @@
-import { User } from './User';
+import { z } from 'zod';
 
-export type Tag = {
-  id: string;
-  userId: User['id'];
-  type: 'cost' | 'income';
-  title: string;
-};
+import { userSchema } from './User';
+
+export const tagSchema = z.object({
+  id: z.string(),
+  userId: userSchema.pick({ id: true }),
+  type: z.enum(['cost', 'income']),
+  title: z.string(),
+});
+
+export type Tag = z.infer<typeof tagSchema>;

@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, createContext, PropsWithChildren } from 'react';
 
-export interface ErrorBoundaryProps extends PropsWithChildren<{}> {
+export interface ErrorBoundaryProps extends PropsWithChildren<unknown> {
   fallback?: React.ReactNode;
 }
 
@@ -34,8 +34,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   getFallback() {
     const { fallback } = this.props;
+    const { error } = this.state;
 
-    return fallback ?? 'Something went wrong!';
+    return fallback ?? String(error);
   }
 
   reset = () => {

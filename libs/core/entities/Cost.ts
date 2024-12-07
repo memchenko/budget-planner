@@ -1,11 +1,15 @@
-import { User } from './User';
-import { Fund } from './Fund';
+import { z } from 'zod';
 
-export type Cost = {
-  id: string;
-  userId: User['id'];
-  fundId: Fund['id'];
-  note: string | null;
-  amount: number;
-  date: number;
-};
+import { userSchema } from './User';
+import { fundSchema } from './Fund';
+
+export const costSchema = z.object({
+  id: z.string(),
+  userId: userSchema.pick({ id: true }),
+  fundId: fundSchema.pick({ id: true }),
+  note: z.string().nullable(),
+  amount: z.number().positive(),
+  date: z.number().int(),
+});
+
+export type Cost = z.infer<typeof costSchema>;

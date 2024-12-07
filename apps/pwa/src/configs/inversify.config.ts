@@ -5,9 +5,14 @@ import { reposModule } from '../lib/repos';
 import { entitiesModule } from '../entities';
 import { ScenarioRunner } from '../modules/scenario-runner';
 import { eventsModule } from '../lib/events';
+import { TOKENS } from '../lib/app/di';
+import { WebRTC } from '../modules/webrtc';
+import { webRtcMessageSchema } from '../lib/schemas/webrtc';
 
 export const container = new Container({ defaultScope: 'Singleton' });
 
 container.load(buildProviderModule(), entitiesModule, reposModule, scenariosModule, eventsModule);
 
 container.bind(ScenarioRunner).toSelf();
+
+container.bind(TOKENS.WebRTC).toConstantValue(new WebRTC(webRtcMessageSchema));

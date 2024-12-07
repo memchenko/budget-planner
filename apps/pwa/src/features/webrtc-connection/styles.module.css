@@ -1,0 +1,10 @@
+.webrtcConnection {
+    display: block;
+}
+
+.actions {}
+
+.proceed {
+    position: fixed;
+    bottom: 0;
+}
