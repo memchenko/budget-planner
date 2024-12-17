@@ -1,7 +1,7 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, observable, action } from 'mobx';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { Subject, Subscription } from 'rxjs';
 
 @provide(MainController)

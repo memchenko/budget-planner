@@ -4,13 +4,13 @@ import { Navigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@nextui-org/input';
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
-import { Switch } from '~/lib/ui/switch';
-import { CardTitle } from '~/lib/ui/card-title';
-import { Hint } from '~/lib/ui/hint';
-import { PrimaryButton } from '~/lib/ui/primary-button';
+import { Switch } from '~/shared/ui/switch';
+import { CardTitle } from '~/shared/ui/card-title';
+import { Hint } from '~/shared/ui/hint';
+import { PrimaryButton } from '~/shared/ui/primary-button';
 import { Screen } from '~/layouts/screen';
 import { AddFundController } from './controller';
-import { useController } from '~/lib/hooks/useController';
+import { useController } from '~/shared/hooks/useController';
 import { z } from 'zod';
 
 import { schema } from './schema';

@@ -4,7 +4,7 @@ import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '~/entities/fund';
 import { User } from '~/entities/user';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { ScenarioRunner } from '~/modules/scenario-runner';
 
 export enum Mode {

@@ -3,7 +3,7 @@ import { Autocomplete, AutocompleteItem } from '@nextui-org/autocomplete';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { observer } from 'mobx-react-lite';
-import { useController } from '~/lib/hooks/useController';
+import { useController } from '~/shared/hooks/useController';
 import { TagsListController } from './controller';
 import styles from './styles.module.css';
 import { getTagColor } from './helpers';

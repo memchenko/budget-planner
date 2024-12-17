@@ -2,7 +2,7 @@ import { useState, Fragment } from 'react';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort';
-import { GridDotsVerticalIcon } from '~/lib/ui/icons/GridDotsVertical';
+import { GridDotsVerticalIcon } from '~/shared/ui/icons/GridDotsVertical';
 import styles from './styles.module.css';
 
 export interface FundsOrderProps {

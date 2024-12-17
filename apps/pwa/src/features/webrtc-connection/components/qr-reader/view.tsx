@@ -1,7 +1,7 @@
 import { PropsWithChildren, useRef, useEffect, useState } from 'react';
 import QrScanner from 'qr-scanner';
 import styles from './styles.module.css';
-import { hasProperty } from '~/lib/type-guards.js';
+import { hasProperty } from '~/shared/type-guards.js';
 
 export interface QrReaderProps extends PropsWithChildren<unknown> {
   onRead: (data: string) => void;

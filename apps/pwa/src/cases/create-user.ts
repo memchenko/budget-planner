@@ -1,11 +1,11 @@
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { when, IReactionDisposer } from 'mobx';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { User } from '~/entities/user';
 import { EventBus } from '~/modules/event-bus';
 import { ScenarioRunner } from '~/modules/scenario-runner';
-import { EVENTS } from '~/lib/events';
+import { EVENTS } from '~/shared/events';
 
 @provide(CreateUser)
 export class CreateUser {

@@ -1,7 +1,7 @@
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { makeAutoObservable } from 'mobx';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import * as fund from '~/entities/fund';
 
 @provide(FundsListController)

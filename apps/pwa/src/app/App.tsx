@@ -9,7 +9,7 @@ import { AddFund } from '~/screens/add-fund';
 import { EditFund } from '~/screens/edit-fund';
 import { P2PSynchronization } from '~/screens/p2p-synchronization';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
-import { pages } from '~/lib/app/pages';
+import { pages } from '~/shared/app/pages';
 
 const NextUI = (props: PropsWithChildren<unknown>) => {
   const navigate = useNavigate();

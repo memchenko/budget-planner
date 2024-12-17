@@ -2,7 +2,7 @@ import { ContainerModule } from 'inversify';
 
 import { CostFromCollaborator, IncomeFromCollaborator, TagFromCollaborator } from './types';
 import { EVENTS } from './constants';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { EventBus } from '~/modules/event-bus';
 
 export const eventsModule = new ContainerModule((bind) => {

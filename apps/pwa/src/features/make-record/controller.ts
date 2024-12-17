@@ -1,7 +1,7 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, action, computed } from 'mobx';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { User } from '~/entities/user';
 import {
   AMOUNT_PROPERTY_NAME,

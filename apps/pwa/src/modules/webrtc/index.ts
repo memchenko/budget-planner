@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { z } from 'zod';
-import { matchesSchema } from '~/lib/type-guards';
+import { matchesSchema } from '~/shared/type-guards';
 import { assert } from 'ts-essentials';
 
 interface Events<M> {

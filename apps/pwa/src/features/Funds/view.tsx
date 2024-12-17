@@ -1,12 +1,12 @@
 import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
-import { CardTitle } from '~/lib/ui/card-title';
+import { CardTitle } from '~/shared/ui/card-title';
 import { observer } from 'mobx-react-lite';
-import { useController } from '~/lib/hooks/useController';
+import { useController } from '~/shared/hooks/useController';
 import { FundsController, Mode } from './controller';
 import { FundsState } from './components/funds-state';
 import { FundsOrder } from './components/funds-order';
 import { Menu } from './components/menu';
-import { Button } from '~/lib/ui/button';
+import { Button } from '~/shared/ui/button';
 
 export interface FundsProps {
   onFundClick: (id: string) => void;

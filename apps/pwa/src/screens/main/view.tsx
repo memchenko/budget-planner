@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { CircularProgress } from '@nextui-org/progress';
-import { pages } from '~/lib/app/pages';
-import { useController } from '~/lib/hooks/useController';
+import { pages } from '~/shared/app/pages';
+import { useController } from '~/shared/hooks/useController';
 import { MainController } from './controller';
 import { Wallet } from '~/features/wallets';
 import { Funds } from '~/features/funds';

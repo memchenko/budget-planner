@@ -1,6 +1,6 @@
 import { ContainerModule } from 'inversify';
 import capitalize from 'lodash/capitalize';
-import { TOKENS } from '~/lib/app/di';
+import { TOKENS } from '~/shared/app/di';
 import { buildRepo } from './buildRepos';
 import { Repo, entities } from '#/libs/core';
 import { CostTagRepo } from './costTagRepo';

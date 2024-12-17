@@ -1,9 +1,9 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, action, makeAutoObservable } from 'mobx';
-import { TOKENS } from '~/lib/app/di.js';
+import { TOKENS } from '~/shared/app/di.js';
 import { WebRTC } from '~/modules/webrtc/index.js';
-import { WebRTCMessage, newRecordEventTypeSchema } from '~/lib/schemas/webrtc';
+import { WebRTCMessage, newRecordEventTypeSchema } from '~/shared/schemas/webrtc';
 
 let counter = 0;
 
