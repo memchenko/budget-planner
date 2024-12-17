@@ -3,8 +3,8 @@ import { inject } from 'inversify';
 import { when, IReactionDisposer } from 'mobx';
 import { TOKENS } from '~/shared/app/di';
 import { User } from '~/entities/user';
-import { EventBus } from '~/modules/event-bus';
-import { ScenarioRunner } from '~/modules/scenario-runner';
+import { EventBus } from '~/shared/impl/event-bus';
+import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { EVENTS } from '~/shared/events';
 
 @provide(CreateUser)

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { container } from '~/configs/inversify.config';
+import { container } from '~/app/inversify.config';
 
 const cache: Map<any, any> = new Map();
 

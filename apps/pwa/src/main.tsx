@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './app/App.tsx';
-import './configs/inversify.config.ts';
+import './app/inversify.config.ts';
 import './styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
