@@ -1,11 +1,11 @@
 import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
-import { entities } from '../../../../libs/core';
+import { entities } from '#/libs/core';
 import { injectable, inject } from 'inversify';
 import { Cost } from './cost';
 import { Income } from './income';
 import { Dictionaries } from './dictionaries';
-import { TOKENS } from '../lib/app/di';
+import { TOKENS } from '~/lib/app/di';
 import { DateTime } from 'luxon';
 
 export type EntityType = entities.Tag & {

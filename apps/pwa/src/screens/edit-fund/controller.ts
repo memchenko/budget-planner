@@ -3,13 +3,13 @@ import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
 import { assert } from 'ts-essentials';
-import { ScenarioRunner, ScenarioPayloadMap } from '../../modules/scenario-runner';
+import { ScenarioRunner, ScenarioPayloadMap } from '~/modules/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User } from '../../entities/user';
-import { Fund, EntityType as FundEntity } from '../../entities/fund';
-import { TOKENS } from '../../lib/app/di';
-import { pages } from '../../lib/app/pages';
+import { User } from '~/entities/user';
+import { Fund, EntityType as FundEntity } from '~/entities/fund';
+import { TOKENS } from '~/lib/app/di';
+import { pages } from '~/lib/app/pages';
 import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/reject';
 import isNil from 'lodash/isNil';
@@ -21,7 +21,7 @@ export class EditFundController {
   fund!: FundEntity;
 
   constructor(
-    @inject(ScenarioRunner)
+    @inject(TOKENS.ScenarioRunner)
     private scenarioRunner: ScenarioRunner,
     @inject(TOKENS.UserStore)
     private userStore: User,

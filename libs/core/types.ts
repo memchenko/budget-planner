@@ -6,4 +6,5 @@ export const TOKENS = {
   TagRepo: Symbol.for('TagRepo'),
   CostTagRepo: Symbol.for('CostTagRepo'),
   IncomeTagRepo: Symbol.for('IncomeTagRepo'),
+  WalletRepo: Symbol.for('WalletRepo'),
 };

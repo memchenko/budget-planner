@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
 import { observer } from 'mobx-react-lite';
-import { PrimaryButton } from '../../lib/ui/primary-button';
-import { Button } from '../../lib/ui/button';
-import { useController } from '../../lib/hooks/useController';
+import { PrimaryButton } from '~/lib/ui/primary-button';
+import { Button } from '~/lib/ui/button';
+import { useController } from '~/lib/hooks/useController';
 import { TagsList } from './tags-list';
 import { getTitle, getNextButtonTitle, getSelectedKey } from './helpers';
 import { MakeRecordController } from './controller';

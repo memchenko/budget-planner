@@ -4,12 +4,12 @@ import { configurePersistable } from 'mobx-persist-store';
 import localForage from 'localforage';
 import { NextUIProvider } from '@nextui-org/react';
 import './App.css';
-import { Main } from '../screens/main';
-import { AddFund } from '../screens/add-fund';
-import { EditFund } from '../screens/edit-fund';
-import { P2PSynchronization } from '../screens/p2p-synchronization';
-import { ErrorBoundary } from '../components/ErrorBoundary';
-import { pages } from '../lib/app/pages';
+import { Main } from '~/screens/main';
+import { AddFund } from '~/screens/add-fund';
+import { EditFund } from '~/screens/edit-fund';
+import { P2PSynchronization } from '~/screens/p2p-synchronization';
+import { ErrorBoundary } from '~/components/ErrorBoundary';
+import { pages } from '~/lib/app/pages';
 
 const NextUI = (props: PropsWithChildren<unknown>) => {
   const navigate = useNavigate();

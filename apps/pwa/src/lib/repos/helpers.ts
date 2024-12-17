@@ -1,8 +1,8 @@
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
-import { RepoFilters } from '../../../../../libs/core';
+import { RepoFilters } from '#/libs/core';
 
-export const getOneByRepoFilters = <Entity extends {}>(all: Entity[], filters: RepoFilters<Entity>) => {
+export const getOneByRepoFilters = <Entity extends object>(all: Entity[], filters: RepoFilters<Entity>) => {
   if (isEmpty(filters)) {
     return null;
   }
@@ -18,7 +18,7 @@ export const getOneByRepoFilters = <Entity extends {}>(all: Entity[], filters: R
   );
 };
 
-export const getManyByRepoFilters = <Entity extends {}>(all: Entity[], filters: RepoFilters<Entity>) => {
+export const getManyByRepoFilters = <Entity extends object>(all: Entity[], filters: RepoFilters<Entity>) => {
   if (isEmpty(filters)) {
     return null;
   }

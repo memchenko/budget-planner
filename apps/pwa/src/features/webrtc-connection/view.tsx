@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { useController } from '../../lib/hooks/useController';
+import { useController } from '~/lib/hooks/useController';
 import { WebRTCConnectionController } from './controller';
 import styles from './styles.module.css';
-import { PrimaryButton } from '../../lib/ui/primary-button';
-import { Button } from '../../lib/ui/button';
+import { PrimaryButton } from '~/lib/ui/primary-button';
+import { Button } from '~/lib/ui/button';
 import { Qr } from './components/qr';
 import { QrReader } from './components/qr-reader';
 import { Progress } from '@nextui-org/progress';

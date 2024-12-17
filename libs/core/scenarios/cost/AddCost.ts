@@ -1,17 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '../../shared/types';
-import { Cost } from '../../entities/Cost';
-import { Fund } from '../../entities/Fund';
-import { Tag } from '../../entities/Tag';
-import { CostTag } from '../../entities/CostTag';
-import { TOKENS } from '../../types';
-import { BaseScenario } from '../BaseScenario';
-import { ScenarioError } from '../../errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
-import { assertEntity } from '../../shared/assertions';
-import { ENTITY_NAME } from '../../shared/constants';
+import { Repo } from '#/libs/core/shared/types';
+import { Cost } from '#/libs/core/entities/Cost';
+import { Fund } from '#/libs/core/entities/Fund';
+import { Tag } from '#/libs/core/entities/Tag';
+import { CostTag } from '#/libs/core/entities/CostTag';
+import { TOKENS } from '#/libs/core/types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
+import { assertEntity } from '#/libs/core/shared/assertions';
+import { ENTITY_NAME } from '#/libs/core/shared/constants';
 
 const CREATE_COST_TAG_ERROR = "Couldn't create some cost tags";
 

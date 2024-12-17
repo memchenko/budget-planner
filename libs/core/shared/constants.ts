@@ -8,4 +8,5 @@ export const ENTITY_NAME = {
   INCOME_CATEGORY: 'IncomeCategory',
   TAG: 'Tag',
   USER: 'User',
+  WALLET: 'Wallet',
 };

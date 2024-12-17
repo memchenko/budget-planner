@@ -1,11 +1,12 @@
 import { ContainerModule } from 'inversify';
-import { TOKENS } from '../lib/app/di';
+import { TOKENS } from '~/lib/app/di';
 import { Cost } from './cost';
 import { Fund } from './fund';
 import { Income } from './income';
 import { Tag } from './tag';
 import { User } from './user';
 import { Dictionaries } from './dictionaries';
+import { Wallet } from './wallet';
 
 export const entitiesModule = new ContainerModule((bind) => {
   bind(TOKENS.CostStore).to(Cost).inSingletonScope();
@@ -14,4 +15,5 @@ export const entitiesModule = new ContainerModule((bind) => {
   bind(TOKENS.TagStore).to(Tag).inSingletonScope();
   bind(TOKENS.UserStore).to(User).inSingletonScope();
   bind(TOKENS.DictionariesStore).to(Dictionaries).inSingletonScope();
+  bind(TOKENS.WalletStore).to(Wallet).inSingletonScope();
 });

@@ -3,13 +3,13 @@ import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '#/libs/core';
 import { injectable } from 'inversify';
 
-export type EntityType = entities.Fund & {
+export type EntityType = entities.Wallet & {
   createdAt: number;
   updatedAt: number;
 };
 
 @injectable()
-export class Fund {
+export class Wallet {
   @observable entries: EntityType[] = [];
 
   constructor() {
@@ -54,11 +54,6 @@ export class Fund {
   }
 
   @computed
-  get hasFunds() {
-    return this.entries.length > 0;
-  }
-
-  @computed
   get isReady() {
     return isHydrated(this);
   }
@@ -68,15 +63,15 @@ export class Fund {
     return this.entries;
   }
 
-  getFund(fundId: entities.Fund['id']) {
-    return this.entries.find((entry) => entry.id === fundId);
+  getWallet(walletId: entities.Wallet['id']) {
+    return this.entries.find((entry) => entry.id === walletId);
   }
 
-  getManyFunds(fundIds: entities.Fund['id'][]) {
-    return this.entries.filter((entry) => fundIds.includes(entry.id));
+  getManyWallets(walletIds: entities.Wallet['id'][]) {
+    return this.entries.filter((entry) => walletIds.includes(entry.id));
   }
 
-  getFundBalance(fundId: entities.Fund['id']) {
-    return this.getFund(fundId)?.balance ?? null;
+  getWalletBalance(walletId: entities.Wallet['id']) {
+    return this.getWallet(walletId)?.balance ?? null;
   }
 }

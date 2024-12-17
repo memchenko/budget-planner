@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 import { userSchema } from './User';
 
-export const tagSchema = z.object({
+export const walletSchema = z.object({
   id: z.string(),
   userId: userSchema.shape.id,
-  type: z.enum(['cost', 'income']),
   title: z.string(),
+  balance: z.number(),
 });
 
-export type Tag = z.infer<typeof tagSchema>;
+export type Wallet = z.infer<typeof walletSchema>;

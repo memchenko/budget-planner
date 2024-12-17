@@ -1,27 +1,25 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { reaction } from 'mobx';
-import { User } from '../../entities/user';
-import { ScenarioRunner } from '../../modules/scenario-runner';
-import { TOKENS } from '../../lib/app/di';
+import { makeAutoObservable, observable, action } from 'mobx';
+import { TOKENS } from '~/lib/app/di';
+import { Subject, Subscription } from 'rxjs';
 
 @provide(MainController)
 export class MainController {
-  constructor(
-    @inject(TOKENS.UserStore) private usersStore: User,
-    @inject(ScenarioRunner) private scenario: ScenarioRunner,
-  ) {
-    reaction(() => usersStore.isReady, this.onUserStoreReady.bind(this));
+  @observable isLoading = true;
+
+  private userReadySubscription: Subscription;
+
+  constructor(@inject(TOKENS.UserReady) private userReadyEvent: Subject<null>) {
+    makeAutoObservable(this, {}, { autoBind: true });
+
+    this.userReadySubscription = this.userReadyEvent.subscribe(this.handleStoresReady);
   }
 
-  onUserStoreReady() {
-    const users = this.usersStore.all;
+  @action
+  async handleStoresReady() {
+    this.userReadySubscription.unsubscribe();
 
-    if (this.usersStore.isReady && users.length === 0) {
-      this.scenario.execute({
-        scenario: 'CreateUser',
-        payload: {},
-      });
-    }
+    this.isLoading = false;
   }
 }

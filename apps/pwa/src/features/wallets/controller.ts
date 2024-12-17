@@ -1,17 +1,18 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable } from 'mobx';
-import { Fund } from '../../entities/fund';
-import { TOKENS } from '../../lib/app/di';
-import { ScenarioRunner } from '../../modules/scenario-runner';
-import { asMoney } from '../../../../../libs/formatting/money';
+import { Wallet } from '~/entities/wallet';
+import { TOKENS } from '~/lib/app/di';
+import { ScenarioRunner } from '~/modules/scenario-runner';
+import { asMoney } from '#/libs/formatting/money';
+import { assert } from 'ts-essentials';
 
-@provide(MainFundController)
-export class MainFundController {
+@provide(WalletController)
+export class WalletController {
   constructor(
-    @inject(TOKENS.FundStore)
-    private funds: Fund,
-    @inject(ScenarioRunner)
+    @inject(TOKENS.WalletStore)
+    private wallets: Wallet,
+    @inject(TOKENS.ScenarioRunner)
     private scenario: ScenarioRunner,
   ) {
     makeAutoObservable(
@@ -26,8 +27,16 @@ export class MainFundController {
   @observable newBalance: string | null = null;
   @observable newTitle: string | null = null;
 
+  @computed get wallet() {
+    const wallet = this.wallets.all[0];
+
+    assert(wallet, 'No wallet to displayy');
+
+    return wallet;
+  }
+
   @computed get balance() {
-    return this.funds.mainFundBalance;
+    return this.wallet.balance;
   }
 
   @computed get formattedBalance() {
@@ -35,7 +44,7 @@ export class MainFundController {
   }
 
   @computed get title() {
-    return this.funds.mainFund?.title ?? 'my wallet';
+    return this.wallet.title ?? 'my wallet';
   }
 
   @computed get isBalanceChangeMode() {
@@ -94,15 +103,15 @@ export class MainFundController {
 
   @action
   startChangingTitle() {
-    this.newTitle = this.funds.mainFund?.title ?? '';
+    this.newTitle = this.wallet.title ?? '';
   }
 
   @action
   confirmNewBalance() {
     this.scenario.execute({
-      scenario: 'UpdateFund',
+      scenario: 'UpdateWallet',
       payload: {
-        id: this.funds.mainFund?.id,
+        id: this.wallet.id,
         balance: Number(this.newBalance),
       },
     });
@@ -111,10 +120,12 @@ export class MainFundController {
 
   @action
   confirmNewTitle() {
+    assert(this.newTitle !== null, 'Title is not specified');
+
     this.scenario.execute({
-      scenario: 'UpdateFund',
+      scenario: 'UpdateWallet',
       payload: {
-        id: this.funds.mainFund?.id,
+        id: this.wallet.id,
         title: this.newTitle,
       },
     });

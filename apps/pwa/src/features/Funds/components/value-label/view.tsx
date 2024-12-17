@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { asMoney } from '../../../../../../../libs/formatting/money';
+import { asMoney } from '#/libs/formatting/money';
 
 export interface ValueLabelProps {
   capacity: number;

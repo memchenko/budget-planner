@@ -1,9 +1,9 @@
 import { injectable } from 'inversify';
 import { Scenario } from './types';
-import { ScenarioError } from '../errors/ScenarioError';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
 
 @injectable()
-export abstract class BaseScenario<P extends {}, R = void> implements Scenario<P, R> {
+export abstract class BaseScenario<P extends object, R = void> implements Scenario<P, R> {
   error: unknown;
   params!: P;
 

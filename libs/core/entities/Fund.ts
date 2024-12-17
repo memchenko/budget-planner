@@ -4,8 +4,7 @@ import { userSchema } from './User';
 
 export const fundSchema = z.object({
   id: z.string(),
-  isMain: z.boolean(),
-  userId: userSchema.pick({ id: true }),
+  userId: userSchema.shape.id,
   title: z.string(),
   balance: z.number(),
   priority: z.number().int().positive(),

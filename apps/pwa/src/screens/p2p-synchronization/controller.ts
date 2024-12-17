@@ -1,9 +1,9 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, action, makeAutoObservable } from 'mobx';
-import { TOKENS } from '../../lib/app/di.js';
-import { WebRTC } from '../../modules/webrtc/index.js';
-import { WebRTCMessage, newRecordEventTypeSchema } from '../../lib/schemas/webrtc';
+import { TOKENS } from '~/lib/app/di.js';
+import { WebRTC } from '~/modules/webrtc/index.js';
+import { WebRTCMessage, newRecordEventTypeSchema } from '~/lib/schemas/webrtc';
 
 let counter = 0;
 
@@ -31,6 +31,9 @@ export class P2PSynchronizationController {
         entity: 'user',
         value: {
           id: `${this.webrtc.isInitiator ? 'OFFERER' : 'ANSWERER'}: ${++counter}`,
+          firstName: '',
+          lastName: '',
+          avatarSrc: '',
         },
       },
     });
@@ -44,6 +47,9 @@ export class P2PSynchronizationController {
           entity: 'user',
           value: {
             id: `${this.webrtc.isInitiator ? 'OFFERER' : 'ANSWERER'}: ${++counter}`,
+            firstName: '',
+            lastName: '',
+            avatarSrc: '',
           },
         },
       });

@@ -4,8 +4,8 @@ import { incomeSchema } from './Income';
 import { tagSchema } from './Tag';
 
 export const incomeTagSchema = z.object({
-  incomeId: incomeSchema.pick({ id: true }),
-  tagId: tagSchema.pick({ id: true }),
+  incomeId: incomeSchema.shape.id,
+  tagId: tagSchema.shape.id,
 });
 
 export type IncomeTag = z.infer<typeof incomeTagSchema>;

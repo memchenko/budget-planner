@@ -1,4 +1,4 @@
-export interface Repo<Entity extends {}, Id extends keyof Entity | never = never> {
+export interface Repo<Entity extends object, Id extends keyof Entity | never = never> {
   create<P extends Omit<Entity, Id>>(params: P): Promise<Entity | null>;
 
   removeOneBy(filters: RepoFilters<Entity>): Promise<boolean>;
@@ -17,6 +17,6 @@ export interface Repo<Entity extends {}, Id extends keyof Entity | never = never
   ): Promise<Entity[] | null>;
 }
 
-export type RepoFilters<Entity extends {}> = Partial<{
+export type RepoFilters<Entity extends object> = Partial<{
   [Key in keyof Entity]: Entity[Key];
 }>;

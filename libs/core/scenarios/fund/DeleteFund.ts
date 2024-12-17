@@ -1,16 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
-import { Repo } from '../../shared/types';
-import { Fund } from '../../entities/Fund';
-import { User } from '../../entities/User';
-import { TOKENS } from '../../types';
-import { BaseScenario } from '../BaseScenario';
-import { ScenarioError } from '../../errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
-import { assertEntity } from '../../shared/assertions';
-import { ENTITY_NAME } from '../../shared/constants';
+import { Repo } from '#/libs/core/shared/types';
+import { Fund } from '#/libs/core/entities/Fund';
+import { User } from '#/libs/core/entities/User';
+import { TOKENS } from '#/libs/core/types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
+import { assertEntity } from '#/libs/core/shared/assertions';
+import { ENTITY_NAME } from '#/libs/core/shared/constants';
+import { Wallet } from '#/libs/core/entities/Wallet';
 
-const UPDATE_MAIN_FUND_ERROR = "Coudn't update main fund";
+const UPDATE_WALLET_ERROR = "Coudn't update wallet";
 const DELETE_FUND_ERROR = "Couldn't delete fund";
 
 export interface DeleteFundParams {
@@ -25,23 +26,25 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
   constructor(
     @inject(TOKENS.FundRepo)
     private fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.WalletRepo)
+    private walletRepo: Repo<Wallet, 'id'>,
   ) {
     super();
   }
 
-  private initialMainFundBalance: number | null = null;
+  private initialWalletBalance: number | null = null;
 
   async execute() {
-    const mainFund = await this.fundRepo.getOneBy({ userId: this.params.userId, isMain: true });
+    const wallet = await this.walletRepo.getOneBy({ userId: this.params.userId });
     const fundToDelete = await this.fundRepo.getOneBy({ id: this.params.fundId });
-    assertEntity(mainFund, ENTITY_NAME.FUND);
+    assertEntity(wallet, ENTITY_NAME.WALLET);
     assertEntity(fundToDelete, ENTITY_NAME.FUND);
 
-    this.initialMainFundBalance = mainFund.balance;
-    const newMainFundBalance = mainFund.balance + fundToDelete.balance;
+    this.initialWalletBalance = wallet.balance;
+    const newWalletBalance = wallet.balance + fundToDelete.balance;
 
-    const updatedMainFund = await this.fundRepo.updateOneBy({ id: mainFund.id }, { balance: newMainFundBalance });
-    assert(updatedMainFund !== null, UPDATE_MAIN_FUND_ERROR);
+    const updatedWallet = await this.walletRepo.updateOneBy({ id: wallet.id }, { balance: newWalletBalance });
+    assert(updatedWallet !== null, UPDATE_WALLET_ERROR);
 
     const isFundDeleted = await this.fundRepo.removeOneBy({ id: this.params.fundId });
     assert(isFundDeleted, DELETE_FUND_ERROR);
@@ -53,10 +56,7 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
     const isErrorDeletingFund = this.error.message.includes(DELETE_FUND_ERROR);
 
     if (isErrorDeletingFund) {
-      await this.fundRepo.updateOneBy(
-        { userId: this.params.userId, isMain: true },
-        { balance: this.initialMainFundBalance! },
-      );
+      await this.fundRepo.updateOneBy({ userId: this.params.userId }, { balance: this.initialWalletBalance! });
     }
   }
 }

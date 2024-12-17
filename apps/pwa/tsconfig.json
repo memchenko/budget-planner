@@ -20,12 +20,18 @@
     "noUnusedParameters": true,
     "target": "ES2020",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["reflect-metadata"],
+    // Uncomment in case of compilation errors
+    // "types": ["reflect-metadata"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/reflect-metadata"]
+    "typeRoots": ["./node_modules/@types", "./node_modules/reflect-metadata"],
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["./src/*"],
+      "#/*": ["../../*"],
+    },
   },
   "include": ["src", "../../libs/core"],
   "references": [{ "path": "./tsconfig.node.json" }]

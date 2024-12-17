@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import * as entities from '../../../../../libs/core/entities';
+import * as entities from '#/libs/core/entities';
 
 export const webRtcDescriptionSchema = z.object({
   sdp: z.string(),

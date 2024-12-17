@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
-import { entities } from '../../../../libs/core';
+import { entities } from '#/libs/core';
 import { injectable } from 'inversify';
 
 export type EntityType = entities.Income & {

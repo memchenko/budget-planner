@@ -9,6 +9,9 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node16",
-    "module": "Node16"
+    "module": "Node16",
+    "paths": {
+      "#/*": ["./*"]
+    },
   }
 }

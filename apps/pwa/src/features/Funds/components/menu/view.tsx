@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';
-import { DotsVerticalIcon } from '../../../../lib/ui/icons/DotsVertical';
+import { DotsVerticalIcon } from '~/lib/ui/icons/DotsVertical';
 
 export interface MenuProps {
   onChangePriority: VoidFunction;

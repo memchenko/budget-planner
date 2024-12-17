@@ -5,3 +5,4 @@ export * from './Income';
 export * from './IncomeTag';
 export * from './Tag';
 export * from './User';
+export * from './Wallet';

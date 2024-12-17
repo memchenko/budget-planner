@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Tag } from '../../entities/Tag';
-import { IncomeTag } from '../../entities/IncomeTag';
-import { TOKENS } from '../../types';
-import { Repo } from '../../shared/types';
-import { BaseScenario } from '../BaseScenario';
-import { ScenarioError } from '../../errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
+import { Tag } from '#/libs/core/entities/Tag';
+import { IncomeTag } from '#/libs/core/entities/IncomeTag';
+import { TOKENS } from '#/libs/core/types';
+import { Repo } from '#/libs/core/shared/types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
 
 const DELETE_INCOME_TAGS_ERROR = "Couldn't delete income tags";
 const DELETE_TAG_ERROR = "Couldn't delete a tag";

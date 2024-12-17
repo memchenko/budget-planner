@@ -3,19 +3,19 @@ import { ButtonGroup } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Input } from '@nextui-org/input';
 import { observer } from 'mobx-react-lite';
-import { WalletIcon } from '../../lib/ui/icons/Wallet';
-import { PencilIcon } from '../../lib/ui/icons/Pencil';
-import { TrashIcon } from '../../lib/ui/icons/Trash';
-import { CheckIcon } from '../../lib/ui/icons/Check';
-import { CardButton } from '../../lib/ui/card-button';
-import { useController } from '../../lib/hooks/useController';
-import { EditBalanceIcon } from '../../lib/ui/icons/EditBalance';
-import { CardTitle } from '../../lib/ui/card-title';
-import { MainFundController } from './controller';
+import { WalletIcon } from '~/lib/ui/icons/Wallet';
+import { PencilIcon } from '~/lib/ui/icons/Pencil';
+import { TrashIcon } from '~/lib/ui/icons/Trash';
+import { CheckIcon } from '~/lib/ui/icons/Check';
+import { CardButton } from '~/lib/ui/card-button';
+import { useController } from '~/lib/hooks/useController';
+import { EditBalanceIcon } from '~/lib/ui/icons/EditBalance';
+import { CardTitle } from '~/lib/ui/card-title';
+import { WalletController } from './controller';
 import styles from './styles.module.css';
 
-export const MainFund = observer(() => {
-  const ctrl = useController(MainFundController);
+export const Wallet = observer(() => {
+  const ctrl = useController(WalletController);
 
   return (
     <Card className="card">

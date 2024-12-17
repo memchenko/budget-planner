@@ -1,10 +1,10 @@
 import { makeAutoObservable, action, computed } from 'mobx';
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { Tag, EntityType } from '../../../entities/tag';
-import { User } from '../../../entities/user';
-import { TOKENS } from '../../../lib/app/di';
-import { ScenarioRunner } from '../../../modules/scenario-runner';
+import { Tag, EntityType } from '~/entities/tag';
+import { User } from '~/entities/user';
+import { TOKENS } from '~/lib/app/di';
+import { ScenarioRunner } from '~/modules/scenario-runner';
 import { assert } from 'ts-essentials';
 
 @provide(TagsListController)
@@ -16,7 +16,7 @@ export class TagsListController {
   constructor(
     @inject(TOKENS.TagStore) private tag: Tag,
     @inject(TOKENS.UserStore) private user: User,
-    @inject(ScenarioRunner) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.ScenarioRunner) private scenarioRunner: ScenarioRunner,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

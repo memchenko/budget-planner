@@ -1,7 +1,7 @@
 import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { injectable } from 'inversify';
-import { entities } from '../../../../libs/core';
+import { entities } from '#/libs/core';
 
 export type EntityType = entities.Cost & {
   createdAt: number;

@@ -1,17 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '../../shared/types';
-import { Income } from '../../entities/Income';
-import { Fund } from '../../entities/Fund';
-import { Tag } from '../../entities/Tag';
-import { IncomeTag } from '../../entities/IncomeTag';
-import { TOKENS } from '../../types';
-import { BaseScenario } from '../BaseScenario';
-import { ScenarioError } from '../../errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
-import { assertEntity } from '../../shared/assertions';
-import { ENTITY_NAME } from '../../shared/constants';
+import { Repo } from '#/libs/core/shared/types';
+import { Income } from '#/libs/core/entities/Income';
+import { Tag } from '#/libs/core/entities/Tag';
+import { Wallet } from '#/libs/core/entities/Wallet';
+import { IncomeTag } from '#/libs/core/entities/IncomeTag';
+import { TOKENS } from '#/libs/core/types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
+import { assertEntity } from '#/libs/core/shared/assertions';
+import { ENTITY_NAME } from '#/libs/core/shared/constants';
 
 const CREATE_INCOME_TAG_ERROR = "Couldn't create some income tags";
 
@@ -24,8 +24,8 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
   constructor(
     @inject(TOKENS.IncomeRepo)
     private incomeRepo: Repo<Income, 'id'>,
-    @inject(TOKENS.FundRepo)
-    private fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.WalletRepo)
+    private walletRepo: Repo<Wallet, 'id'>,
     @inject(TOKENS.IncomeTagRepo)
     private incomeTagRepo: Repo<IncomeTag>,
   ) {
@@ -33,7 +33,7 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
   }
 
   private income: Income | null = null;
-  private fund: Fund | null = null;
+  private wallet: Wallet | null = null;
   private incomeTags: IncomeTag[] = [];
   private initialBalance: number | null = null;
 
@@ -44,8 +44,8 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
     await this.assignTags(this.income);
     assert(this.incomeTags.length === this.params.tagsIds.length, CREATE_INCOME_TAG_ERROR);
 
-    await this.addIncomeToFund(this.income);
-    assertEntity(this.fund, ENTITY_NAME.FUND);
+    await this.addIncomeToWallet(this.income);
+    assertEntity(this.wallet, ENTITY_NAME.WALLET);
   }
 
   async revert() {
@@ -54,7 +54,7 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
     const isErrorUpdatingBalance = this.error.message.includes(ENTITY_NAME.FUND) && this.initialBalance !== null;
 
     if (isErrorUpdatingBalance) {
-      await this.fundRepo.updateOneBy({ userId: this.params.userId, isMain: true }, { balance: this.initialBalance! });
+      await this.walletRepo.updateOneBy({ userId: this.params.userId }, { balance: this.initialBalance! });
     }
 
     await this.incomeTagRepo.removeMany({ incomeId: this.income?.id });
@@ -69,15 +69,15 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
     this.incomeTags = (await Promise.all(incomeTags)).filter((value): value is IncomeTag => value !== null);
   }
 
-  private async addIncomeToFund(income: Income) {
-    this.fund = await this.fundRepo.getOneBy({ userId: this.params.userId, isMain: true });
-    assertEntity(this.fund, ENTITY_NAME.FUND);
+  private async addIncomeToWallet(income: Income) {
+    this.wallet = await this.walletRepo.getOneBy({ userId: this.params.userId });
+    assertEntity(this.wallet, ENTITY_NAME.WALLET);
 
-    this.initialBalance = this.fund.balance;
-    this.fund = await this.fundRepo.updateOneBy(
-      { userId: this.params.userId, isMain: true },
+    this.initialBalance = this.wallet.balance;
+    this.wallet = await this.walletRepo.updateOneBy(
+      { userId: this.params.userId },
       {
-        balance: this.fund.balance + income.amount,
+        balance: this.wallet.balance + income.amount,
       },
     );
   }

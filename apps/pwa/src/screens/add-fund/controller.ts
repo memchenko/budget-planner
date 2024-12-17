@@ -1,16 +1,16 @@
 import { action, makeAutoObservable, observable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
-import { ScenarioRunner, ScenarioPayloadMap } from '../../modules/scenario-runner';
+import { ScenarioRunner, ScenarioPayloadMap } from '~/modules/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User } from '../../entities/user';
-import { TOKENS } from '../../lib/app/di';
+import { User } from '~/entities/user';
+import { TOKENS } from '~/lib/app/di';
 
 @provide(AddFundController)
 export class AddFundController {
   constructor(
-    @inject(ScenarioRunner)
+    @inject(TOKENS.ScenarioRunner)
     private scenarioRunner: ScenarioRunner,
     @inject(TOKENS.UserStore)
     private userStore: User,
@@ -28,7 +28,6 @@ export class AddFundController {
       capacity: data.capacity,
       priority: Number.MAX_SAFE_INTEGER,
       isCumulative: data.isCumulative ?? false,
-      isMain: false,
       userId: this.userStore.current.id,
       balance: data.initialBalance ?? 0,
       isEager: data.takeDeficitFromWallet ?? false,

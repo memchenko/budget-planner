@@ -4,7 +4,7 @@ import { userSchema } from './User';
 
 export const incomeSchema = z.object({
   id: z.string(),
-  userId: userSchema.pick({ id: true }),
+  userId: userSchema.shape.id,
   note: z.string().nullable(),
   amount: z.number().positive(),
   date: z.number().int(),

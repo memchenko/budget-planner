@@ -2,8 +2,8 @@ import { ContainerModule } from 'inversify';
 
 import { CostFromCollaborator, IncomeFromCollaborator, TagFromCollaborator } from './types';
 import { EVENTS } from './constants';
-import { TOKENS } from '../app/di';
-import { EventBus } from '../../modules/event-bus';
+import { TOKENS } from '~/lib/app/di';
+import { EventBus } from '~/modules/event-bus';
 
 export const eventsModule = new ContainerModule((bind) => {
   const eventBus = new EventBus();
@@ -19,6 +19,7 @@ export const eventsModule = new ContainerModule((bind) => {
   bind(TOKENS.TagFromCollaborator).toConstantValue(
     eventBus.register<TagFromCollaborator>(EVENTS.TAG_FROM_COLLABORATOR),
   );
+  bind(TOKENS.UserReady).toConstantValue(eventBus.register<null>(EVENTS.USER_READY));
 });
 
 export { EVENTS };

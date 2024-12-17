@@ -1,18 +1,19 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '../../shared/types';
-import { Fund } from '../../entities/Fund';
-import { User } from '../../entities/User';
-import { TOKENS } from '../../types';
-import { BaseScenario } from '../BaseScenario';
-import { ScenarioError } from '../../errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '../../shared/constants';
-import { assertEntity } from '../../shared/assertions';
-import { ENTITY_NAME } from '../../shared/constants';
+import { Repo } from '#/libs/core/shared/types';
+import { Fund } from '#/libs/core/entities/Fund';
+import { Wallet } from '#/libs/core/entities/Wallet';
+import { User } from '#/libs/core/entities/User';
+import { TOKENS } from '#/libs/core/types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
+import { assertEntity } from '#/libs/core/shared/assertions';
+import { ENTITY_NAME } from '#/libs/core/shared/constants';
 
 const UPDATE_FUNDS_ERROR = "Couldn't update funds balances";
-const UPDATE_MAIN_FUND_ERROR = "Coudn't update main fund";
+const UPDATE_WALLET_ERROR = "Coudn't update wallet";
 
 export interface DistributeBalanceParams {
   userId: User['id'];
@@ -23,28 +24,31 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
   constructor(
     @inject(TOKENS.FundRepo)
     private fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.WalletRepo)
+    private walletRepo: Repo<Wallet, 'id'>,
   ) {
     super();
   }
 
+  private initialWalletBalance!: number;
   private initialFundsBalances: Record<Fund['id'], number> = {};
 
   async execute() {
-    const mainFund = await this.fundRepo.getOneBy({ userId: this.params.userId, isMain: true });
-    const otherFunds = await this.fundRepo.getMany({ userId: this.params.userId, isMain: false });
-    assertEntity(mainFund, ENTITY_NAME.FUND);
+    const wallet = await this.fundRepo.getOneBy({ userId: this.params.userId });
+    const funds = await this.fundRepo.getMany({ userId: this.params.userId });
+    assertEntity(wallet, ENTITY_NAME.WALLET);
 
-    let remainder = (this.initialFundsBalances[mainFund.id] = mainFund.balance);
-    otherFunds.forEach((fund) => {
+    let remainder = (this.initialWalletBalance = wallet.balance);
+    funds.forEach((fund) => {
       this.initialFundsBalances[fund.id] = fund.balance;
     });
 
-    otherFunds.sort((a, b) => a.priority - b.priority);
+    funds.sort((a, b) => a.priority - b.priority);
 
     const newFunds = [];
 
-    while (remainder > 0 && otherFunds.length > 0) {
-      const fund = otherFunds.shift();
+    while (remainder > 0 && funds.length > 0) {
+      const fund = funds.shift();
       assert(fund !== undefined, 'Some funds are undefined');
 
       newFunds.push(fund);
@@ -71,19 +75,19 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
     );
     assert(updatedFunds, UPDATE_FUNDS_ERROR);
 
-    const updatedMainFund = await this.fundRepo.updateOneBy(
-      { userId: this.params.userId, isMain: true },
+    const updatedWallet = await this.walletRepo.updateOneBy(
+      { userId: this.params.userId },
       { balance: Math.max(remainder, 0) },
     );
-    assert(updatedMainFund, UPDATE_MAIN_FUND_ERROR);
+    assert(updatedWallet, UPDATE_WALLET_ERROR);
   }
 
   async revert() {
     assert(this.error instanceof ScenarioError, UNKNOWN_ERROR_TEXT);
 
-    const isErrorUpdatingMainBalance = this.error.message.includes(UPDATE_MAIN_FUND_ERROR);
+    const isErrorUpdatingWalletBalance = this.error.message.includes(UPDATE_WALLET_ERROR);
 
-    if (isErrorUpdatingMainBalance) {
+    if (isErrorUpdatingWalletBalance) {
       const fundsUpdates = Object.entries(this.initialFundsBalances).map(
         ([fundId, initialBalance]) =>
           ({
@@ -91,6 +95,7 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
             values: { balance: initialBalance },
           }) as const,
       );
+      await this.walletRepo.updateOneBy({ userId: this.params.userId }, { balance: this.initialWalletBalance });
       await this.fundRepo.updateMany(fundsUpdates);
     }
   }

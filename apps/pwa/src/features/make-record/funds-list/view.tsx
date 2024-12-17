@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { FundsListController } from './controller';
-import { useController } from '../../../lib/hooks/useController';
+import { useController } from '~/lib/hooks/useController';
 import { RadioGroup, Radio } from '@nextui-org/radio';
 
 export interface FundsListProps {

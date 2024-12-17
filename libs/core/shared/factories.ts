@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
-import { BaseScenario } from '../scenarios/BaseScenario';
-import { TOKENS } from '../types';
+import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
+import { TOKENS } from '#/libs/core/types';
 import { ENTITY_NAME } from './constants';
 import { Repo } from './types';
 import { assertEntity } from './assertions';

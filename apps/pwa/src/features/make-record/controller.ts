@@ -1,8 +1,8 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, action, computed } from 'mobx';
-import { TOKENS } from '../../lib/app/di';
-import { User } from '../../entities/user';
+import { TOKENS } from '~/lib/app/di';
+import { User } from '~/entities/user';
 import {
   AMOUNT_PROPERTY_NAME,
   FUND_PROPERTY_NAME,
@@ -12,7 +12,7 @@ import {
   defaultValues,
 } from './constants';
 import { FormValues, formSchema } from './schema';
-import { ScenarioRunner } from '../../modules/scenario-runner';
+import { ScenarioRunner } from '~/modules/scenario-runner';
 
 @provide(MakeRecordController)
 export class MakeRecordController {
@@ -21,7 +21,7 @@ export class MakeRecordController {
 
   constructor(
     @inject(TOKENS.UserStore) private user: User,
-    @inject(ScenarioRunner) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.ScenarioRunner) private scenarioRunner: ScenarioRunner,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

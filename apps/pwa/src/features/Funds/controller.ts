@@ -2,10 +2,10 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
-import { Fund } from '../../entities/fund';
-import { User } from '../../entities/user';
-import { TOKENS } from '../../lib/app/di';
-import { ScenarioRunner } from '../../modules/scenario-runner';
+import { Fund } from '~/entities/fund';
+import { User } from '~/entities/user';
+import { TOKENS } from '~/lib/app/di';
+import { ScenarioRunner } from '~/modules/scenario-runner';
 
 export enum Mode {
   View = 'view',
@@ -17,7 +17,7 @@ export class FundsController {
   constructor(
     @inject(TOKENS.FundStore)
     private fundsStore: Fund,
-    @inject(ScenarioRunner)
+    @inject(TOKENS.ScenarioRunner)
     private scenarioRunner: ScenarioRunner,
     @inject(TOKENS.UserStore)
     private userStore: User,
@@ -29,12 +29,12 @@ export class FundsController {
 
   @computed
   get hasFunds() {
-    return this.fundsStore.allButMain.length > 0;
+    return this.fundsStore.hasFunds;
   }
 
   @computed
   get funds() {
-    return this.fundsStore.allButMain
+    return this.fundsStore.all
       .slice()
       .sort((a, b) => a.priority - b.priority)
       .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {

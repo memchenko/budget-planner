@@ -1,11 +1,11 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable, when } from 'mobx';
-import { TOKENS } from '../../lib/app/di.js';
-import { WebRTC } from '../../modules/webrtc/index.js';
+import { TOKENS } from '~/lib/app/di.js';
+import { WebRTC } from '~/modules/webrtc/index.js';
 import { assert } from 'ts-essentials';
-import { matchesSchema } from '../../lib/type-guards.js';
-import { WebRTCMessage, readyEventTypeSchema, webRtcDescriptionSchema } from '../../lib/schemas/webrtc.js';
+import { matchesSchema } from '~/lib/type-guards.js';
+import { WebRTCMessage, readyEventTypeSchema, webRtcDescriptionSchema } from '~/lib/schemas/webrtc.js';
 
 export enum Mode {
   OFFERER,

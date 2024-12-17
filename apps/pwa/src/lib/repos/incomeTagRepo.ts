@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import isNil from 'lodash/isNil';
 import { when } from 'mobx';
-import { Repo, RepoFilters, entities } from '../../../../../libs/core';
-import { TOKENS } from '../../lib/app/di';
-import { Dictionaries } from '../../entities/dictionaries';
+import { Repo, RepoFilters, entities } from '#/libs/core';
+import { TOKENS } from '~/lib/app/di';
+import { Dictionaries } from '~/entities/dictionaries';
 
 @injectable()
 export class IncomeTagRepo implements Repo<entities.IncomeTag> {

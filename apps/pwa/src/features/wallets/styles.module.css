@@ -1,5 +1,5 @@
-@import '../../styles/components.css';
-@import '../../lib/ui/card-title/styles.css';
+@import '~/styles/components.css';
+@import '~/lib/ui/card-title/styles.css';
 
 .header {
   @apply card-element flex justify-between !important;

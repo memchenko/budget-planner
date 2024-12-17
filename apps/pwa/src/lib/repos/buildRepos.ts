@@ -2,9 +2,9 @@ import { inject, injectable } from 'inversify';
 import { nanoid } from 'nanoid';
 import capitalize from 'lodash/capitalize';
 import { when } from 'mobx';
-import { Repo, RepoFilters } from '../../../../../libs/core';
+import { Repo, RepoFilters } from '#/libs/core';
 import { getOneByRepoFilters, getManyByRepoFilters } from './helpers';
-import { TOKENS } from '../app/di';
+import { TOKENS } from '~/lib/app/di';
 
 export type Entity = {
   id: string;
@@ -23,7 +23,7 @@ export type Store<E extends Entity> = {
 };
 
 export type RepoBuilderParams = {
-  entityName: 'cost' | 'income' | 'tag' | 'fund' | 'user';
+  entityName: 'cost' | 'income' | 'tag' | 'fund' | 'user' | 'wallet';
 };
 
 export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) => {

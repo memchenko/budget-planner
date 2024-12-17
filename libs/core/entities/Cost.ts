@@ -5,8 +5,8 @@ import { fundSchema } from './Fund';
 
 export const costSchema = z.object({
   id: z.string(),
-  userId: userSchema.pick({ id: true }),
-  fundId: fundSchema.pick({ id: true }),
+  userId: userSchema.shape.id,
+  fundId: fundSchema.shape.id,
   note: z.string().nullable(),
   amount: z.number().positive(),
   date: z.number().int(),
