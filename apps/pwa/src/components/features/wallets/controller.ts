@@ -28,15 +28,11 @@ export class WalletController {
   @observable newTitle: string | null = null;
 
   @computed get wallet() {
-    const wallet = this.wallets.all[0];
-
-    assert(wallet, 'No wallet to displayy');
-
-    return wallet;
+    return this.wallets.all?.[0];
   }
 
   @computed get balance() {
-    return this.wallet.balance;
+    return this.wallet?.balance;
   }
 
   @computed get formattedBalance() {
@@ -44,7 +40,7 @@ export class WalletController {
   }
 
   @computed get title() {
-    return this.wallet.title ?? 'my wallet';
+    return this.wallet?.title ?? 'my wallet';
   }
 
   @computed get isBalanceChangeMode() {
@@ -103,7 +99,7 @@ export class WalletController {
 
   @action
   startChangingTitle() {
-    this.newTitle = this.wallet.title ?? '';
+    this.newTitle = this.wallet?.title ?? '';
   }
 
   @action

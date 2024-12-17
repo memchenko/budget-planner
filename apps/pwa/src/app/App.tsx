@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 import { useNavigate, BrowserRouter, Route, Routes } from 'react-router-dom';
+import { NextUIProvider } from '@nextui-org/react';
 import { configurePersistable } from 'mobx-persist-store';
 import localForage from 'localforage';
-import { NextUIProvider } from '@nextui-org/react';
 import './App.css';
 import { Main } from '~/components/screens/main';
 import { AddFund } from '~/components/screens/add-fund';
@@ -10,6 +10,12 @@ import { EditFund } from '~/components/screens/edit-fund';
 import { P2PSynchronization } from '~/components/screens/p2p-synchronization';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { pages } from '~/shared/app/pages';
+import { setup } from './inversify.config';
+
+configurePersistable({
+  storage: localForage,
+  stringify: false,
+});
 
 const NextUI = (props: PropsWithChildren<unknown>) => {
   const navigate = useNavigate();
@@ -21,12 +27,9 @@ const NextUI = (props: PropsWithChildren<unknown>) => {
   );
 };
 
-configurePersistable({
-  storage: localForage,
-  stringify: false,
-});
-
 export function App() {
+  setup();
+
   return (
     <BrowserRouter>
       <NextUI>
