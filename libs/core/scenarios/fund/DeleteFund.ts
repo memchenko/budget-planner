@@ -26,7 +26,7 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
   constructor(
     @inject(TOKENS.FUND_REPO)
     private fundRepo: Repo<Fund, 'id'>,
-    @inject(TOKENS.WalletRepo)
+    @inject(TOKENS.WALLET_REPO)
     private walletRepo: Repo<Wallet, 'id'>,
   ) {
     super();

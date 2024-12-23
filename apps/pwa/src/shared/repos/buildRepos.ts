@@ -28,7 +28,7 @@ export type RepoBuilderParams = {
 
 export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) => {
   const { entityName } = params;
-  const storeTokenKey = `${capitalize(entityName)}Store` as keyof typeof TOKENS;
+  const storeTokenKey = `${capitalize(entityName)}Store` as Exclude<keyof typeof TOKENS, 'EVENTS'>;
   const storeToken = TOKENS[storeTokenKey];
 
   @injectable()
@@ -38,10 +38,10 @@ export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) 
       private store: Store<E>,
     ) {}
 
-    async create(params: Omit<E, 'id'>) {
+    async create(params: Omit<E, 'id'> & Partial<Pick<E, 'id'>>) {
       const time = Date.now();
       const newEntity = {
-        id: nanoid(),
+        id: params.id ?? nanoid(),
         ...params,
         createdAt: time,
         updatedAt: time,

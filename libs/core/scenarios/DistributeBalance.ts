@@ -17,6 +17,7 @@ const UPDATE_WALLET_ERROR = "Coudn't update wallet";
 
 export interface DistributeBalanceParams {
   userId: User['id'];
+  walletId: Wallet['id'];
 }
 
 @injectable()
@@ -24,7 +25,7 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
   constructor(
     @inject(TOKENS.FUND_REPO)
     private fundRepo: Repo<Fund, 'id'>,
-    @inject(TOKENS.WalletRepo)
+    @inject(TOKENS.WALLET_REPO)
     private walletRepo: Repo<Wallet, 'id'>,
   ) {
     super();
@@ -34,7 +35,7 @@ export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
   private initialFundsBalances: Record<Fund['id'], number> = {};
 
   async execute() {
-    const wallet = await this.fundRepo.getOneBy({ userId: this.params.userId });
+    const wallet = await this.walletRepo.getOneBy({ id: this.params.walletId });
     const funds = await this.fundRepo.getMany({ userId: this.params.userId });
     assertEntity(wallet, ENTITY_NAME.WALLET);
 

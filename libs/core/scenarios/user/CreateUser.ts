@@ -14,9 +14,10 @@ const CREATE_WALLET_ERROR = "Couldn't create a wallet";
 const REVERT_SCENARIO_ERROR = "Couldn't revert scenario. User wasn't created";
 
 export interface CreateUserParams {
-  firstName: string;
-  lastName: string;
-  avatarSrc: string;
+  id?: User['id'];
+  firstName: User['firstName'];
+  lastName: User['lastName'];
+  avatarSrc: User['avatarSrc'];
 }
 
 @injectable()
@@ -24,7 +25,7 @@ export class CreateUser extends BaseScenario<CreateUserParams, User> {
   constructor(
     @inject(TOKENS.USER_REPO)
     private userRepo: Repo<User, 'id'>,
-    @inject(TOKENS.WalletRepo)
+    @inject(TOKENS.WALLET_REPO)
     private walletRepo: Repo<Wallet, 'id'>,
   ) {
     super();

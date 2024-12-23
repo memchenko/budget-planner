@@ -8,7 +8,7 @@ import { INCOME_TAG_REPO } from './incomeTagRepo';
 
 export const reposModule = new ContainerModule((bind) => {
   (['cost', 'fund', 'income', 'tag', 'user', 'wallet'] as const).forEach((entityName) => {
-    const providerTokenKey = `${capitalize(entityName)}Repo` as keyof typeof TOKENS;
+    const providerTokenKey = `${capitalize(entityName)}Repo` as Exclude<keyof typeof TOKENS, 'EVENTS'>;
     const providerToken = TOKENS[providerTokenKey];
 
     bind(providerToken).to(buildRepo({ entityName })).inSingletonScope();

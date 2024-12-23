@@ -9,4 +9,5 @@ export const ENTITY_NAME = {
   TAG: 'Tag',
   USER: 'User',
   WALLET: 'Wallet',
+  SHARING_RULE: 'SharingRule',
 };

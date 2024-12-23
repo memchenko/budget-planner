@@ -6,5 +6,6 @@ export const TOKENS = {
   TAG_REPO: Symbol.for('TAG_REPO'),
   COST_TAG_REPO: Symbol.for('COST_TAG_REPO'),
   INCOME_TAG_REPO: Symbol.for('INCOME_TAG_REPO'),
-  WalletRepo: Symbol.for('WalletRepo'),
+  WALLET_REPO: Symbol.for('WALLET_REPO'),
+  SHARING_RULE: Symbol.for('SHARING_RULE'),
 };

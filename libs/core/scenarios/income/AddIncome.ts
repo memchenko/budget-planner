@@ -24,7 +24,7 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
   constructor(
     @inject(TOKENS.INCOME_REPO)
     private incomeRepo: Repo<Income, 'id'>,
-    @inject(TOKENS.WalletRepo)
+    @inject(TOKENS.WALLET_REPO)
     private walletRepo: Repo<Wallet, 'id'>,
     @inject(TOKENS.INCOME_TAG_REPO)
     private incomeTagRepo: Repo<IncomeTag>,

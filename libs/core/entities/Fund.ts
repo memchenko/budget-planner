@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { userSchema } from './User';
+import { walletSchema } from './Wallet';
 
 export const fundSchema = z.object({
   id: z.string(),
@@ -18,6 +19,8 @@ export const fundSchema = z.object({
   isEager: z.boolean(),
   // view setting
   calculateDailyLimit: z.boolean(),
+  // external wallet the fund relates to
+  externalWalletId: walletSchema.shape.id,
 });
 
 export type Fund = z.infer<typeof fundSchema>;
