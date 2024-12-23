@@ -6,7 +6,7 @@ import { TOKENS } from '~/shared/constants/di';
 import { Dictionaries } from '~/entities/dictionaries';
 
 @injectable()
-export class IncomeTagRepo implements Repo<entities.IncomeTag> {
+export class INCOME_TAG_REPO implements Repo<entities.IncomeTag> {
   constructor(
     @inject(TOKENS.DICTIONARIES_STORE)
     private dictionaries: Dictionaries,

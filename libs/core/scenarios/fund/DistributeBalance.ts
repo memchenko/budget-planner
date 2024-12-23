@@ -22,7 +22,7 @@ export interface DistributeBalanceParams {
 @injectable()
 export class DistributeBalance extends BaseScenario<DistributeBalanceParams> {
   constructor(
-    @inject(TOKENS.FundRepo)
+    @inject(TOKENS.FUND_REPO)
     private fundRepo: Repo<Fund, 'id'>,
     @inject(TOKENS.WalletRepo)
     private walletRepo: Repo<Wallet, 'id'>,

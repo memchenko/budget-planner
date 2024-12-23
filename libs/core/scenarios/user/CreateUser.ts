@@ -22,7 +22,7 @@ export interface CreateUserParams {
 @injectable()
 export class CreateUser extends BaseScenario<CreateUserParams, User> {
   constructor(
-    @inject(TOKENS.UserRepo)
+    @inject(TOKENS.USER_REPO)
     private userRepo: Repo<User, 'id'>,
     @inject(TOKENS.WalletRepo)
     private walletRepo: Repo<Wallet, 'id'>,

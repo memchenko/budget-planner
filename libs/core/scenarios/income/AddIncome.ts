@@ -22,11 +22,11 @@ export type AddIncomeParams = Parameters<Repo<Income, 'id'>['create']>[0] & {
 @injectable()
 export class AddIncome extends BaseScenario<AddIncomeParams> {
   constructor(
-    @inject(TOKENS.IncomeRepo)
+    @inject(TOKENS.INCOME_REPO)
     private incomeRepo: Repo<Income, 'id'>,
     @inject(TOKENS.WalletRepo)
     private walletRepo: Repo<Wallet, 'id'>,
-    @inject(TOKENS.IncomeTagRepo)
+    @inject(TOKENS.INCOME_TAG_REPO)
     private incomeTagRepo: Repo<IncomeTag>,
   ) {
     super();

@@ -24,11 +24,11 @@ export class AddCost extends BaseScenario<AddCostParams> {
   static TOKEN = Symbol.for('AddCost');
 
   constructor(
-    @inject(TOKENS.CostRepo)
+    @inject(TOKENS.COST_REPO)
     private costRepo: Repo<Cost, 'id'>,
-    @inject(TOKENS.FundRepo)
+    @inject(TOKENS.FUND_REPO)
     private fundRepo: Repo<Fund, 'id'>,
-    @inject(TOKENS.CostTagRepo)
+    @inject(TOKENS.COST_TAG_REPO)
     private costTagRepo: Repo<CostTag>,
   ) {
     super();

@@ -19,9 +19,9 @@ export interface DeleteIncomeTagParams {
 @injectable()
 export class DeleteIncomeTag extends BaseScenario<DeleteIncomeTagParams> {
   constructor(
-    @inject(TOKENS.TagRepo)
+    @inject(TOKENS.TAG_REPO)
     private tagRepo: Repo<Tag, 'id'>,
-    @inject(TOKENS.IncomeTagRepo)
+    @inject(TOKENS.INCOME_TAG_REPO)
     private incomeTagRepo: Repo<IncomeTag>,
   ) {
     super();

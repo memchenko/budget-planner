@@ -15,18 +15,18 @@ export { CreateUser } from './user/CreateUser';
 
 export const DeleteUser = buildDeleteEntityScenario<User>({
   entityName: ENTITY_NAME.USER,
-  repoType: TOKENS.UserRepo,
+  repoType: TOKENS.USER_REPO,
 });
 
 // Tag entity scenarios
 export const CreateTag = buildCreateEntityScenario<Tag>({
   entityName: ENTITY_NAME.TAG,
-  repoType: TOKENS.TagRepo,
+  repoType: TOKENS.TAG_REPO,
 });
 
 export const UpdateTag = buildUpdateEntityScenario<Tag>({
   entityName: ENTITY_NAME.TAG,
-  repoType: TOKENS.TagRepo,
+  repoType: TOKENS.TAG_REPO,
 });
 
 export { DeleteCostTag } from '#/libs/core/scenarios/tag/DeleteCostTag';
@@ -38,12 +38,12 @@ export { DistributeBalance } from './fund/DistributeBalance';
 
 export const CreateFund = buildCreateEntityScenario<Fund>({
   entityName: ENTITY_NAME.FUND,
-  repoType: TOKENS.FundRepo,
+  repoType: TOKENS.FUND_REPO,
 });
 
 export const UpdateFund = buildUpdateEntityScenario<Fund>({
   entityName: ENTITY_NAME.FUND,
-  repoType: TOKENS.FundRepo,
+  repoType: TOKENS.FUND_REPO,
 });
 
 export { DeleteFund } from './fund/DeleteFund';
