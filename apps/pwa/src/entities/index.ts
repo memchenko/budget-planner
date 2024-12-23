@@ -1,5 +1,5 @@
 import { ContainerModule } from 'inversify';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { Cost } from './cost';
 import { Fund } from './fund';
 import { Income } from './income';

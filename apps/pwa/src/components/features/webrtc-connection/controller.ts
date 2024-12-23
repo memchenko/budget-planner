@@ -1,7 +1,7 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable, when } from 'mobx';
-import { TOKENS } from '~/shared/app/di.js';
+import { TOKENS } from '~/shared/constants/di.js';
 import { WebRTC } from '~/shared/impl/webrtc/index.js';
 import { assert } from 'ts-essentials';
 import { matchesSchema } from '~/shared/type-guards.js';

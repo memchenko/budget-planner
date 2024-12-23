@@ -5,7 +5,7 @@ import { injectable, inject } from 'inversify';
 import { Cost } from './cost';
 import { Income } from './income';
 import { Dictionaries } from './dictionaries';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { DateTime } from 'luxon';
 
 export type EntityType = entities.Tag & {

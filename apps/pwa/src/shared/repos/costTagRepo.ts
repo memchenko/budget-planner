@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { when } from 'mobx';
 import isNil from 'lodash/isNil';
 import { Repo, RepoFilters, entities } from '#/libs/core';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { Dictionaries } from '~/entities/dictionaries';
 
 @injectable()

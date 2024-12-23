@@ -4,7 +4,7 @@ import capitalize from 'lodash/capitalize';
 import { when } from 'mobx';
 import { Repo, RepoFilters } from '#/libs/core';
 import { getOneByRepoFilters, getManyByRepoFilters } from './helpers';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 
 export type Entity = {
   id: string;

@@ -5,7 +5,7 @@ import { reposModule } from '~/shared/repos';
 import { entitiesModule } from '~/entities';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { eventsModule } from '~/shared/events';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { WebRTC } from '~/shared/impl/webrtc';
 import { webRtcMessageSchema } from '~/shared/schemas/webrtc';
 import { CreateUser } from '~/cases/create-user';

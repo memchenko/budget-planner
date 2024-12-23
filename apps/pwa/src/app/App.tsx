@@ -9,7 +9,7 @@ import { AddFund } from '~/components/screens/add-fund';
 import { EditFund } from '~/components/screens/edit-fund';
 import { P2PSynchronization } from '~/components/screens/p2p-synchronization';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
-import { pages } from '~/shared/app/pages';
+import { pages } from '~/shared/constants/pages';
 import { setup } from './inversify.config';
 
 configurePersistable({

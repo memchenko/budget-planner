@@ -5,7 +5,7 @@ import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runne
 import { schema } from './schema';
 import { z } from 'zod';
 import { User } from '~/entities/user';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 
 @provide(AddFundController)
 export class AddFundController {

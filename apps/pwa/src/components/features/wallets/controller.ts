@@ -2,7 +2,7 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable } from 'mobx';
 import { Wallet } from '~/entities/wallet';
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { asMoney } from '#/libs/formatting/money';
 import { assert } from 'ts-essentials';

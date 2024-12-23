@@ -1,6 +1,6 @@
 import { ContainerModule } from 'inversify';
 
-import { TOKENS } from '~/shared/app/di';
+import { TOKENS } from '~/shared/constants/di';
 import { EventBus, Event } from '~/shared/impl/event-bus';
 
 export type UserReadyEvent = Event<'user-ready', object>;
