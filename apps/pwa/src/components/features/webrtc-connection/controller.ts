@@ -84,7 +84,7 @@ export class WebRTCConnectionController {
   }
 
   constructor(
-    @inject(TOKENS.WebRTC)
+    @inject(TOKENS.WEB_RTC)
     private readonly webrtc: WebRTC<WebRTCMessage>,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });

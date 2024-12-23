@@ -14,9 +14,9 @@ export class TagsListController {
   searchQuery = '';
 
   constructor(
-    @inject(TOKENS.TagStore) private tag: Tag,
-    @inject(TOKENS.UserStore) private user: User,
-    @inject(TOKENS.ScenarioRunner) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.TAGS_STORE) private tag: Tag,
+    @inject(TOKENS.USERS_STORE) private user: User,
+    @inject(TOKENS.SCENARIO_RUNNER) private scenarioRunner: ScenarioRunner,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

@@ -10,9 +10,9 @@ import { assert } from 'ts-essentials';
 @provide(WalletController)
 export class WalletController {
   constructor(
-    @inject(TOKENS.WalletStore)
+    @inject(TOKENS.WALLETS_STORE)
     private wallets: Wallet,
-    @inject(TOKENS.ScenarioRunner)
+    @inject(TOKENS.SCENARIO_RUNNER)
     private scenario: ScenarioRunner,
   ) {
     makeAutoObservable(

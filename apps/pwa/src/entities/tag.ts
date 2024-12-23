@@ -18,9 +18,9 @@ export class Tag {
   @observable entries: EntityType[] = [];
 
   constructor(
-    @inject(TOKENS.CostStore) private cost: Cost,
-    @inject(TOKENS.IncomeStore) private income: Income,
-    @inject(TOKENS.DictionariesStore) private dictionaries: Dictionaries,
+    @inject(TOKENS.COSTS_STORE) private cost: Cost,
+    @inject(TOKENS.INCOMES_STORE) private income: Income,
+    @inject(TOKENS.DICTIONARIES_STORE) private dictionaries: Dictionaries,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
     makePersistable(this, {

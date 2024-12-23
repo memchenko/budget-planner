@@ -15,11 +15,11 @@ export enum Mode {
 @provide(FundsController)
 export class FundsController {
   constructor(
-    @inject(TOKENS.FundStore)
+    @inject(TOKENS.FUNDS_STORE)
     private fundsStore: Fund,
-    @inject(TOKENS.ScenarioRunner)
+    @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.UserStore)
+    @inject(TOKENS.USERS_STORE)
     private userStore: User,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });

@@ -2,7 +2,8 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, observable, action } from 'mobx';
 import { TOKENS } from '~/shared/app/di';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { UserReadyEvent } from '~/shared/events';
 
 @provide(MainController)
 export class MainController {
@@ -10,7 +11,7 @@ export class MainController {
 
   private userReadySubscription: Subscription;
 
-  constructor(@inject(TOKENS.UserReady) private userReadyEvent: Subject<null>) {
+  constructor(@inject(TOKENS.EVENTS.USER_READY) private userReadyEvent: Observable<UserReadyEvent>) {
     makeAutoObservable(this, {}, { autoBind: true });
 
     this.userReadySubscription = this.userReadyEvent.subscribe(this.handleStoresReady);

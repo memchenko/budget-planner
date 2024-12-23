@@ -21,9 +21,9 @@ export const setup = () => {
 
   container.load(buildProviderModule(), entitiesModule, reposModule, scenariosModule, eventsModule);
 
-  container.bind(TOKENS.ScenarioRunner).toConstantValue(new ScenarioRunner());
+  container.bind(TOKENS.SCENARIO_RUNNER).toConstantValue(new ScenarioRunner());
 
-  container.bind(TOKENS.WebRTC).toConstantValue(new WebRTC(webRtcMessageSchema));
+  container.bind(TOKENS.WEB_RTC).toConstantValue(new WebRTC(webRtcMessageSchema));
 
   container.resolve(CreateUser);
 };

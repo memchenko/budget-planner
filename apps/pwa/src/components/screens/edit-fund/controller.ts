@@ -21,11 +21,11 @@ export class EditFundController {
   fund!: FundEntity;
 
   constructor(
-    @inject(TOKENS.ScenarioRunner)
+    @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.UserStore)
+    @inject(TOKENS.USERS_STORE)
     private userStore: User,
-    @inject(TOKENS.FundStore)
+    @inject(TOKENS.FUNDS_STORE)
     private fundStore: Fund,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });

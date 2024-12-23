@@ -6,7 +6,7 @@ import * as fund from '~/entities/fund';
 
 @provide(FundsListController)
 export class FundsListController {
-  constructor(@inject(TOKENS.FundStore) private readonly fund: fund.Fund) {
+  constructor(@inject(TOKENS.FUNDS_STORE) private readonly fund: fund.Fund) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 

@@ -10,9 +10,9 @@ import { TOKENS } from '~/shared/app/di';
 @provide(AddFundController)
 export class AddFundController {
   constructor(
-    @inject(TOKENS.ScenarioRunner)
+    @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.UserStore)
+    @inject(TOKENS.USERS_STORE)
     private userStore: User,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });

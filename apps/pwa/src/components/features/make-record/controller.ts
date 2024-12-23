@@ -20,8 +20,8 @@ export class MakeRecordController {
   values = defaultValues;
 
   constructor(
-    @inject(TOKENS.UserStore) private user: User,
-    @inject(TOKENS.ScenarioRunner) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.USERS_STORE) private user: User,
+    @inject(TOKENS.SCENARIO_RUNNER) private scenarioRunner: ScenarioRunner,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

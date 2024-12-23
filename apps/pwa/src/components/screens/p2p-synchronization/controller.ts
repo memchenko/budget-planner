@@ -12,7 +12,7 @@ export class P2PSynchronizationController {
   @observable shouldDisplayProgress = false;
   @observable isSynchronized = false;
 
-  constructor(@inject(TOKENS.WebRTC) private readonly webrtc: WebRTC<WebRTCMessage>) {
+  constructor(@inject(TOKENS.WEB_RTC) private readonly webrtc: WebRTC<WebRTCMessage>) {
     makeAutoObservable(this, {}, { autoBind: true });
 
     this.webrtc.on('message', this.handleWebRTCMessage);

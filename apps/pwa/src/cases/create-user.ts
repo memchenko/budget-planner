@@ -12,11 +12,11 @@ export class CreateUser {
   private userStoreReadyDisposer: IReactionDisposer;
 
   constructor(
-    @inject(TOKENS.UserStore)
+    @inject(TOKENS.USERS_STORE)
     private readonly usersStore: User,
-    @inject(TOKENS.EventBus)
+    @inject(TOKENS.EVENT_BUS)
     private readonly eventBus: EventBus,
-    @inject(TOKENS.ScenarioRunner)
+    @inject(TOKENS.SCENARIO_RUNNER)
     private readonly scenarioRunner: ScenarioRunner,
   ) {
     this.userStoreReadyDisposer = when(() => this.usersStore.isReady, this.handleUserStoreReady.bind(this));
@@ -36,6 +36,6 @@ export class CreateUser {
       });
     }
 
-    this.eventBus.publish(EVENTS.USER_READY, null);
+    this.eventBus.publish(EVENTS.USER_READY, {});
   }
 }
