@@ -10,6 +10,7 @@ import { Tag } from '#/libs/core/entities/Tag';
 import { Fund } from '#/libs/core/entities/Fund';
 import { Wallet } from '#/libs/core/entities/Wallet';
 import { SharingRule } from '#/libs/core/entities/SharingRule';
+import { SynchronizationRule } from '#/libs/core/entities/SynchronizationRule';
 
 // User entity scenarios
 export { CreateUser } from './user/CreateUser';
@@ -76,7 +77,18 @@ export const UpdateSharingRule = buildUpdateEntityScenario<SharingRule>({
   repoType: TOKENS.SHARING_RULE,
 });
 
-export const DeleteSharingRule = buildDeleteEntityScenario({
+export const DeleteSharingRule = buildDeleteEntityScenario<SharingRule>({
   entityName: ENTITY_NAME.SHARING_RULE,
   repoType: TOKENS.SHARING_RULE,
+});
+
+// Synchronization
+export const CreateSynchronizationRule = buildCreateEntityScenario<SynchronizationRule>({
+  entityName: ENTITY_NAME.SYNCHRONIZATION_RULE,
+  repoType: TOKENS.SYNCHRONIZATION_RULE,
+});
+
+export const DeleteSynchronizationRule = buildDeleteEntityScenario<SynchronizationRule>({
+  entityName: ENTITY_NAME.SYNCHRONIZATION_RULE,
+  repoType: TOKENS.SYNCHRONIZATION_RULE,
 });
