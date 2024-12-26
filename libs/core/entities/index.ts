@@ -7,4 +7,4 @@ export * from './Tag';
 export * from './User';
 export * from './Wallet';
 export * from './SharingRule';
-export * from './SynchronizationRule';
+export * from './SynchronizationOrder';

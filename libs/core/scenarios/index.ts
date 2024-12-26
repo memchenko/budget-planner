@@ -10,7 +10,7 @@ import { Tag } from '#/libs/core/entities/Tag';
 import { Fund } from '#/libs/core/entities/Fund';
 import { Wallet } from '#/libs/core/entities/Wallet';
 import { SharingRule } from '#/libs/core/entities/SharingRule';
-import { SynchronizationRule } from '#/libs/core/entities/SynchronizationRule';
+import { SynchronizationOrder } from '#/libs/core/entities/SynchronizationOrder';
 
 // User entity scenarios
 export { CreateUser } from './user/CreateUser';
@@ -83,12 +83,14 @@ export const DeleteSharingRule = buildDeleteEntityScenario<SharingRule>({
 });
 
 // Synchronization
-export const CreateSynchronizationRule = buildCreateEntityScenario<SynchronizationRule>({
-  entityName: ENTITY_NAME.SYNCHRONIZATION_RULE,
-  repoType: TOKENS.SYNCHRONIZATION_RULE,
+export const CreateSynchronizationOrder = buildCreateEntityScenario<SynchronizationOrder>({
+  entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,
+  repoType: TOKENS.SYNCHRONIZATION_ORDER,
 });
 
-export const DeleteSynchronizationRule = buildDeleteEntityScenario<SynchronizationRule>({
-  entityName: ENTITY_NAME.SYNCHRONIZATION_RULE,
-  repoType: TOKENS.SYNCHRONIZATION_RULE,
+export const DeleteSynchronizationOrder = buildDeleteEntityScenario<SynchronizationOrder>({
+  entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,
+  repoType: TOKENS.SYNCHRONIZATION_ORDER,
 });
+
+export { SendMoneyToPeer } from './SendMoneyToPeer';

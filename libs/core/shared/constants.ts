@@ -10,5 +10,5 @@ export const ENTITY_NAME = {
   USER: 'User',
   WALLET: 'Wallet',
   SHARING_RULE: 'SharingRule',
-  SYNCHRONIZATION_RULE: 'SynchronizationRule',
+  SYNCHRONIZATION_ORDER: 'SynchronizationOrder',
 };
