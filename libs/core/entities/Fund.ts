@@ -20,7 +20,8 @@ export const fundSchema = z.object({
   // view setting
   calculateDailyLimit: z.boolean(),
   // external wallet the fund relates to
-  externalWalletId: walletSchema.shape.id,
+  // May be move it to ProjectionRule?
+  externalWalletId: walletSchema.shape.id.nullable(),
 });
 
 export type Fund = z.infer<typeof fundSchema>;

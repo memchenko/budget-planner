@@ -54,6 +54,11 @@ export class Wallet {
   }
 
   @computed
+  get default() {
+    return this.entries[0];
+  }
+
+  @computed
   get isReady() {
     return isHydrated(this);
   }

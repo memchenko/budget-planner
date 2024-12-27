@@ -2,6 +2,7 @@ import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { injectable } from 'inversify';
 import { entities } from '#/libs/core';
+import { fund } from '#/libs/core/shared/schemas';
 
 export type EntityType = entities.Cost & {
   createdAt: number;
@@ -62,6 +63,8 @@ export class Cost {
   }
 
   getCostsByFundAndDateRange(fundId: entities.Fund['id'], from: number, to: number) {
-    return this.entries.filter((entry) => entry.fundId === fundId && entry.date >= from && entry.date <= to);
+    return this.entries.filter(
+      (entry) => entry.entity === fund && entry.entityId === fundId && entry.date >= from && entry.date <= to,
+    );
   }
 }

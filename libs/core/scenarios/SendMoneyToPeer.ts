@@ -21,12 +21,13 @@ export type SendMoneyToPeerParams = {
   fromUserId: User['id'];
   toUserId: User['id'];
   amount: number;
+  toWalletId: Wallet['id'];
 } & (
   | {
-      walletId: Wallet['id'];
+      fromWalletId: Wallet['id'];
     }
   | {
-      fundId: Fund['id'];
+      fromFundId: Fund['id'];
     }
 );
 
@@ -54,6 +55,8 @@ export class SendMoneyToPeer extends BaseScenario<SendMoneyToPeerParams> {
       amount: this.params.amount,
       date,
       note: `From user with id: ${this.params.fromUserId}`,
+      entity: wallet,
+      entityId: this.params.toWalletId,
     });
 
     assertEntity(this.income, ENTITY_NAME.INCOME);
@@ -65,17 +68,17 @@ export class SendMoneyToPeer extends BaseScenario<SendMoneyToPeerParams> {
       note: `To user with id: ${this.params.toUserId}`,
     };
 
-    if ('fundId' in this.params) {
+    if ('fromFundId' in this.params) {
       this.cost = await this.costRepo.create({
         ...partialCostParams,
         entity: fund,
-        entityId: this.params.fundId,
+        entityId: this.params.fromFundId,
       });
-    } else if ('walletId' in this.params) {
+    } else if ('fromWalletId' in this.params) {
       this.cost = await this.costRepo.create({
         ...partialCostParams,
         entity: wallet,
-        entityId: this.params.walletId,
+        entityId: this.params.fromWalletId,
       });
     }
 

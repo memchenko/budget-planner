@@ -34,7 +34,7 @@ export class WebRTC<M> {
 
   on<E extends keyof Events<M>>(event: E, listener: Events<M>[E]) {
     if (Array.isArray(this.listeners[event])) {
-      this.listeners[event].push(listener);
+      this.listeners[event]?.push(listener);
     } else {
       (this.listeners[event] as unknown as Events<M>[E][]) = [listener];
     }
@@ -44,7 +44,7 @@ export class WebRTC<M> {
 
   off<E extends keyof Events<M>>(event: E, listener: Events<M>[E]) {
     if (Array.isArray(this.listeners[event])) {
-      (this.listeners[event] as unknown as Events<M>[E][]) = this.listeners[event].filter((_listener) => {
+      (this.listeners[event] as unknown as Events<M>[E][]) = this.listeners[event]!.filter((_listener) => {
         return _listener !== listener;
       });
     }
@@ -52,7 +52,7 @@ export class WebRTC<M> {
 
   emit<E extends keyof Events<M>>(event: E, ...payload: Events<M>[E] extends (...args: infer P) => any ? P : never) {
     if (Array.isArray(this.listeners[event])) {
-      this.listeners[event].forEach((listener) => {
+      this.listeners[event]?.forEach((listener) => {
         (listener as CallableFunction)(...payload);
       });
     }

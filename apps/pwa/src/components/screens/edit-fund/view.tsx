@@ -18,11 +18,7 @@ import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 
 export const EditFund = observer(() => {
   const ctrl = useController(EditFundController);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
+  const { handleSubmit, control } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     values: ctrl.initialValues,
   });

@@ -3,6 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
 import { Fund } from '~/entities/fund';
+import { Wallet } from '~/entities/wallet';
 import { User } from '~/entities/user';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
@@ -17,6 +18,8 @@ export class FundsController {
   constructor(
     @inject(TOKENS.FUNDS_STORE)
     private fundsStore: Fund,
+    @inject(TOKENS.WALLETS_STORE)
+    private walletsStore: Wallet,
     @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
     @inject(TOKENS.USERS_STORE)
@@ -103,6 +106,7 @@ export class FundsController {
       scenario: 'DistributeBalance',
       payload: {
         userId: this.userStore.current.id,
+        walletId: this.walletsStore.default.id,
       },
     });
   }

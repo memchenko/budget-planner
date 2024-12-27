@@ -3,6 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, action, computed } from 'mobx';
 import { TOKENS } from '~/shared/constants/di';
 import { User } from '~/entities/user';
+import { Wallet } from '~/entities/wallet';
 import {
   AMOUNT_PROPERTY_NAME,
   FUND_PROPERTY_NAME,
@@ -13,6 +14,7 @@ import {
 } from './constants';
 import { FormValues, formSchema } from './schema';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
+import { fund, wallet } from '#/libs/core/shared/schemas';
 
 @provide(MakeRecordController)
 export class MakeRecordController {
@@ -22,6 +24,7 @@ export class MakeRecordController {
   constructor(
     @inject(TOKENS.USERS_STORE) private user: User,
     @inject(TOKENS.SCENARIO_RUNNER) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.WALLETS_STORE) private wallet: Wallet,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -112,13 +115,18 @@ export class MakeRecordController {
         scenario: 'AddCost',
         payload: {
           ...commonPayload,
-          fundId: this.values[FUND_PROPERTY_NAME],
+          entity: fund,
+          entityId: this.values[FUND_PROPERTY_NAME],
         },
       });
     } else {
       this.scenarioRunner.execute({
         scenario: 'AddIncome',
-        payload: commonPayload,
+        payload: {
+          ...commonPayload,
+          entity: wallet,
+          entityId: this.wallet.default.id,
+        },
       });
     }
 

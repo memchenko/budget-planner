@@ -17,11 +17,7 @@ import { schema } from './schema';
 
 export const AddFund = observer(() => {
   const ctrl = useController(AddFundController);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
+  const { handleSubmit, control } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
 
