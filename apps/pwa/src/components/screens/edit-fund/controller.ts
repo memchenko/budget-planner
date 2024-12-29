@@ -10,7 +10,7 @@ import { User, EntityType as UserEntity } from '~/entities/user';
 import { Fund, EntityType as FundEntity } from '~/entities/fund';
 import { TOKENS } from '~/shared/constants/di';
 import { pages } from '~/shared/constants/pages';
-import { DELETE_BUTTON_NAME, SHARE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
+import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/reject';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
@@ -92,8 +92,6 @@ export class EditFundController {
       this.handleEdit(data);
     } else if (name === DELETE_BUTTON_NAME) {
       this.handleDelete();
-    } else if (name === SHARE_BUTTON_NAME) {
-      this.handleShare();
     } else {
       throw new Error(`Unknown event: ${name}`);
     }
