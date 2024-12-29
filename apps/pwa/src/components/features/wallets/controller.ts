@@ -10,7 +10,7 @@ import { assert } from 'ts-essentials';
 @provide(WalletController)
 export class WalletController {
   constructor(
-    @inject(TOKENS.WALLETS_STORE)
+    @inject(TOKENS.WALLET_STORE)
     private wallets: Wallet,
     @inject(TOKENS.SCENARIO_RUNNER)
     private scenario: ScenarioRunner,

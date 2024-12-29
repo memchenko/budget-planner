@@ -1,6 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { nanoid } from 'nanoid';
-import capitalize from 'lodash/capitalize';
+import snakeCase from 'lodash/snakeCase';
+import toUpper from 'lodash/toUpper';
 import { when } from 'mobx';
 import { Repo, RepoFilters } from '#/libs/core';
 import { getOneByRepoFilters, getManyByRepoFilters } from './helpers';
@@ -23,12 +24,12 @@ export type Store<E extends Entity> = {
 };
 
 export type RepoBuilderParams = {
-  entityName: 'cost' | 'income' | 'tag' | 'fund' | 'user' | 'wallet';
+  entityName: 'cost' | 'income' | 'tag' | 'fund' | 'user' | 'wallet' | 'sharing-rule' | 'synchronization-order';
 };
 
 export const buildRepo = <E extends Entity = Entity>(params: RepoBuilderParams) => {
   const { entityName } = params;
-  const storeTokenKey = `${capitalize(entityName)}Store` as Exclude<keyof typeof TOKENS, 'EVENTS'>;
+  const storeTokenKey = `${toUpper(snakeCase(entityName))}_STORE` as Exclude<keyof typeof TOKENS, 'EVENTS'>;
   const storeToken = TOKENS[storeTokenKey];
 
   @injectable()

@@ -16,13 +16,13 @@ export enum Mode {
 @provide(FundsController)
 export class FundsController {
   constructor(
-    @inject(TOKENS.FUNDS_STORE)
+    @inject(TOKENS.FUND_STORE)
     private fundsStore: Fund,
-    @inject(TOKENS.WALLETS_STORE)
+    @inject(TOKENS.WALLET_STORE)
     private walletsStore: Wallet,
     @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.USERS_STORE)
+    @inject(TOKENS.USER_STORE)
     private userStore: User,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -40,7 +40,7 @@ export class FundsController {
     return this.fundsStore.all
       .slice()
       .sort((a, b) => a.priority - b.priority)
-      .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {
+      .map(({ id, userId, balance, capacity, title, calculateDailyLimit, priority }) => {
         const result = {
           id,
           balance,
@@ -50,6 +50,7 @@ export class FundsController {
           remainderWidth: '0',
           dailyRemainder: null as number | null,
           priority,
+          isExternal: userId !== this.userStore.current.id,
         };
 
         if (calculateDailyLimit) {

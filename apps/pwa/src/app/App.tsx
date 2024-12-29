@@ -27,18 +27,18 @@ const NextUI = (props: PropsWithChildren<unknown>) => {
   );
 };
 
-export function App() {
-  setup();
+setup();
 
+export function App() {
   return (
     <BrowserRouter>
       <NextUI>
         <ErrorBoundary>
           <Routes>
-            <Route path={pages.index} element={<Main />} />
-            <Route path={pages.addFund} element={<AddFund />} />
-            <Route path={pages.editFund} element={<EditFund />} />
-            <Route path={pages.p2pSynchronization} element={<P2PSynchronization />} />
+            <Route path={pages.index} Component={Main} />
+            <Route path={pages.addFund} Component={AddFund} />
+            <Route path={pages.editFund} Component={EditFund} />
+            <Route path={pages.p2pSynchronization} Component={P2PSynchronization} />
           </Routes>
         </ErrorBoundary>
       </NextUI>

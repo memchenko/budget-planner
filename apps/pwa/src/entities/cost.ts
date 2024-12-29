@@ -58,6 +58,10 @@ export class Cost {
     return this.entries;
   }
 
+  getCost(id: EntityType['id']) {
+    return this.entries.find((entry) => entry.id === id);
+  }
+
   getCostByDateRange(from: number, to: number) {
     return this.entries.filter((entry) => entry.date >= from && entry.date <= to);
   }

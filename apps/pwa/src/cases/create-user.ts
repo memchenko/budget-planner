@@ -5,13 +5,14 @@ import { User } from '~/entities/user';
 import { EventBus } from '~/shared/impl/event-bus';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { TOKENS } from '~/shared/constants/di';
+import { faker } from '@faker-js/faker';
 
 @provide(CreateUser)
 export class CreateUser {
   private userStoreReadyDisposer: IReactionDisposer;
 
   constructor(
-    @inject(TOKENS.USERS_STORE)
+    @inject(TOKENS.USER_STORE)
     private readonly usersStore: User,
     @inject(TOKENS.EVENT_BUS)
     private readonly eventBus: EventBus,
@@ -28,9 +29,9 @@ export class CreateUser {
       await this.scenarioRunner.execute({
         scenario: 'CreateUser',
         payload: {
-          firstName: '',
-          lastName: '',
-          avatarSrc: '',
+          firstName: faker.person.firstName(),
+          lastName: faker.person.lastName(),
+          avatarSrc: faker.image.avatar(),
         },
       });
     }

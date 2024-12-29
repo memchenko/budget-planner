@@ -14,7 +14,7 @@ import { EditFundController } from './controller';
 import { useController } from '~/shared/hooks/useController';
 import { z } from 'zod';
 import { schema } from './schema';
-import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
+import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME, SHARE_BUTTON_NAME } from './constants';
 
 export const EditFund = observer(() => {
   const ctrl = useController(EditFundController);
@@ -143,6 +143,15 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
+        <div>
+          {ctrl.users.map((user) => (
+            <button onClick={ctrl.handleUserSelected.bind(ctrl, user.id)}>
+              <img src={user.avatarSrc} alt="" width={25} height={25} />
+              {user.firstName} {user.lastName}
+            </button>
+          ))}
+        </div>
+
         <DangerButton type="submit" name={DELETE_BUTTON_NAME} className="flex-shrink-0">
           Delete this fund
         </DangerButton>

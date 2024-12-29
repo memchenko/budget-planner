@@ -57,6 +57,10 @@ export class Income {
     return this.entries;
   }
 
+  getIncome(id: EntityType['id']) {
+    return this.entries.find((entry) => entry.id === id);
+  }
+
   getIncomeByDateRange(from: number, to: number) {
     return this.entries.filter((income) => income.date >= from && income.date <= to);
   }

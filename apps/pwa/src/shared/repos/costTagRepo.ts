@@ -8,7 +8,7 @@ import { Dictionaries } from '~/entities/dictionaries';
 @injectable()
 export class COST_TAG_REPO implements Repo<entities.CostTag> {
   constructor(
-    @inject(TOKENS.DICTIONARIES_STORE)
+    @inject(TOKENS.DICTIONARY_STORE)
     private dictionaries: Dictionaries,
   ) {}
 

@@ -34,7 +34,7 @@ export type SendMoneyToPeerParams = {
 @injectable()
 export class SendMoneyToPeer extends BaseScenario<SendMoneyToPeerParams> {
   constructor(
-    @inject(TOKENS.SYNCHRONIZATION_ORDER)
+    @inject(TOKENS.SYNCHRONIZATION_ORDER_REPO)
     private readonly synchronizationOrdersRepo: Repo<SynchronizationOrder, 'id'>,
     @inject(TOKENS.INCOME_REPO)
     private readonly incomeRepo: Repo<Income, 'id'>,

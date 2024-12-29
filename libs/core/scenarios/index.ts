@@ -69,28 +69,28 @@ export const UpdateWallet = buildUpdateEntityScenario<Wallet>({
 // Sharing scenarios
 export const CreateSharingRule = buildCreateEntityScenario<SharingRule>({
   entityName: ENTITY_NAME.SHARING_RULE,
-  repoType: TOKENS.SHARING_RULE,
+  repoType: TOKENS.SHARING_RULE_REPO,
 });
 
 export const UpdateSharingRule = buildUpdateEntityScenario<SharingRule>({
   entityName: ENTITY_NAME.SHARING_RULE,
-  repoType: TOKENS.SHARING_RULE,
+  repoType: TOKENS.SHARING_RULE_REPO,
 });
 
 export const DeleteSharingRule = buildDeleteEntityScenario<SharingRule>({
   entityName: ENTITY_NAME.SHARING_RULE,
-  repoType: TOKENS.SHARING_RULE,
+  repoType: TOKENS.SHARING_RULE_REPO,
 });
 
 // Synchronization
 export const CreateSynchronizationOrder = buildCreateEntityScenario<SynchronizationOrder>({
   entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,
-  repoType: TOKENS.SYNCHRONIZATION_ORDER,
+  repoType: TOKENS.SYNCHRONIZATION_ORDER_REPO,
 });
 
 export const DeleteSynchronizationOrder = buildDeleteEntityScenario<SynchronizationOrder>({
   entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,
-  repoType: TOKENS.SYNCHRONIZATION_ORDER,
+  repoType: TOKENS.SYNCHRONIZATION_ORDER_REPO,
 });
 
 export { SendMoneyToPeer } from './SendMoneyToPeer';

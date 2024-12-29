@@ -12,7 +12,7 @@ export class AddFundController {
   constructor(
     @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.USERS_STORE)
+    @inject(TOKENS.USER_STORE)
     private userStore: User,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });

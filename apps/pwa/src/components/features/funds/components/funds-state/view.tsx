@@ -14,6 +14,7 @@ export interface FundsStateProps {
     dailyRemainder: number | null;
     remainderLeft: string | null;
     remainderWidth: string | null;
+    isExternal: boolean;
   }[];
   onFundClick: (id: string) => void;
 }
@@ -23,9 +24,17 @@ export const FundsState = (props: FundsStateProps) => {
 
   return (
     <>
-      {list.map(({ id, title, balance, capacity, dailyRemainder, remainderLeft, remainderWidth }) => {
+      {list.map(({ id, isExternal, title, balance, capacity, dailyRemainder, remainderLeft, remainderWidth }) => {
         return (
-          <Card key={id} isPressable className="flex items-end gap-2" onClick={onFundClick.bind(null, id)}>
+          <Card
+            key={id}
+            isPressable
+            className={cn('flex items-end gap-2', {
+              ['border-2']: isExternal,
+              ['border-lime-500']: isExternal,
+            })}
+            onClick={onFundClick.bind(null, id)}
+          >
             <CardBody>
               <Progress
                 showValueLabel

@@ -22,9 +22,9 @@ export class MakeRecordController {
   values = defaultValues;
 
   constructor(
-    @inject(TOKENS.USERS_STORE) private user: User,
+    @inject(TOKENS.USER_STORE) private user: User,
     @inject(TOKENS.SCENARIO_RUNNER) private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.WALLETS_STORE) private wallet: Wallet,
+    @inject(TOKENS.WALLET_STORE) private wallet: Wallet,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

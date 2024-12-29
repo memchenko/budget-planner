@@ -3,13 +3,13 @@ import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '#/libs/core';
 import { injectable } from 'inversify';
 
-export type EntityType = entities.User & {
+export type EntityType = entities.SynchronizationOrder & {
   createdAt: number;
   updatedAt: number;
 };
 
 @injectable()
-export class User {
+export class SynchronizationOrder {
   @observable entries: EntityType[] = [];
 
   constructor() {
@@ -52,6 +52,10 @@ export class User {
     });
   }
 
+  getAllByUserId(userId: EntityType['userId']) {
+    return this.all.filter((entry) => entry.userId === userId);
+  }
+
   @computed
   get isReady() {
     return isHydrated(this);
@@ -60,15 +64,5 @@ export class User {
   @computed
   get all() {
     return this.entries;
-  }
-
-  @computed
-  get current() {
-    return this.entries[0];
-  }
-
-  @computed
-  get externals() {
-    return this.all.filter((entry) => entry.id !== this.current.id);
   }
 }

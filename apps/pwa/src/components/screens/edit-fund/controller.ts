@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from 'mobx';
+import { action, computed, makeAutoObservable, observable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
@@ -6,14 +6,17 @@ import { assert } from 'ts-essentials';
 import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User } from '~/entities/user';
+import { User, EntityType as UserEntity } from '~/entities/user';
 import { Fund, EntityType as FundEntity } from '~/entities/fund';
 import { TOKENS } from '~/shared/constants/di';
 import { pages } from '~/shared/constants/pages';
-import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
+import { DELETE_BUTTON_NAME, SHARE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/reject';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
+import { SynchronizationOrder } from '~/entities/synchronization-order';
+import { SharingRule } from '~/entities/sharing-rule';
+import { fund } from '#/libs/core/shared/schemas';
 
 @provide(EditFundController)
 export class EditFundController {
@@ -22,11 +25,15 @@ export class EditFundController {
 
   constructor(
     @inject(TOKENS.SCENARIO_RUNNER)
-    private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.USERS_STORE)
-    private userStore: User,
-    @inject(TOKENS.FUNDS_STORE)
-    private fundStore: Fund,
+    private readonly scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.USER_STORE)
+    private readonly userStore: User,
+    @inject(TOKENS.FUND_STORE)
+    private readonly fundStore: Fund,
+    @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE)
+    private readonly synchronizationOrder: SynchronizationOrder,
+    @inject(TOKENS.SHARING_RULE_STORE)
+    private readonly sharingRule: SharingRule,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
@@ -36,6 +43,11 @@ export class EditFundController {
 
   @observable
   isSubmitted = false;
+
+  @computed
+  get users() {
+    return this.userStore.externals;
+  }
 
   getFundId() {
     const id = matchPath<ParamParseKey<typeof pages.editFund>, typeof pages.editFund>(
@@ -77,9 +89,11 @@ export class EditFundController {
     assert(this.fund.id, 'Cannot delete fund. ID is missing.');
 
     if (name === SUBMIT_BUTTON_NAME) {
-      this.handleEdit(this.fund.id, data);
+      this.handleEdit(data);
     } else if (name === DELETE_BUTTON_NAME) {
-      this.handleDelete(this.fund.id);
+      this.handleDelete();
+    } else if (name === SHARE_BUTTON_NAME) {
+      this.handleShare();
     } else {
       throw new Error(`Unknown event: ${name}`);
     }
@@ -88,10 +102,10 @@ export class EditFundController {
   }
 
   @action
-  handleEdit(id: string, data: z.infer<typeof schema>) {
+  handleEdit(data: z.infer<typeof schema>) {
     const payload = omitBy(
       {
-        id,
+        id: this.fund.id,
         title: data.name,
         capacity: data.capacity,
         isCumulative: data.isCumulative,
@@ -109,13 +123,42 @@ export class EditFundController {
   }
 
   @action
-  handleDelete(id: string) {
+  handleDelete() {
     this.scenarioRunner.execute({
       scenario: 'DeleteFund',
       payload: {
-        fundId: id,
+        fundId: this.fund.id,
         userId: this.userStore.current.id,
       },
+    });
+  }
+
+  @action
+  async handleUserSelected(id: UserEntity['id']) {
+    await this.scenarioRunner.execute({
+      scenario: 'CreateSharingRule',
+      payload: {
+        userId: id,
+        entityId: this.fund.id,
+        entity: fund,
+        actions: ['list', 'read-balance', 'write-cost'],
+      },
+    });
+
+    const sharingRule = this.sharingRule.all[0];
+
+    assert(sharingRule, '');
+
+    const date = Date.now();
+
+    this.synchronizationOrder.add({
+      id: sharingRule.id,
+      userId: id,
+      entity: fund,
+      entityId: this.fund.id,
+      action: 'create',
+      createdAt: date,
+      updatedAt: date,
     });
   }
 }
