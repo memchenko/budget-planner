@@ -1,18 +1,15 @@
 import { injectable } from 'inversify';
-import { z } from 'zod';
-import { matchesSchema } from '~/shared/type-guards';
-import { assert } from 'ts-essentials';
 
-interface Events<M> {
+interface Events {
   connected: VoidFunction;
   ready: VoidFunction;
   disconnected: VoidFunction;
-  message: (message: M) => void;
+  message: (message: string) => void;
   error: (error: Error) => void;
 }
 
 @injectable()
-export class WebRTC<M> {
+export class WebRTC {
   private pc: RTCPeerConnection;
   private dc: RTCDataChannel | null = null;
   isInitiator: boolean = false;
@@ -29,28 +26,28 @@ export class WebRTC<M> {
   }
 
   private listeners: {
-    [K in keyof Events<M>]?: Events<M>[K][];
+    [K in keyof Events]?: Events[K][];
   } = {};
 
-  on<E extends keyof Events<M>>(event: E, listener: Events<M>[E]) {
+  on<E extends keyof Events>(event: E, listener: Events[E]) {
     if (Array.isArray(this.listeners[event])) {
       this.listeners[event]?.push(listener);
     } else {
-      (this.listeners[event] as unknown as Events<M>[E][]) = [listener];
+      (this.listeners[event] as unknown as Events[E][]) = [listener];
     }
 
     return () => this.off(event, listener);
   }
 
-  off<E extends keyof Events<M>>(event: E, listener: Events<M>[E]) {
+  off<E extends keyof Events>(event: E, listener: Events[E]) {
     if (Array.isArray(this.listeners[event])) {
-      (this.listeners[event] as unknown as Events<M>[E][]) = this.listeners[event]!.filter((_listener) => {
+      (this.listeners[event] as unknown as Events[E][]) = this.listeners[event]!.filter((_listener) => {
         return _listener !== listener;
       });
     }
   }
 
-  emit<E extends keyof Events<M>>(event: E, ...payload: Events<M>[E] extends (...args: infer P) => any ? P : never) {
+  emit<E extends keyof Events>(event: E, ...payload: Events[E] extends (...args: infer P) => any ? P : never) {
     if (Array.isArray(this.listeners[event])) {
       this.listeners[event]?.forEach((listener) => {
         (listener as CallableFunction)(...payload);
@@ -58,7 +55,7 @@ export class WebRTC<M> {
     }
   }
 
-  constructor(private readonly messageSchema: z.Schema<M>) {
+  constructor() {
     this.pc = new RTCPeerConnection({
       iceServers: [{ urls: 'stun:23.21.150.121' }],
     });
@@ -102,8 +99,6 @@ export class WebRTC<M> {
     this.dc.onmessage = (e) => {
       try {
         const message = JSON.parse(e.data);
-
-        assert(matchesSchema(message, this.messageSchema), 'Unsupported type of message from WebRTC');
 
         this.emit('message', message);
       } catch (err) {
@@ -173,7 +168,7 @@ export class WebRTC<M> {
     }
   }
 
-  public sendMessage(message: M) {
+  public sendMessage(message: unknown) {
     if (!this.dc || this.dc.readyState !== 'open') {
       this.emit('error', new Error('Connection not ready'));
       return;

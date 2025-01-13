@@ -4,8 +4,6 @@ export const TOKENS = {
   FUND_REPO: Symbol.for('FUND_REPO'),
   INCOME_REPO: Symbol.for('INCOME_REPO'),
   TAG_REPO: Symbol.for('TAG_REPO'),
-  COST_TAG_REPO: Symbol.for('COST_TAG_REPO'),
-  INCOME_TAG_REPO: Symbol.for('INCOME_TAG_REPO'),
   WALLET_REPO: Symbol.for('WALLET_REPO'),
   SHARING_RULE_REPO: Symbol.for('SHARING_RULE_REPO'),
   SYNCHRONIZATION_ORDER_REPO: Symbol.for('SYNCHRONIZATION_ORDER_REPO'),

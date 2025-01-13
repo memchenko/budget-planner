@@ -3,8 +3,7 @@ import { provide } from 'inversify-binding-decorators';
 import { observable, action, makeAutoObservable } from 'mobx';
 import { TOKENS } from '~/shared/constants/di';
 import { WebRTC } from '~/shared/impl/webrtc';
-import { Synchronizer } from '~/shared/impl/syncronizer';
-import { WebRTCMessage } from '~/shared/schemas/webrtc';
+import { Greeting } from '~/workflows/greeting';
 
 @provide(P2PSynchronizationController)
 export class P2PSynchronizationController {
@@ -12,8 +11,8 @@ export class P2PSynchronizationController {
   @observable isSynchronized = false;
 
   constructor(
-    @inject(TOKENS.WEB_RTC) private readonly webrtc: WebRTC<WebRTCMessage>,
-    @inject(TOKENS.SYNCHRONIZER) private readonly synchronizer: Synchronizer,
+    @inject(TOKENS.WEB_RTC) private readonly webrtc: WebRTC,
+    @inject(Greeting) private readonly greetingWorkflow: Greeting,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
@@ -27,7 +26,7 @@ export class P2PSynchronizationController {
     this.shouldDisplayProgress = true;
 
     if (this.webrtc.isInitiator) {
-      this.synchronizer.initiate();
+      this.greetingWorkflow.execute();
     }
   }
 }

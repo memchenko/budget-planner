@@ -1,10 +1,10 @@
 import { z } from 'zod';
+import { fund, cost, income, tag, wallet } from 'core/shared/schemas';
 import { userSchema } from './User';
-import { fund, cost, income, tag } from '#/libs/core/shared/schemas';
 
 export const synchronizationOrderSchema = z.object({
   id: z.string(),
-  entity: z.enum([fund, cost, income, tag]),
+  entity: z.enum([fund, cost, income, tag, wallet]),
   entityId: z.string(),
   userId: userSchema.shape.id,
   action: z.enum(['create', 'update', 'delete']),

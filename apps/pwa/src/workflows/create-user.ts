@@ -2,27 +2,28 @@ import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { when, IReactionDisposer } from 'mobx';
 import { User } from '~/entities/user';
-import { EventBus } from '~/shared/impl/event-bus';
+import { UserReadyEvent } from '~/shared/events';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { TOKENS } from '~/shared/constants/di';
 import { faker } from '@faker-js/faker';
+import { IAutoWorkflow } from './types';
 
 @provide(CreateUser)
-export class CreateUser {
+export class CreateUser implements IAutoWorkflow {
   private userStoreReadyDisposer: IReactionDisposer;
 
   constructor(
     @inject(TOKENS.USER_STORE)
     private readonly usersStore: User,
-    @inject(TOKENS.EVENT_BUS)
-    private readonly eventBus: EventBus,
+    @inject(TOKENS.EVENTS.USER_READY)
+    private readonly userReadyEvent: UserReadyEvent,
     @inject(TOKENS.SCENARIO_RUNNER)
     private readonly scenarioRunner: ScenarioRunner,
   ) {
-    this.userStoreReadyDisposer = when(() => this.usersStore.isReady, this.handleUserStoreReady.bind(this));
+    this.userStoreReadyDisposer = when(() => this.usersStore.isReady, this.execute.bind(this));
   }
 
-  async handleUserStoreReady() {
+  async execute() {
     this.userStoreReadyDisposer();
 
     if (this.usersStore.isReady && this.usersStore.all.length === 0) {
@@ -36,6 +37,6 @@ export class CreateUser {
       });
     }
 
-    this.eventBus.publish(TOKENS.EVENTS.USER_READY, {});
+    this.userReadyEvent.push({});
   }
 }

@@ -4,7 +4,6 @@ import { entities } from '#/libs/core';
 import { injectable, inject } from 'inversify';
 import { Cost } from './cost';
 import { Income } from './income';
-import { Dictionaries } from './dictionaries';
 import { TOKENS } from '~/shared/constants/di';
 import { DateTime } from 'luxon';
 
@@ -20,7 +19,6 @@ export class Tag {
   constructor(
     @inject(TOKENS.COST_STORE) private cost: Cost,
     @inject(TOKENS.INCOME_STORE) private income: Income,
-    @inject(TOKENS.DICTIONARY_STORE) private dictionaries: Dictionaries,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
     makePersistable(this, {
@@ -68,14 +66,14 @@ export class Tag {
 
     if (type === 'cost') {
       const entriesForMonth = this.cost.getCostByDateRange(monthAgo, now);
-      const tagsIds = entriesForMonth.map((entry) => entry.id);
-      const costTags = new Set(this.dictionaries.getCostTagsMany(tagsIds).map((tag) => tag.tagId));
+      const tagsIds = entriesForMonth.flatMap((entry) => entry.tags);
+      const costTags = new Set(tagsIds);
 
       tagsIds.push(...costTags);
     } else {
       const entriesForMonth = this.income.getIncomeByDateRange(monthAgo, now);
-      const tagsIds = entriesForMonth.map((entry) => entry.id);
-      const incomeTags = new Set(this.dictionaries.getIncomeTagsMany(tagsIds).map((tag) => tag.tagId));
+      const tagsIds = entriesForMonth.flatMap((entry) => entry.tags);
+      const incomeTags = new Set(tagsIds);
 
       tagsIds.push(...incomeTags);
     }

@@ -1,17 +1,29 @@
 import { z } from 'zod';
-import { wallet, fund } from '#/libs/core/shared/schemas';
+import { wallet, fund } from 'core/shared/schemas';
+import { tagSchema } from './Tag';
 import { userSchema } from './User';
 import { fundSchema } from './Fund';
 import { walletSchema } from './Wallet';
 
-export const costSchema = z.object({
-  id: z.string(),
-  userId: userSchema.shape.id,
-  entity: z.enum([wallet, fund]),
-  entityId: fundSchema.shape.id.or(walletSchema.shape.id),
-  note: z.string().nullable(),
-  amount: z.number().positive(),
-  date: z.number().int(),
-});
+export const costSchema = z.intersection(
+  z.object({
+    id: z.string(),
+    userId: userSchema.shape.id,
+    note: z.string().nullable(),
+    amount: z.number().positive(),
+    date: z.number().int(),
+    tags: tagSchema.shape.id.array(),
+  }),
+  z.union([
+    z.object({
+      entity: z.literal(fund),
+      entityId: fundSchema.shape.id,
+    }),
+    z.object({
+      entity: z.literal(wallet),
+      entityId: walletSchema.shape.id,
+    }),
+  ]),
+);
 
 export type Cost = z.infer<typeof costSchema>;

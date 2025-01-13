@@ -56,7 +56,7 @@ export class TagsListController {
 
     this.scenarioRunner.execute({
       scenario: 'CreateTag',
-      payload: { userId, title: this.searchQuery, type: this.type },
+      payload: { userId, title: this.searchQuery, type: this.type, entities: [] },
     });
   }
 

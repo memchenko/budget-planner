@@ -5,7 +5,7 @@ import { TOKENS } from '~/shared/constants/di.js';
 import { WebRTC } from '~/shared/impl/webrtc/index.js';
 import { assert } from 'ts-essentials';
 import { matchesSchema } from '~/shared/type-guards.js';
-import { WebRTCMessage, readyEventTypeSchema, webRtcDescriptionSchema } from '~/shared/schemas/webrtc.js';
+import { readyEventTypeSchema, webRtcDescriptionSchema, webRtcMessageSchema } from '~/shared/events/schemas';
 
 export enum Mode {
   OFFERER,
@@ -85,7 +85,7 @@ export class WebRTCConnectionController {
 
   constructor(
     @inject(TOKENS.WEB_RTC)
-    private readonly webrtc: WebRTC<WebRTCMessage>,
+    private readonly webrtc: WebRTC,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
@@ -175,8 +175,11 @@ export class WebRTCConnectionController {
     }
   }
 
-  private handleWebRTCMessage(msg: WebRTCMessage) {
-    if (msg.type === readyEventTypeSchema.value) {
+  private handleWebRTCMessage(msg: string) {
+    const json = JSON.parse(msg);
+    assert(matchesSchema(json, webRtcMessageSchema), 'Invalid webrtc message');
+
+    if (json.type === readyEventTypeSchema.value) {
       this.state = State.ESTABLISHED;
     }
   }

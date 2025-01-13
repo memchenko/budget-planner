@@ -1,16 +1,12 @@
-import {
-  buildCreateEntityScenario,
-  buildDeleteEntityScenario,
-  buildUpdateEntityScenario,
-} from '#/libs/core/shared/factories';
-import { ENTITY_NAME } from '#/libs/core/shared/constants';
-import { TOKENS } from '#/libs/core/types';
-import { User } from '#/libs/core/entities/User';
-import { Tag } from '#/libs/core/entities/Tag';
-import { Fund } from '#/libs/core/entities/Fund';
-import { Wallet } from '#/libs/core/entities/Wallet';
-import { SharingRule } from '#/libs/core/entities/SharingRule';
-import { SynchronizationOrder } from '#/libs/core/entities/SynchronizationOrder';
+import { buildCreateEntityScenario, buildDeleteEntityScenario, buildUpdateEntityScenario } from 'core/shared/factories';
+import { ENTITY_NAME } from 'core/shared/constants';
+import { TOKENS } from 'core/types';
+import { User } from 'core/entities/User';
+import { Tag } from 'core/entities/Tag';
+import { Fund } from 'core/entities/Fund';
+import { Wallet } from 'core/entities/Wallet';
+import { SharingRule } from 'core/entities/SharingRule';
+import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
 
 // User entity scenarios
 export { CreateUser } from './user/CreateUser';
@@ -30,10 +26,6 @@ export const UpdateTag = buildUpdateEntityScenario<Tag>({
   entityName: ENTITY_NAME.TAG,
   repoType: TOKENS.TAG_REPO,
 });
-
-export { DeleteCostTag } from '#/libs/core/scenarios/tag/DeleteCostTag';
-
-export { DeleteIncomeTag } from '#/libs/core/scenarios/tag/DeleteIncomeTag';
 
 // Fund entity scenarios
 export { DistributeBalance } from './DistributeBalance';

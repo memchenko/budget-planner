@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '#/libs/core/shared/types';
-import { User } from '#/libs/core/entities/User';
-import { Wallet } from '#/libs/core/entities/Wallet';
-import { TOKENS } from '#/libs/core/types';
-import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
-import { ScenarioError } from '#/libs/core/errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
+import { Repo } from 'core/shared/types';
+import { User } from 'core/entities/User';
+import { Wallet } from 'core/entities/Wallet';
+import { TOKENS } from 'core/types';
+import { BaseScenario } from 'core/scenarios/BaseScenario';
+import { ScenarioError } from 'core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from 'core/shared/constants';
 
 const CREATE_USER_ERROR = "Couldn't create a user";
 const CREATE_WALLET_ERROR = "Couldn't create a wallet";

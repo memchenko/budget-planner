@@ -11,7 +11,8 @@
     "moduleResolution": "node16",
     "module": "Node16",
     "paths": {
-      "#/*": ["./*"]
+      "core/*": ["./libs/core/*"],
+      "formatting/*": ["./libs/formatting/*"]
     },
   }
 }

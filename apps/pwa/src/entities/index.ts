@@ -5,7 +5,6 @@ import { Fund } from './fund';
 import { Income } from './income';
 import { Tag } from './tag';
 import { User } from './user';
-import { Dictionaries } from './dictionaries';
 import { Wallet } from './wallet';
 import { SharingRule } from './sharing-rule';
 import { SynchronizationOrder } from './synchronization-order';
@@ -16,7 +15,6 @@ export const entitiesModule = new ContainerModule((bind) => {
   bind(TOKENS.INCOME_STORE).to(Income).inSingletonScope();
   bind(TOKENS.TAG_STORE).to(Tag).inSingletonScope();
   bind(TOKENS.USER_STORE).to(User).inSingletonScope();
-  bind(TOKENS.DICTIONARY_STORE).to(Dictionaries).inSingletonScope();
   bind(TOKENS.WALLET_STORE).to(Wallet).inSingletonScope();
   bind(TOKENS.SHARING_RULE_STORE).to(SharingRule).inSingletonScope();
   bind(TOKENS.SYNCHRONIZATION_ORDER_STORE).to(SynchronizationOrder).inSingletonScope();

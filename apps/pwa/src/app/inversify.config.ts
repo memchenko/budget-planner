@@ -7,9 +7,7 @@ import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { eventsModule } from '~/shared/events';
 import { TOKENS } from '~/shared/constants/di';
 import { WebRTC } from '~/shared/impl/webrtc';
-import { Synchronizer } from '~/shared/impl/syncronizer';
-import { webRtcMessageSchema } from '~/shared/schemas/webrtc';
-import { CreateUser } from '~/cases/create-user';
+import { initiateWorkflows } from '~/workflows';
 
 export let container!: Container;
 
@@ -24,9 +22,7 @@ export const setup = () => {
 
   container.bind(TOKENS.SCENARIO_RUNNER).toConstantValue(new ScenarioRunner());
 
-  container.bind(TOKENS.WEB_RTC).toConstantValue(new WebRTC(webRtcMessageSchema));
+  container.bind(TOKENS.WEB_RTC).toConstantValue(new WebRTC());
 
-  container.bind(TOKENS.SYNCHRONIZER).to(Synchronizer);
-
-  container.resolve(CreateUser);
+  initiateWorkflows(container);
 };

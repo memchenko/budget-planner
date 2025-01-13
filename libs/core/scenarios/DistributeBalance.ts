@@ -1,16 +1,16 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '#/libs/core/shared/types';
-import { Fund } from '#/libs/core/entities/Fund';
-import { Wallet } from '#/libs/core/entities/Wallet';
-import { User } from '#/libs/core/entities/User';
-import { TOKENS } from '#/libs/core/types';
-import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
-import { ScenarioError } from '#/libs/core/errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
-import { assertEntity } from '#/libs/core/shared/assertions';
-import { ENTITY_NAME } from '#/libs/core/shared/constants';
+import { Repo } from 'core/shared/types';
+import { Fund } from 'core/entities/Fund';
+import { Wallet } from 'core/entities/Wallet';
+import { User } from 'core/entities/User';
+import { TOKENS } from 'core/types';
+import { BaseScenario } from 'core/scenarios/BaseScenario';
+import { ScenarioError } from 'core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from 'core/shared/constants';
+import { assertEntity } from 'core/shared/assertions';
+import { ENTITY_NAME } from 'core/shared/constants';
 
 const UPDATE_FUNDS_ERROR = "Couldn't update funds balances";
 const UPDATE_WALLET_ERROR = "Coudn't update wallet";

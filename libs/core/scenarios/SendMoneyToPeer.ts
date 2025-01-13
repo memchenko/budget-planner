@@ -1,21 +1,21 @@
 import { inject, injectable } from 'inversify';
 import { assert } from 'ts-essentials';
 
-import { Repo } from '#/libs/core/shared/types';
-import { fund, wallet } from '#/libs/core/shared/schemas';
-import { Fund } from '#/libs/core/entities/Fund';
-import { Wallet } from '#/libs/core/entities/Wallet';
-import { Cost } from '#/libs/core/entities/Cost';
-import { Income } from '#/libs/core/entities/Income';
-import { User } from '#/libs/core/entities/User';
-import { SynchronizationOrder } from '#/libs/core/entities/SynchronizationOrder';
-import { TOKENS } from '#/libs/core/types';
-import { BaseScenario } from '#/libs/core/scenarios/BaseScenario';
-import { ScenarioError } from '#/libs/core/errors/ScenarioError';
-import { UNKNOWN_ERROR_TEXT } from '#/libs/core/shared/constants';
-import { assertEntity } from '#/libs/core/shared/assertions';
-import { ENTITY_NAME } from '#/libs/core/shared/constants';
-import { income } from '#/libs/core/shared/schemas';
+import { Repo } from 'core/shared/types';
+import { fund, wallet } from 'core/shared/schemas';
+import { Fund } from 'core/entities/Fund';
+import { Wallet } from 'core/entities/Wallet';
+import { Cost } from 'core/entities/Cost';
+import { Income } from 'core/entities/Income';
+import { User } from 'core/entities/User';
+import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
+import { TOKENS } from 'core/types';
+import { BaseScenario } from 'core/scenarios/BaseScenario';
+import { ScenarioError } from 'core/errors/ScenarioError';
+import { UNKNOWN_ERROR_TEXT } from 'core/shared/constants';
+import { assertEntity } from 'core/shared/assertions';
+import { ENTITY_NAME } from 'core/shared/constants';
+import { income } from 'core/shared/schemas';
 
 export type SendMoneyToPeerParams = {
   fromUserId: User['id'];
@@ -57,6 +57,7 @@ export class SendMoneyToPeer extends BaseScenario<SendMoneyToPeerParams> {
       note: `From user with id: ${this.params.fromUserId}`,
       entity: wallet,
       entityId: this.params.toWalletId,
+      tags: [],
     });
 
     assertEntity(this.income, ENTITY_NAME.INCOME);
@@ -66,6 +67,7 @@ export class SendMoneyToPeer extends BaseScenario<SendMoneyToPeerParams> {
       amount: this.params.amount,
       date,
       note: `To user with id: ${this.params.toUserId}`,
+      tags: [],
     };
 
     if ('fromFundId' in this.params) {

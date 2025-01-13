@@ -2,7 +2,6 @@ import { TOKENS as CORE_TOKENS } from '#/libs/core';
 
 export const TOKENS = {
   ...CORE_TOKENS,
-  DICTIONARY_STORE: Symbol.for('DictionaryStore'),
   USER_STORE: Symbol.for('UserStore'),
   COST_STORE: Symbol.for('CostStore'),
   INCOME_STORE: Symbol.for('IncomeStore'),
@@ -13,13 +12,15 @@ export const TOKENS = {
   SYNCHRONIZATION_ORDER_STORE: Symbol.for('SynchronizationOrderStore'),
 
   // Modules
-  EVENT_BUS: Symbol.for('EventBus'),
   WEB_RTC: Symbol.for('WebRTC'),
   SYNCHRONIZER: Symbol.for('Synchronizer'),
   SCENARIO_RUNNER: Symbol.for('ScenarioRunner'),
 
   // Events
   EVENTS: {
-    USER_READY: 'user-ready',
+    USER_READY: 'user:ready',
+    MODAL_SHOW: 'modal:show',
+    MODAL_CLOSE: 'modal:close',
+    NOTIFICATION_SHOW: 'notification:show',
   } as const,
 };

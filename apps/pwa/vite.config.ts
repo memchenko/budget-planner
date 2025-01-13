@@ -13,6 +13,7 @@ export default defineConfig({
     alias: {
       '~': resolve(__dirname, './src'),
       '#': resolve(__dirname, '../../'),
+      core: resolve(__dirname, '../../libs/core/'),
     },
   },
 });

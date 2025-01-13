@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { Scenario } from './types';
-import { ScenarioError } from '#/libs/core/errors/ScenarioError';
+import { ScenarioError } from 'core/errors/ScenarioError';
 
 @injectable()
 export abstract class BaseScenario<P extends object, R = void> implements Scenario<P, R> {

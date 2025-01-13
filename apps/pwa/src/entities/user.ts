@@ -52,6 +52,14 @@ export class User {
     });
   }
 
+  hasOneById(id: EntityType['id']) {
+    return this.getOneById(id) !== undefined;
+  }
+
+  getOneById(id: EntityType['id']) {
+    return this.entries.find((entry) => entry.id === id);
+  }
+
   @computed
   get isReady() {
     return isHydrated(this);

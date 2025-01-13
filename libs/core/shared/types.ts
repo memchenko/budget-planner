@@ -1,5 +1,5 @@
 export interface Repo<Entity extends object, Id extends keyof Entity | never = never> {
-  create<P extends Omit<Entity, Id>>(params: P): Promise<Entity | null>;
+  create<P extends Omit<Entity, Id> & Partial<Pick<Entity, Id>>>(params: P): Promise<Entity | null>;
 
   removeOneBy(filters: RepoFilters<Entity>): Promise<boolean>;
   removeMany(filters: RepoFilters<Entity>): Promise<boolean>;

@@ -1,6 +1,6 @@
 export class ScenarioError extends Error {
   reason!: 'execution' | 'revertion';
-  scenario!: Function;
+  scenario!: unknown;
   executionError!: unknown;
   revertionError!: unknown;
 }

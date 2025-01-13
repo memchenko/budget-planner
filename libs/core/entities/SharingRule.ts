@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { wallet, fund } from '#/libs/core/shared/schemas';
+import { wallet, fund } from 'core/shared/schemas';
 import { userSchema } from './User';
 
 export const sharingRuleSchema = z.intersection(
