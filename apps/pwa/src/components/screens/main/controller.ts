@@ -44,4 +44,8 @@ export class MainController {
   handleAddNewFundClick = () => {
     this.navigate(pages.addFund);
   };
+
+  handleSynchronizeClick() {
+    this.navigate(pages.connection);
+  }
 }
