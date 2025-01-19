@@ -20,7 +20,7 @@ import { z } from 'zod';
 import { entityAcceptedSchema } from './schemas';
 import capitalize from 'lodash/capitalize';
 import { reaction } from 'mobx';
-import * as syncronizationOrder from '~/entities/synchronization-order';
+import * as syncronizationOrder from '~/stores/synchronization-order';
 import { Subject, fromEventPattern, lastValueFrom } from 'rxjs';
 import { distinct, mergeMap, takeUntil } from 'rxjs/operators';
 
@@ -57,6 +57,8 @@ export class Synchronizer implements ICooperativeWorkflow {
     @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE)
     private readonly synchronizationOrderStore: syncronizationOrder.SynchronizationOrder,
   ) {
+    this.handleOrder = this.handleOrder.bind(this);
+
     this.entityRepoMap = {
       fund: this.fund,
       wallet: this.wallet,
@@ -65,7 +67,8 @@ export class Synchronizer implements ICooperativeWorkflow {
       income: this.income,
     };
 
-    this.eventBus.listen(LOCAL_EVENTS.GREETED_PEER, this.execute);
+    this.eventBus.listen(LOCAL_EVENTS.GREETED_PEER, this.execute.bind(this));
+    this.peer.listen(PEER_EVENTS.SYNC_ENTITY, this.answer.bind(this));
   }
 
   async answer(message: unknown) {
@@ -112,6 +115,8 @@ export class Synchronizer implements ICooperativeWorkflow {
       () => this.synchronizationOrderStore.entries,
       () => this.processSyncronizationOrderQueue(peerUserId),
     );
+
+    this.processSyncronizationOrderQueue(peerUserId);
 
     await lastValueFrom(
       this.queue.pipe(
@@ -206,6 +211,7 @@ export class Synchronizer implements ICooperativeWorkflow {
     assert(entity, 'Cannot find record to synchronize');
     assert(hasProperty(entity, 'id'), 'Invalid type of entity');
 
+    this.synchronizationOrderStore.startSyncingOrder();
     this.peer.send(PEER_EVENTS.SYNC_ENTITY, {
       needConfirmation,
       entityType,
@@ -226,9 +232,11 @@ export class Synchronizer implements ICooperativeWorkflow {
           }
         }
 
-        return;
+        break;
       }
     }
+
+    this.synchronizationOrderStore.stopSyncingOrder();
   }
 
   private buildAcceptAnswer(entityId: User['id'], answer: boolean) {

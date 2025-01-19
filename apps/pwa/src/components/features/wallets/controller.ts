@@ -1,7 +1,7 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { observable, computed, action, makeAutoObservable } from 'mobx';
-import { Wallet } from '~/entities/wallet';
+import { Wallet } from '~/stores/wallet';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { asMoney } from '#/libs/formatting/money';

@@ -2,5 +2,5 @@ export const pages = {
   index: '/',
   addFund: '/fund/new',
   editFund: '/fund/:id',
-  p2pSynchronization: '/p2p-syncronization',
+  connection: '/connection',
 } as const;

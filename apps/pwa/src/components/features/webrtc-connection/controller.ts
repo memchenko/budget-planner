@@ -175,8 +175,7 @@ export class WebRTCConnectionController {
     }
   }
 
-  private handleWebRTCMessage(msg: string) {
-    const json = JSON.parse(msg);
+  private handleWebRTCMessage(json: unknown) {
     assert(matchesSchema(json, webRtcMessageSchema), 'Invalid webrtc message');
 
     if (json.type === readyEventTypeSchema.value) {

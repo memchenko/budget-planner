@@ -37,6 +37,7 @@ export class ModalController {
     this.isOpen = true;
   }
 
+  @action
   closeModal(answer: boolean) {
     this.modalClose.push({ answer: JSON.stringify(answer) }, this.channelId);
     this.isOpen = false;

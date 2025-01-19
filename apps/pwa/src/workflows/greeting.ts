@@ -2,7 +2,7 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { assert } from 'ts-essentials';
 import { TOKENS } from '~/shared/constants/di';
-import * as user from '~/entities/user';
+import * as user from '~/stores/user';
 import { userSchema } from '#/libs/core/entities/User';
 import { user as userEntityName } from '#/libs/core/shared/schemas';
 import { matchesSchema } from '~/shared/type-guards';
@@ -20,6 +20,8 @@ import { entityAcceptedSchema } from './schemas';
 
 @provide(Greeting)
 export class Greeting implements ICooperativeWorkflow {
+  private isInitiator = false;
+
   constructor(
     @inject(WORKFLOW_TOKENS.IPrompt) private readonly prompt: IPrompt,
     @inject(WORKFLOW_TOKENS.INotification)
@@ -30,10 +32,13 @@ export class Greeting implements ICooperativeWorkflow {
     private readonly eventBus: IEventBus,
     @inject(TOKENS.USER_STORE) private readonly user: user.User,
   ) {
-    this.peer.listen(PEER_EVENTS.GREET, this.answer);
+    this.peer.listen(PEER_EVENTS.GREET, this.answer.bind(this));
+    this.eventBus.listen(LOCAL_EVENTS.START_GREETING, this.execute.bind(this));
   }
 
   async execute() {
+    this.isInitiator = true;
+
     this.peer.startChannel();
     this.peer.send(PEER_EVENTS.GREET, this.user.current);
 
@@ -49,7 +54,18 @@ export class Greeting implements ICooperativeWorkflow {
 
     if (await this.user.hasOneById(answerer.id)) {
       this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(answerer.id, true));
-      return this.notification.success('Connected');
+      this.notification.success('Connected');
+
+      this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(answerer.id, true));
+      this.peer.endChannel();
+
+      this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, answerer.id);
+
+      const unsub = this.peer.onclose(() => {
+        this.notification.info(`${answerer.firstName} ${answerer.lastName} disconnected`);
+        unsub();
+      });
+      return;
     }
 
     const shouldAcceptAnswererData = Boolean(
@@ -80,6 +96,10 @@ export class Greeting implements ICooperativeWorkflow {
   }
 
   async answer(initiator: unknown): Promise<void> {
+    if (this.isInitiator) {
+      return;
+    }
+
     assert(matchesSchema(initiator, userSchema), 'Invalid initiator user data');
 
     let shouldAcceptInitiatorData: boolean = true;
@@ -91,6 +111,10 @@ export class Greeting implements ICooperativeWorkflow {
           `User ${initiator.firstName} ${initiator.lastName} wants to subscribe to you.`,
         ),
       );
+
+      if (shouldAcceptInitiatorData) {
+        await this.user.add(initiator as unknown as user.EntityType);
+      }
     }
 
     if (!shouldAcceptInitiatorData) {
@@ -98,8 +122,6 @@ export class Greeting implements ICooperativeWorkflow {
       this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(initiator.id, false));
       return this.peer.close();
     }
-
-    await this.user.add(initiator as unknown as user.EntityType);
 
     this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(initiator.id, true));
     this.peer.send(PEER_EVENTS.GREET, this.user.current);

@@ -15,7 +15,10 @@ export const PEER_EVENTS = {
 };
 
 export const LOCAL_EVENTS = {
+  START_GREETING: 'start-greeting',
   GREETED_PEER: 'greeted-peer',
+  START_SYNCING_ENTITY: 'start-syncing-entity',
+  STOP_SYNCING_ENTITY: 'stop-syncing-entity',
 };
 
 export interface IWorkflow {

@@ -2,8 +2,8 @@ import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '#/libs/core';
 import { injectable, inject } from 'inversify';
-import { Cost } from './cost';
-import { Income } from './income';
+import { Cost } from './cost.js';
+import { Income } from './income.js';
 import { TOKENS } from '~/shared/constants/di';
 import { DateTime } from 'luxon';
 

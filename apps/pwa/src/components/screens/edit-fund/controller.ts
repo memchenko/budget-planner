@@ -1,4 +1,4 @@
-import { action, computed, makeAutoObservable, observable } from 'mobx';
+import { action, computed, makeAutoObservable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
@@ -6,17 +6,18 @@ import { assert } from 'ts-essentials';
 import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User, EntityType as UserEntity } from '~/entities/user';
-import { Fund, EntityType as FundEntity } from '~/entities/fund';
+import { User, EntityType as UserEntity } from '~/stores/user';
+import { Fund, EntityType as FundEntity } from '~/stores/fund';
 import { TOKENS } from '~/shared/constants/di';
 import { pages } from '~/shared/constants/pages';
 import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/reject';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
-import { SynchronizationOrder } from '~/entities/synchronization-order';
-import { SharingRule } from '~/entities/sharing-rule';
+import { SynchronizationOrder } from '~/stores/synchronization-order';
+import { SharingRule } from '~/stores/sharing-rule';
 import { fund } from '#/libs/core/shared/schemas';
+import { INavigateFunc } from '~/shared/interfaces';
 
 @provide(EditFundController)
 export class EditFundController {
@@ -24,25 +25,18 @@ export class EditFundController {
   fund!: FundEntity;
 
   constructor(
-    @inject(TOKENS.SCENARIO_RUNNER)
-    private readonly scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.USER_STORE)
-    private readonly userStore: User,
-    @inject(TOKENS.FUND_STORE)
-    private readonly fundStore: Fund,
-    @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE)
-    private readonly synchronizationOrder: SynchronizationOrder,
-    @inject(TOKENS.SHARING_RULE_STORE)
-    private readonly sharingRule: SharingRule,
+    @inject(TOKENS.SCENARIO_RUNNER) private readonly scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.USER_STORE) private readonly userStore: User,
+    @inject(TOKENS.FUND_STORE) private readonly fundStore: Fund,
+    @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE) private readonly synchronizationOrder: SynchronizationOrder,
+    @inject(TOKENS.SHARING_RULE_STORE) private readonly sharingRule: SharingRule,
+    @inject(TOKENS.NAVIGATE_FUNC) private readonly navigate: INavigateFunc,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
 
     this.getFundId();
     this.getFund();
   }
-
-  @observable
-  isSubmitted = false;
 
   @computed
   get users() {
@@ -96,7 +90,7 @@ export class EditFundController {
       throw new Error(`Unknown event: ${name}`);
     }
 
-    this.isSubmitted = true;
+    this.navigate(pages.index);
   }
 
   @action

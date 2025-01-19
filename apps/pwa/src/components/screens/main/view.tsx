@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useNavigate, generatePath } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@nextui-org/progress';
 import { pages } from '~/shared/constants/pages';
 import { useController } from '~/shared/hooks/useController';
@@ -13,14 +13,6 @@ export const Main = observer(() => {
   const ctrl = useController(MainController, true);
   const navigate = useNavigate();
 
-  const handleFundClick = (id: string) => {
-    navigate(generatePath(pages.editFund, { id }));
-  };
-
-  const handleAddNewFundClick = () => {
-    navigate(generatePath(pages.addFund));
-  };
-
   if (ctrl.isLoading) {
     return (
       <Screen>
@@ -31,10 +23,11 @@ export const Main = observer(() => {
 
   return (
     <Screen>
+      {ctrl.isSyncing && <CircularProgress isIndeterminate size="sm" />}
       <Wallet />
-      <Funds onFundClick={handleFundClick} onAddNewFund={handleAddNewFundClick} />
+      <Funds onFundClick={ctrl.handleFundClick} onAddNewFund={ctrl.handleAddNewFundClick} />
       <MakeRecord />
-      <button onClick={() => navigate(pages.p2pSynchronization)}>Synchronize</button>
+      <button onClick={() => navigate(pages.connection)}>Synchronize</button>
     </Screen>
   );
 });

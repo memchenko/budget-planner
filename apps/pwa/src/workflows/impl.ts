@@ -1,7 +1,6 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { firstValueFrom } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-import { assert } from 'ts-essentials';
 import { matchesSchema } from '~/shared/type-guards';
 import { TOKENS } from '~/shared/constants/di';
 import { ModalCloseEvent, ModalShowEvent, NotificationShowEvent } from '~/shared/events';
@@ -20,6 +19,7 @@ const workflowMessageSchema = z.object({
   }),
 });
 
+@injectable()
 export class Connection implements IConnection {
   private channelId: string | null = null;
   private isChannelStarted = false;
@@ -75,13 +75,13 @@ export class Connection implements IConnection {
     });
   }
 
-  close() {
+  close = () => {
     this.webrtc.close();
-  }
+  };
 
-  onclose(cb: VoidFunction) {
+  onclose = (cb: VoidFunction) => {
     return this.webrtc.on('disconnected', cb);
-  }
+  };
 
   private wrapMessageHandler({
     type,
@@ -92,16 +92,20 @@ export class Connection implements IConnection {
     filters?: z.ZodSchema;
     cb: (msg: z.infer<typeof workflowMessageSchema>['payload']['value']) => void;
   }) {
-    return (message: string) => {
-      const json = JSON.parse(message);
-      assert(matchesSchema(json, workflowMessageSchema), 'Invalid workflow message');
+    return (json: unknown) => {
+      if (!matchesSchema(json, workflowMessageSchema)) {
+        return;
+      }
 
       if (json.payload.type === type) {
         if (!this.isChannelStarted) {
           this.startChannel(json.channelId);
         }
 
-        if (this.channelId === json.channelId && (!filters || matchesSchema(json.payload.value, filters))) {
+        // if (this.channelId === json.channelId && (!filters || matchesSchema(json.payload.value, filters))) {
+        //   cb(json.payload.value);
+        // }
+        if (!filters || matchesSchema(json.payload.value, filters)) {
           cb(json.payload.value);
         }
       }
@@ -109,6 +113,7 @@ export class Connection implements IConnection {
   }
 }
 
+@injectable()
 export class Prompt implements IPrompt {
   constructor(
     @inject(TOKENS.EVENTS.MODAL_SHOW) private readonly modalShow: ModalShowEvent,
@@ -125,15 +130,19 @@ export class Prompt implements IPrompt {
       ),
     );
 
-    this.modalShow.push({
-      type: 'prompt',
-      question,
-    });
+    this.modalShow.push(
+      {
+        type: 'prompt',
+        question,
+      },
+      channelId,
+    );
 
     return promise;
   }
 }
 
+@injectable()
 export class Notification implements INotification {
   constructor(@inject(TOKENS.EVENTS.NOTIFICATION_SHOW) private readonly notificationShow: NotificationShowEvent) {}
 
@@ -154,6 +163,7 @@ export class Notification implements INotification {
   }
 }
 
+@injectable()
 export class EventBus implements IEventBus {
   private observable = new Subject<{ type: string; payload: unknown }>();
 

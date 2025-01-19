@@ -2,8 +2,8 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { makeAutoObservable, action, computed } from 'mobx';
 import { TOKENS } from '~/shared/constants/di';
-import { User } from '~/entities/user';
-import { Wallet } from '~/entities/wallet';
+import { User } from '~/stores/user';
+import { Wallet } from '~/stores/wallet';
 import {
   AMOUNT_PROPERTY_NAME,
   FUND_PROPERTY_NAME,

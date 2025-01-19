@@ -7,7 +7,7 @@ import { useController } from '~/shared/hooks/useController';
 import { TagsListController } from './controller';
 import styles from './styles.module.css';
 import { getTagColor } from './helpers';
-import { EntityType } from '~/entities/tag';
+import { EntityType } from '~/stores/tag';
 
 export interface TagsListProps {
   type: TagsListController['type'];

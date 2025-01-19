@@ -10,11 +10,15 @@ export const TOKENS = {
   WALLET_STORE: Symbol.for('WalletStore'),
   SHARING_RULE_STORE: Symbol.for('SharingRuleStore'),
   SYNCHRONIZATION_ORDER_STORE: Symbol.for('SynchronizationOrderStore'),
+  APP_STORE: Symbol.for('AppStore'),
 
   // Modules
   WEB_RTC: Symbol.for('WebRTC'),
   SYNCHRONIZER: Symbol.for('Synchronizer'),
   SCENARIO_RUNNER: Symbol.for('ScenarioRunner'),
+
+  // Utils
+  NAVIGATE_FUNC: Symbol.for('NAVIGATE'),
 
   // Events
   EVENTS: {

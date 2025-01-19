@@ -2,9 +2,9 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
-import { Fund } from '~/entities/fund';
-import { Wallet } from '~/entities/wallet';
-import { User } from '~/entities/user';
+import { Fund } from '~/stores/fund';
+import { Wallet } from '~/stores/wallet';
+import { User } from '~/stores/user';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 

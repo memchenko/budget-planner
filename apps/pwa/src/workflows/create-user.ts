@@ -1,7 +1,7 @@
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { when, IReactionDisposer } from 'mobx';
-import { User } from '~/entities/user';
+import { User } from '~/stores/user';
 import { UserReadyEvent } from '~/shared/events';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { TOKENS } from '~/shared/constants/di';

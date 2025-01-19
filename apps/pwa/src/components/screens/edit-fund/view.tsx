@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import { useForm, Controller } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@nextui-org/input';
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
@@ -144,11 +143,11 @@ export const EditFund = observer(() => {
           </CardBody>
         </Card>
         <div>
-          {ctrl.users.map((user) => (
-            <button onClick={ctrl.handleUserSelected.bind(ctrl, user.id)}>
+          {ctrl.users.map((user, index) => (
+            <div key={index} onClick={ctrl.handleUserSelected.bind(ctrl, user.id)}>
               <img src={user.avatarSrc} alt="" width={25} height={25} />
               {user.firstName} {user.lastName}
-            </button>
+            </div>
           ))}
         </div>
 
@@ -159,7 +158,6 @@ export const EditFund = observer(() => {
           Submit
         </PrimaryButton>
       </Screen>
-      {ctrl.isSubmitted && <Navigate to="../" relative="route" />}
     </form>
   );
 });

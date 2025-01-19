@@ -11,6 +11,7 @@ export type EntityType = entities.SynchronizationOrder & {
 @injectable()
 export class SynchronizationOrder {
   @observable entries: EntityType[] = [];
+  @observable syncingOrdersCount = 0;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -18,6 +19,21 @@ export class SynchronizationOrder {
       name: this.constructor.name,
       properties: ['entries'],
     });
+  }
+
+  @computed
+  get isReady() {
+    return isHydrated(this);
+  }
+
+  @computed
+  get all() {
+    return this.entries;
+  }
+
+  @computed
+  get isSyncing() {
+    return this.syncingOrdersCount > 0;
   }
 
   @action
@@ -52,17 +68,17 @@ export class SynchronizationOrder {
     });
   }
 
+  @action
+  startSyncingOrder() {
+    this.syncingOrdersCount++;
+  }
+
+  @action
+  stopSyncingOrder() {
+    this.syncingOrdersCount--;
+  }
+
   getAllByUserId(userId: EntityType['userId']) {
     return this.all.filter((entry) => entry.userId === userId);
-  }
-
-  @computed
-  get isReady() {
-    return isHydrated(this);
-  }
-
-  @computed
-  get all() {
-    return this.entries;
   }
 }

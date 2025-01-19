@@ -1,8 +1,8 @@
 import { makeAutoObservable, action, computed } from 'mobx';
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { Tag, EntityType } from '~/entities/tag';
-import { User } from '~/entities/user';
+import { Tag, EntityType } from '~/stores/tag';
+import { User } from '~/stores/user';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { assert } from 'ts-essentials';

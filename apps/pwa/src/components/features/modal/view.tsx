@@ -7,26 +7,26 @@ import {
   ModalContent,
   ModalBody,
   ModalFooter,
-  // useDisclosure,
+  useDisclosure,
 } from '@nextui-org/modal';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { PrimaryButton } from '~/components/ui/primary-button';
 import { Button } from '~/components/ui/button';
 
 export const Modal = observer(() => {
   const ctrl = useController(ModalController);
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // useEffect(() => {
-  //   if (ctrl.isOpen) {
-  //     onOpen();
-  //   }
-  // }, [ctrl.isOpen, onOpen]);
+  useEffect(() => {
+    if (ctrl.isOpen) {
+      onOpen();
+    }
+  }, [ctrl.isOpen, onOpen]);
 
   return (
-    <NextUIModal isDismissable={false} isOpen={ctrl.isOpen}>
+    <NextUIModal isDismissable={false} isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
-        {() => (
+        {(onClose) => (
           <>
             <ModalHeader>{ctrl.heading}</ModalHeader>
             <ModalBody>
@@ -35,6 +35,7 @@ export const Modal = observer(() => {
             <ModalFooter>
               <Button
                 onPress={() => {
+                  onClose();
                   ctrl.closeModal(false);
                 }}
               >
@@ -42,6 +43,7 @@ export const Modal = observer(() => {
               </Button>
               <PrimaryButton
                 onPress={() => {
+                  onClose();
                   ctrl.closeModal(true);
                 }}
               >

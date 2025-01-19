@@ -8,6 +8,7 @@ import { User } from './user';
 import { Wallet } from './wallet';
 import { SharingRule } from './sharing-rule';
 import { SynchronizationOrder } from './synchronization-order';
+import { App } from './app';
 
 export const entitiesModule = new ContainerModule((bind) => {
   bind(TOKENS.COST_STORE).to(Cost).inSingletonScope();
@@ -18,4 +19,5 @@ export const entitiesModule = new ContainerModule((bind) => {
   bind(TOKENS.WALLET_STORE).to(Wallet).inSingletonScope();
   bind(TOKENS.SHARING_RULE_STORE).to(SharingRule).inSingletonScope();
   bind(TOKENS.SYNCHRONIZATION_ORDER_STORE).to(SynchronizationOrder).inSingletonScope();
+  bind(TOKENS.APP_STORE).to(App).inSingletonScope();
 });

@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import { useForm, Controller } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@nextui-org/input';
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
@@ -143,7 +142,6 @@ export const AddFund = observer(() => {
         </Card>
         <PrimaryButton type="submit">Submit</PrimaryButton>
       </Screen>
-      {ctrl.isSubmitted && <Navigate to="../" relative="route" />}
     </form>
   );
 });

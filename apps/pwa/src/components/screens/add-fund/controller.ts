@@ -1,25 +1,23 @@
-import { action, makeAutoObservable, observable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User } from '~/entities/user';
+import { User } from '~/stores/user';
 import { TOKENS } from '~/shared/constants/di';
+import { INavigateFunc } from '~/shared/interfaces';
+import { pages } from '~/shared/constants/pages';
 
 @provide(AddFundController)
 export class AddFundController {
   constructor(
-    @inject(TOKENS.SCENARIO_RUNNER)
-    private scenarioRunner: ScenarioRunner,
-    @inject(TOKENS.USER_STORE)
-    private userStore: User,
+    @inject(TOKENS.SCENARIO_RUNNER) private readonly scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.USER_STORE) private readonly userStore: User,
+    @inject(TOKENS.NAVIGATE_FUNC) private readonly navigate: INavigateFunc,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
-
-  @observable
-  isSubmitted = false;
 
   @action
   handleSubmit(data: z.infer<typeof schema>) {
@@ -35,10 +33,13 @@ export class AddFundController {
       externalWalletId: null,
     };
 
-    this.scenarioRunner.execute({
-      scenario: 'CreateFund',
-      payload,
-    });
-    this.isSubmitted = true;
+    this.scenarioRunner
+      .execute({
+        scenario: 'CreateFund',
+        payload,
+      })
+      .then(() => {
+        this.navigate(pages.index);
+      });
   }
 }
