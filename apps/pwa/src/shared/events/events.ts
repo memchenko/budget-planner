@@ -1,20 +1,26 @@
-import { Subject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+interface EventData<P> {
+  payload: P;
+  channelId: string | null;
+}
 
 export interface IEvent<P extends object> {
   push(payload: P, channelId: string | null): void;
 
-  pull(): Observable<{ payload: P; channelId: string | null }>;
+  pull(): Observable<EventData<P>>;
 }
 
 abstract class AbstractEvent<P extends object> implements IEvent<P> {
-  private readonly observable = new Subject<{ channelId: string | null; payload: P }>();
+  private readonly observable = new BehaviorSubject<EventData<P> | null>(null);
 
   push(payload: P, channelId: string | null = null) {
     this.observable.next({ channelId, payload });
   }
 
-  pull() {
-    return this.observable;
+  pull(): Observable<EventData<P>> {
+    return this.observable.pipe(filter((value): value is EventData<P> => value !== null));
   }
 }
 

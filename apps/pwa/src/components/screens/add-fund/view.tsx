@@ -22,7 +22,7 @@ export const AddFund = observer(() => {
 
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>
-      <Screen>
+      <div>
         <Card className="card">
           <CardHeader className="card-element">
             <CardTitle>Name</CardTitle>
@@ -141,7 +141,7 @@ export const AddFund = observer(() => {
           </CardBody>
         </Card>
         <PrimaryButton type="submit">Submit</PrimaryButton>
-      </Screen>
+      </div>
     </form>
   );
 });

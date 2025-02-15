@@ -13,6 +13,7 @@ import { assertEntity } from 'core/shared/assertions';
 import { fund, wallet, cost } from 'core/shared/schemas';
 import { SharingRule } from 'core/entities/SharingRule';
 import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
+import { AddSynchronizationOrder } from 'core/scenarios/AddSynchronizationOrder';
 
 export type AddCostParams = Parameters<Repo<Cost, 'id'>['create']>[0];
 
@@ -27,6 +28,7 @@ export class AddCost extends BaseScenario<AddCostParams> {
     @inject(TOKENS.COST_REPO) private readonly costRepo: Repo<Cost, 'id'>,
     @inject(TOKENS.FUND_REPO) private readonly fundRepo: Repo<Fund, 'id'>,
     @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
+    @inject(AddSynchronizationOrder) private readonly addSyncronizationOrderScenario: AddSynchronizationOrder,
   ) {
     super();
   }
@@ -54,12 +56,22 @@ export class AddCost extends BaseScenario<AddCostParams> {
     });
 
     if (sharingRule !== null) {
-      this.synchronizationOrderRepo.create({
-        userId: this.params.userId,
-        entity: cost,
-        entityId: this.cost.id,
-        action: 'create',
-      });
+      const syncWithUserId = this.params.userId === sharingRule.ownerId ? sharingRule.userId : sharingRule.ownerId;
+
+      await Promise.all([
+        this.addSyncronizationOrderScenario.run({
+          userId: syncWithUserId,
+          entity: cost,
+          entityId: this.cost.id,
+          action: 'create',
+        }),
+        this.addSyncronizationOrderScenario.run({
+          userId: syncWithUserId,
+          entity: this.params.entity,
+          entityId: this.params.entityId,
+          action: 'update',
+        }),
+      ]);
     }
   }
 

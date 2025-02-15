@@ -2,8 +2,18 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { TOKENS } from '~/shared/constants/di';
 import { Repo } from 'core/shared/types';
-import { User, Wallet, Fund, Tag, Cost, Income, SynchronizationOrder, entitySchemaMap, EntityMap } from 'core/entities';
-import { user as userEntityName, allEntities, fund, wallet, tag, income, cost } from 'core/shared/schemas';
+import {
+  Wallet,
+  Fund,
+  Tag,
+  Cost,
+  Income,
+  SynchronizationOrder,
+  synchronizationOrderSchema,
+  entitySchemaMap,
+  EntityMap,
+} from 'core/entities';
+import { allEntities, fund, wallet, tag, income, cost } from 'core/shared/schemas';
 import { assert } from 'ts-essentials';
 import { hasProperty, matchesSchema } from '~/shared/type-guards';
 import {
@@ -22,7 +32,7 @@ import capitalize from 'lodash/capitalize';
 import { reaction } from 'mobx';
 import * as syncronizationOrder from '~/stores/synchronization-order';
 import { Subject, fromEventPattern, lastValueFrom } from 'rxjs';
-import { distinct, mergeMap, takeUntil } from 'rxjs/operators';
+import { distinct, mergeMap, takeUntil, tap } from 'rxjs/operators';
 
 const messageSchema = z.object({
   needConfirmation: z.boolean(),
@@ -30,6 +40,7 @@ const messageSchema = z.object({
   value: z.object({
     id: z.string(),
   }),
+  operation: synchronizationOrderSchema.shape.action,
 });
 
 @provide(Synchronizer)
@@ -76,34 +87,46 @@ export class Synchronizer implements ICooperativeWorkflow {
 
     const entityTypeTitle = capitalize(message.entityType);
 
-    if (message.needConfirmation) {
-      let description = `The peer shared ${entityTypeTitle}`;
+    if (message.operation === 'create') {
+      if (message.needConfirmation) {
+        let description = `The peer shared ${entityTypeTitle}`;
 
-      if (matchesSchema(message.value, z.object({ title: z.string() }))) {
-        description += ` named "${message.value.title}"`;
+        if (matchesSchema(message.value, z.object({ title: z.string() }))) {
+          description += ` named "${message.value.title}"`;
+        }
+
+        description += ' with you';
+
+        const shouldAccept = await this.prompt.question('Do you accept new resource from the peer?', description);
+
+        if (!shouldAccept) {
+          this.notification.error(`You refused to accept shared ${entityTypeTitle}`);
+          this.peer.send(
+            PEER_EVENTS.ENTITY_ACCEPTED,
+            this.buildAcceptAnswer(message.entityType, message.value.id, false),
+          );
+          return;
+        }
       }
 
-      description += ' with you';
+      assert(matchesSchema(message.value, entitySchemaMap[message.entityType]));
 
-      const shouldAccept = await this.prompt.question('Do you accept new resource from the peer?', description);
+      const repo = this.entityRepoMap[message.entityType];
+      await (repo.create as Repo<EntityMap[typeof message.entityType]>['create'])(message.value);
 
-      if (!shouldAccept) {
-        this.notification.error(`You refused to accept shared ${entityTypeTitle}`);
-        this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(message.value.id, false));
-        return;
+      if (message.needConfirmation) {
+        this.notification.success(`You accepted shared ${entityTypeTitle}`);
       }
+
+      this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(message.entityType, message.value.id, true));
     }
 
-    assert(matchesSchema(message.value, entitySchemaMap[message.entityType]));
-
-    const repo = this.entityRepoMap[message.entityType];
-    await (repo.create as Repo<EntityMap[typeof message.entityType]>['create'])(message.value);
-
-    if (message.needConfirmation) {
-      this.notification.success(`You accepted shared ${entityTypeTitle}`);
+    if (message.operation === 'update') {
+      const repo = this.entityRepoMap[message.entityType];
+      await repo.updateOneBy({ id: message.value.id }, message.value);
+      this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(message.entityType, message.value.id, false));
+      return;
     }
-
-    this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(message.value.id, true));
   }
 
   async execute(peerUserId: unknown) {
@@ -142,6 +165,7 @@ export class Synchronizer implements ICooperativeWorkflow {
           const entity = await this.fund.getOneBy({ id: order.entityId });
 
           return this.syncEntity({
+            operation: 'create',
             entityType: fund,
             entity,
             order,
@@ -152,6 +176,7 @@ export class Synchronizer implements ICooperativeWorkflow {
         }
         case cost: {
           return this.syncEntity({
+            operation: 'create',
             entityType: cost,
             entity: await this.cost.getOneBy({ id: order.entityId }),
             order,
@@ -160,6 +185,7 @@ export class Synchronizer implements ICooperativeWorkflow {
         }
         case income: {
           return this.syncEntity({
+            operation: 'create',
             entityType: income,
             entity: await this.income.getOneBy({ id: order.entityId }),
             order,
@@ -168,6 +194,7 @@ export class Synchronizer implements ICooperativeWorkflow {
         }
         case tag: {
           return this.syncEntity({
+            operation: 'create',
             entityType: tag,
             entity: await this.tag.getOneBy({ id: order.entityId }),
             order,
@@ -178,12 +205,63 @@ export class Synchronizer implements ICooperativeWorkflow {
           const entity = await this.wallet.getOneBy({ id: order.entityId });
 
           return this.syncEntity({
+            operation: 'create',
             entityType: wallet,
             entity,
             order,
             needConfirmation: true,
             successMessage: `The peer accepted your wallet "${entity?.title}"`,
             failureMessage: `The peer refused your wallet "${entity?.title}"`,
+          });
+        }
+      }
+    }
+
+    if (order.action === 'update') {
+      switch (order.entity) {
+        case fund: {
+          return this.syncEntity({
+            operation: 'update',
+            entityType: fund,
+            entity: await this.fund.getOneBy({ id: order.entityId }),
+            order,
+            needConfirmation: false,
+          });
+        }
+        case cost: {
+          return this.syncEntity({
+            operation: 'update',
+            entityType: cost,
+            entity: await this.cost.getOneBy({ id: order.entityId }),
+            order,
+            needConfirmation: false,
+          });
+        }
+        case income: {
+          return this.syncEntity({
+            operation: 'update',
+            entityType: income,
+            entity: await this.income.getOneBy({ id: order.entityId }),
+            order,
+            needConfirmation: false,
+          });
+        }
+        case tag: {
+          return this.syncEntity({
+            operation: 'update',
+            entityType: tag,
+            entity: await this.tag.getOneBy({ id: order.entityId }),
+            order,
+            needConfirmation: false,
+          });
+        }
+        case wallet: {
+          return this.syncEntity({
+            operation: 'update',
+            entityType: wallet,
+            entity: await this.wallet.getOneBy({ id: order.entityId }),
+            order,
+            needConfirmation: false,
           });
         }
       }
@@ -195,6 +273,7 @@ export class Synchronizer implements ICooperativeWorkflow {
       entityType: string;
       entity: unknown;
       order: SynchronizationOrder;
+      operation: z.infer<typeof synchronizationOrderSchema.shape.action>;
     } & (
       | {
           needConfirmation: false;
@@ -206,7 +285,7 @@ export class Synchronizer implements ICooperativeWorkflow {
         }
     ),
   ) {
-    const { entity, entityType, needConfirmation, order } = params;
+    const { entity, entityType, needConfirmation, order, operation } = params;
 
     assert(entity, 'Cannot find record to synchronize');
     assert(hasProperty(entity, 'id'), 'Invalid type of entity');
@@ -216,12 +295,13 @@ export class Synchronizer implements ICooperativeWorkflow {
       needConfirmation,
       entityType,
       value: entity,
+      operation,
     });
 
     while (true) {
       const response = await this.peer.receive(PEER_EVENTS.ENTITY_ACCEPTED, entityAcceptedSchema);
 
-      if (response.entityType === fund && response.entityId === entity.id) {
+      if (response.entityId === entity.id) {
         this.synchronizationOrder.removeOneBy({ id: order.id });
 
         if (needConfirmation) {
@@ -239,9 +319,9 @@ export class Synchronizer implements ICooperativeWorkflow {
     this.synchronizationOrderStore.stopSyncingOrder();
   }
 
-  private buildAcceptAnswer(entityId: User['id'], answer: boolean) {
+  private buildAcceptAnswer(entityType: string, entityId: string, answer: boolean) {
     return {
-      entityType: userEntityName,
+      entityType,
       entityId,
       answer,
     };

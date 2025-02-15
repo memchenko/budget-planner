@@ -24,12 +24,9 @@ export class Greeting implements ICooperativeWorkflow {
 
   constructor(
     @inject(WORKFLOW_TOKENS.IPrompt) private readonly prompt: IPrompt,
-    @inject(WORKFLOW_TOKENS.INotification)
-    private readonly notification: INotification,
-    @inject(WORKFLOW_TOKENS.IConnection)
-    private readonly peer: IConnection,
-    @inject(WORKFLOW_TOKENS.IEventBus)
-    private readonly eventBus: IEventBus,
+    @inject(WORKFLOW_TOKENS.INotification) private readonly notification: INotification,
+    @inject(WORKFLOW_TOKENS.IConnection) private readonly peer: IConnection,
+    @inject(WORKFLOW_TOKENS.IEventBus) private readonly eventBus: IEventBus,
     @inject(TOKENS.USER_STORE) private readonly user: user.User,
   ) {
     this.peer.listen(PEER_EVENTS.GREET, this.answer.bind(this));
@@ -55,10 +52,7 @@ export class Greeting implements ICooperativeWorkflow {
     if (await this.user.hasOneById(answerer.id)) {
       this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(answerer.id, true));
       this.notification.success('Connected');
-
-      this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(answerer.id, true));
       this.peer.endChannel();
-
       this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, answerer.id);
 
       const unsub = this.peer.onclose(() => {
@@ -83,10 +77,9 @@ export class Greeting implements ICooperativeWorkflow {
 
     await this.user.add(answerer as unknown as user.EntityType);
 
-    this.notification.success('Connected');
     this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(answerer.id, true));
+    this.notification.success('Connected');
     this.peer.endChannel();
-
     this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, answerer.id);
 
     const unsub = this.peer.onclose(() => {

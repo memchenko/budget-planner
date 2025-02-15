@@ -1,11 +1,12 @@
 import styles from './styles.module.css';
 import { Modal } from '~/components/features/modal';
 import { Notification } from '~/components/features/notification';
+import { Outlet } from 'react-router-dom';
 
-export const Screen = (props: React.PropsWithChildren) => {
+export const Screen = () => {
   return (
     <div className={styles.screen}>
-      {props.children}
+      <Outlet />
       <Modal />
       <Notification />
     </div>

@@ -12,19 +12,19 @@ export const Main = observer(() => {
 
   if (ctrl.isLoading) {
     return (
-      <Screen>
+      <div>
         <CircularProgress isIndeterminate />
-      </Screen>
+      </div>
     );
   }
 
   return (
-    <Screen>
+    <div>
       {ctrl.isSyncing && <CircularProgress isIndeterminate size="sm" />}
       <Wallet />
       <Funds onFundClick={ctrl.handleFundClick} onAddNewFund={ctrl.handleAddNewFundClick} />
       <MakeRecord />
       <button onClick={ctrl.handleSynchronizeClick}>Synchronize</button>
-    </Screen>
+    </div>
   );
 });

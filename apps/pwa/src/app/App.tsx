@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useCallback } from 'react';
+import { PropsWithChildren, useEffect, useCallback, useState } from 'react';
 import { useNavigate, generatePath, BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react';
 import { configurePersistable } from 'mobx-persist-store';
@@ -9,6 +9,7 @@ import { AddFund } from '~/components/screens/add-fund';
 import { EditFund } from '~/components/screens/edit-fund';
 import { Connection } from '~/components/screens/connection';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
+import { Screen } from '~/components/layouts/screen';
 import { pages } from '~/shared/constants/pages';
 import { setup } from './inversify.config';
 
@@ -28,6 +29,7 @@ const NextUI = (props: PropsWithChildren<unknown>) => {
 };
 
 const Dependencies = (props: PropsWithChildren<unknown>) => {
+  const [isInitialized, setInitialized] = useState(false);
   const baseNavigate = useNavigate();
   const navigate = useCallback(
     (route: string, params?: Record<string, unknown>) => {
@@ -38,7 +40,12 @@ const Dependencies = (props: PropsWithChildren<unknown>) => {
 
   useEffect(() => {
     setup({ navigate });
+    setInitialized(true);
   }, [navigate]);
+
+  if (!isInitialized) {
+    return null;
+  }
 
   return props.children;
 };
@@ -50,10 +57,12 @@ export function App() {
         <Dependencies>
           <ErrorBoundary>
             <Routes>
-              <Route path={pages.index} Component={Main} />
-              <Route path={pages.addFund} Component={AddFund} />
-              <Route path={pages.editFund} Component={EditFund} />
-              <Route path={pages.connection} Component={Connection} />
+              <Route Component={Screen}>
+                <Route path={pages.index} Component={Main} />
+                <Route path={pages.addFund} Component={AddFund} />
+                <Route path={pages.editFund} Component={EditFund} />
+                <Route path={pages.connection} Component={Connection} />
+              </Route>
             </Routes>
           </ErrorBoundary>
         </Dependencies>

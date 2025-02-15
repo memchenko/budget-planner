@@ -3,13 +3,16 @@ import { assert } from 'ts-essentials';
 import { Repo } from 'core/shared/types';
 import { Fund } from 'core/entities/Fund';
 import { User } from 'core/entities/User';
+import { SharingRule } from 'core/entities/SharingRule';
 import { TOKENS } from 'core/types';
 import { BaseScenario } from 'core/scenarios/BaseScenario';
+import { AddSynchronizationOrder } from 'core/scenarios/AddSynchronizationOrder';
 import { ScenarioError } from 'core/errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT } from 'core/shared/constants';
 import { assertEntity } from 'core/shared/assertions';
 import { ENTITY_NAME } from 'core/shared/constants';
 import { Wallet } from 'core/entities/Wallet';
+import { fund, wallet as walletEntityName } from 'core/shared/schemas';
 
 const UPDATE_WALLET_ERROR = "Coudn't update wallet";
 const DELETE_FUND_ERROR = "Couldn't delete fund";
@@ -24,10 +27,10 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
   static TOKEN = Symbol.for('DeleteFund');
 
   constructor(
-    @inject(TOKENS.FUND_REPO)
-    private fundRepo: Repo<Fund, 'id'>,
-    @inject(TOKENS.WALLET_REPO)
-    private walletRepo: Repo<Wallet, 'id'>,
+    @inject(TOKENS.FUND_REPO) private readonly fundRepo: Repo<Fund, 'id'>,
+    @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
+    @inject(TOKENS.SHARING_RULE_REPO) private readonly sharingRuleRepo: Repo<SharingRule, 'id'>,
+    @inject(AddSynchronizationOrder) private readonly addSynchronizationOrderScenario: AddSynchronizationOrder,
   ) {
     super();
   }
@@ -48,6 +51,26 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
 
     const isFundDeleted = await this.fundRepo.removeOneBy({ id: this.params.fundId });
     assert(isFundDeleted, DELETE_FUND_ERROR);
+
+    const fundSharingRule = await this.sharingRuleRepo.getOneBy({
+      entity: fund,
+      entityId: fundToDelete.id,
+    });
+    const walletSharingRule = await this.sharingRuleRepo.getOneBy({
+      entity: walletEntityName,
+      entityId: wallet.id,
+    });
+
+    if (fundSharingRule !== null) {
+      if (fundSharingRule.ownerId === this.params.userId) {
+        await this.addSynchronizationOrderScenario.run({
+          entity: fund,
+          entityId: fundToDelete.id,
+          action: 'delete',
+          userId: fundSharingRule.userId,
+        });
+      }
+    }
   }
 
   async revert() {

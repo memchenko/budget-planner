@@ -8,6 +8,7 @@ import { SharingRule } from 'core/entities/SharingRule';
 import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
 import { TOKENS } from 'core/types';
 import { BaseScenario } from 'core/scenarios/BaseScenario';
+import { AddSynchronizationOrder } from 'core/scenarios/AddSynchronizationOrder';
 import { ScenarioError } from 'core/errors/ScenarioError';
 import { UNKNOWN_ERROR_TEXT, ENTITY_NAME } from 'core/shared/constants';
 import { assertEntity } from 'core/shared/assertions';
@@ -23,6 +24,7 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
     @inject(TOKENS.SYNCHRONIZATION_ORDER_REPO)
     private readonly synchronizationOrderRepo: Repo<SynchronizationOrder, 'id'>,
     @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
+    @inject(AddSynchronizationOrder) private readonly addSynchronizationOrderScenario: AddSynchronizationOrder,
   ) {
     super();
   }
@@ -44,12 +46,22 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
     });
 
     if (sharingRule !== null) {
-      await this.synchronizationOrderRepo.create({
-        userId: this.params.userId,
-        entity: income,
-        entityId: this.income.id,
-        action: 'create',
-      });
+      const syncWithUserId = this.params.userId === sharingRule.ownerId ? sharingRule.userId : sharingRule.ownerId;
+
+      await Promise.all([
+        this.addSynchronizationOrderScenario.run({
+          userId: syncWithUserId,
+          entity: income,
+          entityId: this.income.id,
+          action: 'create',
+        }),
+        this.addSynchronizationOrderScenario.run({
+          userId: syncWithUserId,
+          entity: this.params.entity,
+          entityId: this.params.entityId,
+          action: 'update',
+        }),
+      ]);
     }
   }
 

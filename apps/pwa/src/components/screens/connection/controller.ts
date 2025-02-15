@@ -18,10 +18,10 @@ export class ConnectionController {
     });
   }
 
-  handleWebRTCConnected() {
+  handleWebRTCConnected = () => {
     if (this.webrtc.isInitiator) {
       this.eventBus.send(LOCAL_EVENTS.START_GREETING);
     }
     this.navigate(pages.index);
-  }
+  };
 }

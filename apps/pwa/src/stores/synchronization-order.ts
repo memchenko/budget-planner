@@ -38,7 +38,7 @@ export class SynchronizationOrder {
 
   @action
   add(entity: EntityType) {
-    this.entries.push(entity);
+    this.entries = this.entries.concat(entity);
   }
 
   @action

@@ -1,9 +1,10 @@
-import { tap, switchMap } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { provide } from 'inversify-binding-decorators';
 import { TOKENS } from '~/shared/constants/di';
 import { NotificationShowEvent } from '~/shared/events';
 import { inject } from 'inversify';
+import { timer } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import { observable, makeAutoObservable, action } from 'mobx';
 
 @provide(NotificationController)
@@ -30,10 +31,9 @@ export class NotificationController {
               return this.showSuccess(payload.message);
           }
         }),
-        switchMap(() => {
-          return timer(3000);
+        concatMap(() => {
+          return timer(4000).pipe(tap(this.close));
         }),
-        tap(this.close),
       )
       .subscribe();
   }

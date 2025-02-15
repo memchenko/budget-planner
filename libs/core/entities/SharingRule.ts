@@ -5,6 +5,7 @@ import { userSchema } from './User';
 export const sharingRuleSchema = z.intersection(
   z.object({
     id: z.string(),
+    ownerId: userSchema.shape.id,
     // user who I allow to act on my entity
     userId: userSchema.shape.id,
     entityId: z.string().nullable(),

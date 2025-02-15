@@ -11,8 +11,8 @@ export const Notification = observer(() => {
   }
 
   return (
-    <div className="fixed p-2 bottom-0 right-0">
-      <Alert color={ctrl.type} title={ctrl.text} />
+    <div className="fixed p-2 bottom-0 right-0 z-50">
+      <Alert variant="solid" color={ctrl.type} title={ctrl.text} />
     </div>
   );
 });

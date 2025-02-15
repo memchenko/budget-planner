@@ -7,6 +7,7 @@ import { Fund } from 'core/entities/Fund';
 import { Wallet } from 'core/entities/Wallet';
 import { SharingRule } from 'core/entities/SharingRule';
 import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
+import { fund } from 'core/shared/schemas';
 
 // User entity scenarios
 export { CreateUser } from './user/CreateUser';
@@ -38,6 +39,7 @@ export const CreateFund = buildCreateEntityScenario<Fund>({
 export const UpdateFund = buildUpdateEntityScenario<Fund>({
   entityName: ENTITY_NAME.FUND,
   repoType: TOKENS.FUND_REPO,
+  sharingRuleEntityName: fund,
 });
 
 export { DeleteFund } from './fund/DeleteFund';
@@ -59,26 +61,17 @@ export const UpdateWallet = buildUpdateEntityScenario<Wallet>({
 });
 
 // Sharing scenarios
-export const CreateSharingRule = buildCreateEntityScenario<SharingRule>({
-  entityName: ENTITY_NAME.SHARING_RULE,
-  repoType: TOKENS.SHARING_RULE_REPO,
-});
+export { AddSharingRule } from './sharing/AddSharingRule';
 
 export const UpdateSharingRule = buildUpdateEntityScenario<SharingRule>({
   entityName: ENTITY_NAME.SHARING_RULE,
   repoType: TOKENS.SHARING_RULE_REPO,
 });
 
-export const DeleteSharingRule = buildDeleteEntityScenario<SharingRule>({
-  entityName: ENTITY_NAME.SHARING_RULE,
-  repoType: TOKENS.SHARING_RULE_REPO,
-});
+export { DeleteSharingRule } from './sharing/DeleteSharingRule';
 
 // Synchronization
-export const CreateSynchronizationOrder = buildCreateEntityScenario<SynchronizationOrder>({
-  entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,
-  repoType: TOKENS.SYNCHRONIZATION_ORDER_REPO,
-});
+export { AddSynchronizationOrder } from './AddSynchronizationOrder';
 
 export const DeleteSynchronizationOrder = buildDeleteEntityScenario<SynchronizationOrder>({
   entityName: ENTITY_NAME.SYNCHRONIZATION_ORDER,

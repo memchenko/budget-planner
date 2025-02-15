@@ -21,6 +21,7 @@ export class AddSynchronizationOrder extends BaseScenario<AddSynchronizationOrde
     const existingOrder = await this.synchronizationOrderRepo.getOneBy({
       entity: this.params.entity,
       entityId: this.params.entityId,
+      action: this.params.action,
     });
 
     if (existingOrder) {

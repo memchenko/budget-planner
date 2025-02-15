@@ -123,9 +123,15 @@ export class WebRTCConnectionController {
 
   @action
   async handleQRCodes(value: string) {
+    if (this.state === State.IDLE) {
+      return;
+    }
+
     try {
       const json = JSON.parse(value);
       assert(matchesSchema(json, webRtcDescriptionSchema));
+
+      this.state = State.IDLE;
 
       if (this.mode === Mode.ANSWERER) {
         await this.webrtc.handleOffer(json);

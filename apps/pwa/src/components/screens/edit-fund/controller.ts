@@ -11,11 +11,9 @@ import { Fund, EntityType as FundEntity } from '~/stores/fund';
 import { TOKENS } from '~/shared/constants/di';
 import { pages } from '~/shared/constants/pages';
 import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
-import omitBy from 'lodash/reject';
+import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
-import { SynchronizationOrder } from '~/stores/synchronization-order';
-import { SharingRule } from '~/stores/sharing-rule';
 import { fund } from '#/libs/core/shared/schemas';
 import { INavigateFunc } from '~/shared/interfaces';
 
@@ -28,8 +26,6 @@ export class EditFundController {
     @inject(TOKENS.SCENARIO_RUNNER) private readonly scenarioRunner: ScenarioRunner,
     @inject(TOKENS.USER_STORE) private readonly userStore: User,
     @inject(TOKENS.FUND_STORE) private readonly fundStore: Fund,
-    @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE) private readonly synchronizationOrder: SynchronizationOrder,
-    @inject(TOKENS.SHARING_RULE_STORE) private readonly sharingRule: SharingRule,
     @inject(TOKENS.NAVIGATE_FUNC) private readonly navigate: INavigateFunc,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -128,29 +124,14 @@ export class EditFundController {
   @action
   async handleUserSelected(id: UserEntity['id']) {
     await this.scenarioRunner.execute({
-      scenario: 'CreateSharingRule',
+      scenario: 'AddSharingRule',
       payload: {
+        ownerId: this.userStore.current.id,
         userId: id,
         entityId: this.fund.id,
         entity: fund,
         actions: ['list', 'read-balance', 'write-cost'],
       },
-    });
-
-    const sharingRule = this.sharingRule.all[0];
-
-    assert(sharingRule, '');
-
-    const date = Date.now();
-
-    this.synchronizationOrder.add({
-      id: sharingRule.id,
-      userId: id,
-      entity: fund,
-      entityId: this.fund.id,
-      action: 'create',
-      createdAt: date,
-      updatedAt: date,
     });
   }
 }
