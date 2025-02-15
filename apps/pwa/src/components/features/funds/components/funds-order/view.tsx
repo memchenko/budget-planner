@@ -46,10 +46,10 @@ export const FundsOrder = (props: FundsOrderProps) => {
         ))}
       </SortableList>
       <div className={styles.actions}>
-        <Button className="w-1/4" onClick={props.onCancel}>
+        <Button className="w-1/4" onPress={props.onCancel}>
           Cancel
         </Button>
-        <Button color="primary" className="w-1/4" onClick={handleButtonClick}>
+        <Button color="primary" className="w-1/4" onPress={handleButtonClick}>
           Save
         </Button>
       </div>

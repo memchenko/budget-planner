@@ -63,7 +63,7 @@ export const TagsList = observer((props: TagsListProps) => {
         }}
         listboxProps={{
           emptyContent: ctrl.shouldDisplayCreateTagButton ? (
-            <Button fullWidth color="primary" onClick={ctrl.handleCreateTagClick}>
+            <Button fullWidth color="primary" onPress={ctrl.handleCreateTagClick}>
               Create tag "{ctrl.searchQuery}"
             </Button>
           ) : (

@@ -35,7 +35,7 @@ export const Funds = observer((props: FundsProps) => {
           fullWidth
           variant="bordered"
           className="!rounded-t-none border-b-0 border-x-0 border-t-1"
-          onClick={onAddNewFund}
+          onPress={onAddNewFund}
         >
           Add fund
         </Button>

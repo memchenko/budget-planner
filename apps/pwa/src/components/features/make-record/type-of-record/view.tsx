@@ -16,7 +16,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         className="uppercase"
         variant={value === 'income' ? 'bordered' : 'ghost'}
         color={value === 'income' ? 'success' : 'default'}
-        onClick={onChange.bind(null, 'income')}
+        onPress={onChange.bind(null, 'income')}
       >
         Income
       </Button>
@@ -24,7 +24,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         className="uppercase"
         variant={value === 'cost' ? 'bordered' : 'ghost'}
         color={value === 'cost' ? 'danger' : 'default'}
-        onClick={onChange.bind(null, 'cost')}
+        onPress={onChange.bind(null, 'cost')}
       >
         Expense
       </Button>

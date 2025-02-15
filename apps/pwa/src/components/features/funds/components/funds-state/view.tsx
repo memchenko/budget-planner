@@ -33,7 +33,7 @@ export const FundsState = (props: FundsStateProps) => {
               ['border-2']: isExternal,
               ['border-lime-500']: isExternal,
             })}
-            onClick={onFundClick.bind(null, id)}
+            onPress={onFundClick.bind(null, id)}
           >
             <CardBody>
               <Progress

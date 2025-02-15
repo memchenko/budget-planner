@@ -9,7 +9,7 @@ export interface CardButtonProps extends PropsWithChildren<{}> {
 
 export const CardButton = (props: CardButtonProps) => {
   return (
-    <Button startContent={props.icon} className={styles.button} onClick={props.onClick}>
+    <Button startContent={props.icon} className={styles.button} onPress={props.onClick}>
       {props.children}
     </Button>
   );

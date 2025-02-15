@@ -20,8 +20,8 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
     <div>
       {ctrl.shouldDisplayButtons && (
         <div className={styles.actions}>
-          <PrimaryButton onClick={ctrl.initiateOffering}>Show QR Code</PrimaryButton>
-          <Button onClick={ctrl.initiateAnswering}>Read QR Code</Button>
+          <PrimaryButton onPress={ctrl.initiateOffering}>Show QR Code</PrimaryButton>
+          <Button onPress={ctrl.initiateAnswering}>Read QR Code</Button>
         </div>
       )}
 
@@ -29,7 +29,7 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
         <div>
           <Qr data={ctrl.qrCodeValue} />
           <div className={styles.proceed}>
-            <PrimaryButton onClick={ctrl.readAnswer}>Read QR Code</PrimaryButton>
+            <PrimaryButton onPress={ctrl.readAnswer}>Read QR Code</PrimaryButton>
           </div>
         </div>
       )}

@@ -101,7 +101,7 @@ export const MakeRecord = observer(() => {
         {ctrl.state !== State.Idle && <CardHeader className="text-large uppercase">{getTitle(ctrl.state)}</CardHeader>}
         <CardBody>
           {ctrl.state === State.Idle && (
-            <PrimaryButton className="text-foreground" onClick={ctrl.start}>
+            <PrimaryButton className="text-foreground" onPress={ctrl.start}>
               Make record
             </PrimaryButton>
           )}
@@ -115,13 +115,13 @@ export const MakeRecord = observer(() => {
 
         {ctrl.state !== State.Idle && (
           <CardFooter className="flex justify-end gap-2">
-            <Button variant="faded" className="flex-1" onClick={ctrl.reset}>
+            <Button variant="faded" className="flex-1" onPress={ctrl.reset}>
               Cancel
             </Button>
             <PrimaryButton
               isDisabled={isNextButtonDisabled}
               className="flex-1"
-              onClick={ctrl.state === State.TagsStep ? ctrl.finish : ctrl.next}
+              onPress={ctrl.state === State.TagsStep ? ctrl.finish : ctrl.next}
             >
               {nextButtonTitle}
             </PrimaryButton>
