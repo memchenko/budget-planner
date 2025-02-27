@@ -28,6 +28,8 @@ export const UpdateTag = buildUpdateEntityScenario<Tag>({
   repoType: TOKENS.TAG_REPO,
 });
 
+export { AssignTagToEntity } from './tag/AssignTagToEntity';
+
 // Fund entity scenarios
 export { DistributeBalance } from './DistributeBalance';
 

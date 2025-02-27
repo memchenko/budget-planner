@@ -5,6 +5,7 @@ import { Repo } from 'core/shared/types';
 import { Cost } from 'core/entities/Cost';
 import { Fund } from 'core/entities/Fund';
 import { Wallet } from 'core/entities/Wallet';
+import { Tag } from 'core/entities/Tag';
 import { TOKENS } from 'core/types';
 import { BaseScenario } from 'core/scenarios/BaseScenario';
 import { ScenarioError } from 'core/errors/ScenarioError';
@@ -12,8 +13,8 @@ import { UNKNOWN_ERROR_TEXT, ENTITY_NAME } from 'core/shared/constants';
 import { assertEntity } from 'core/shared/assertions';
 import { fund, wallet, cost } from 'core/shared/schemas';
 import { SharingRule } from 'core/entities/SharingRule';
-import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
 import { AddSynchronizationOrder } from 'core/scenarios/AddSynchronizationOrder';
+import { AssignTagToEntity } from 'core/scenarios/tag/AssignTagToEntity';
 
 export type AddCostParams = Parameters<Repo<Cost, 'id'>['create']>[0];
 
@@ -24,23 +25,36 @@ export class AddCost extends BaseScenario<AddCostParams> {
   constructor(
     @inject(TOKENS.SHARING_RULE_REPO) private readonly sharingRuleRepo: Repo<SharingRule, 'id'>,
     @inject(TOKENS.SYNCHRONIZATION_ORDER_REPO)
-    private readonly synchronizationOrderRepo: Repo<SynchronizationOrder, 'id'>,
-    @inject(TOKENS.COST_REPO) private readonly costRepo: Repo<Cost, 'id'>,
+    @inject(TOKENS.COST_REPO)
+    private readonly costRepo: Repo<Cost, 'id'>,
     @inject(TOKENS.FUND_REPO) private readonly fundRepo: Repo<Fund, 'id'>,
     @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
+    @inject(TOKENS.TAG_REPO) private readonly tagRepo: Repo<Tag, 'id'>,
     @inject(AddSynchronizationOrder) private readonly addSyncronizationOrderScenario: AddSynchronizationOrder,
+    @inject(AssignTagToEntity) private readonly assignTagToEntityScenario: AssignTagToEntity,
   ) {
     super();
   }
 
   private cost: Cost | null = null;
   private fund: Fund | null = null;
+  private tag: Tag | null = null;
   private wallet: Wallet | null = null;
   private initialBalance: number | null = null;
 
   async execute() {
     this.cost = await this.costRepo.create(this.params);
     assertEntity(this.cost, ENTITY_NAME.COST);
+
+    await Promise.all(
+      this.cost.tags.map((tagId) =>
+        this.assignTagToEntityScenario.run({
+          tagId,
+          entity: this.params.entity,
+          entityId: this.params.entityId,
+        }),
+      ),
+    );
 
     await this.subtractCost(this.cost);
 

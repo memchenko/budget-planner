@@ -6,7 +6,7 @@ import { User } from '~/stores/user';
 import { Wallet } from '~/stores/wallet';
 import {
   AMOUNT_PROPERTY_NAME,
-  FUND_PROPERTY_NAME,
+  ACCOUNT_PROPERTY_NAME,
   State,
   TAGS_LIST_PROPERTY_NAME,
   TYPE_OF_RECORD_PROPERTY_NAME,
@@ -14,7 +14,7 @@ import {
 } from './constants';
 import { FormValues, formSchema } from './schema';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
-import { fund, wallet } from '#/libs/core/shared/schemas';
+import { fund, wallet, cost } from '#/libs/core/shared/schemas';
 
 @provide(MakeRecordController)
 export class MakeRecordController {
@@ -37,8 +37,8 @@ export class MakeRecordController {
         return this.values[TAGS_LIST_PROPERTY_NAME];
       case State.AmountStep:
         return this.values[AMOUNT_PROPERTY_NAME];
-      case State.FundStep:
-        return this.values[FUND_PROPERTY_NAME];
+      case State.AccountStep:
+        return this.values[ACCOUNT_PROPERTY_NAME];
       default:
         return null;
     }
@@ -55,8 +55,8 @@ export class MakeRecordController {
         return formSchema.safeParse(this.values).success;
       case State.AmountStep:
         return formSchema.shape[AMOUNT_PROPERTY_NAME].safeParse(value).success;
-      case State.FundStep:
-        return formSchema.shape[FUND_PROPERTY_NAME].safeParse(value).success;
+      case State.AccountStep:
+        return formSchema.shape[ACCOUNT_PROPERTY_NAME].safeParse(value).success;
       default:
         return false;
     }
@@ -85,9 +85,9 @@ export class MakeRecordController {
         this.state = State.AmountStep;
         break;
       case State.AmountStep:
-        this.state = State.FundStep;
+        this.state = State.AccountStep;
         break;
-      case State.FundStep:
+      case State.AccountStep:
         this.state = State.TagsStep;
         break;
       default:
@@ -110,13 +110,13 @@ export class MakeRecordController {
       note: '',
     };
 
-    if (this.values[TYPE_OF_RECORD_PROPERTY_NAME] === 'cost') {
+    if (this.values[TYPE_OF_RECORD_PROPERTY_NAME] === cost) {
       this.scenarioRunner.execute({
         scenario: 'AddCost',
         payload: {
           ...commonPayload,
           entity: fund,
-          entityId: this.values[FUND_PROPERTY_NAME],
+          entityId: this.values[ACCOUNT_PROPERTY_NAME].id,
         },
       });
     } else {

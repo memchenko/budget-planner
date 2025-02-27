@@ -12,11 +12,13 @@ export class TagsListController {
   type?: 'cost' | 'income';
   selectedTags: EntityType[] = [];
   searchQuery = '';
+  parentType?: EntityType['entities'][number]['entity'];
+  parentId?: EntityType['entities'][number]['entityId'];
 
   constructor(
-    @inject(TOKENS.TAG_STORE) private tag: Tag,
-    @inject(TOKENS.USER_STORE) private user: User,
-    @inject(TOKENS.SCENARIO_RUNNER) private scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.TAG_STORE) private readonly tag: Tag,
+    @inject(TOKENS.USER_STORE) private readonly user: User,
+    @inject(TOKENS.SCENARIO_RUNNER) private readonly scenarioRunner: ScenarioRunner,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -39,9 +41,15 @@ export class TagsListController {
   get allTags() {
     assert(this.type, 'Type of tags is not defined');
 
-    return this.tag.getAllByType(this.type).filter((tag) => {
+    const filterBySelectedTags = (tag: EntityType) => {
       return !this.selectedTags.some((selectedTag) => selectedTag.id === tag.id);
-    });
+    };
+
+    if (this.parentType && this.parentId) {
+      return this.tag.getAllByTypeAndParent(this.type, this.parentType, this.parentId).filter(filterBySelectedTags);
+    }
+
+    return this.tag.getAllByType(this.type).filter(filterBySelectedTags);
   }
 
   getTagById(id: EntityType['id']) {
@@ -53,10 +61,18 @@ export class TagsListController {
     assert(this.type, 'Type of tags is not defined');
 
     const userId = this.user.current.id;
+    const entities: EntityType['entities'] = [];
+
+    if (this.parentType && this.parentId) {
+      entities.push({
+        entity: this.parentType,
+        entityId: this.parentId,
+      });
+    }
 
     this.scenarioRunner.execute({
       scenario: 'CreateTag',
-      payload: { userId, title: this.searchQuery, type: this.type, entities: [] },
+      payload: { userId, title: this.searchQuery, type: this.type, entities },
     });
   }
 

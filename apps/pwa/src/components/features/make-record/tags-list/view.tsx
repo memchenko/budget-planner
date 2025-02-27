@@ -11,6 +11,8 @@ import { EntityType } from '~/stores/tag';
 
 export interface TagsListProps {
   type: TagsListController['type'];
+  parentType: EntityType['entities'][number]['entity'];
+  parentId: EntityType['entities'][number]['entityId'];
   onChange(selectedTags: TagsListController['selectedTags']): void;
 }
 

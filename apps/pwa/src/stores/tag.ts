@@ -2,8 +2,8 @@ import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '#/libs/core';
 import { injectable, inject } from 'inversify';
-import { Cost } from './cost.js';
-import { Income } from './income.js';
+import { Cost } from './cost';
+import { Income } from './income';
 import { TOKENS } from '~/shared/constants/di';
 import { DateTime } from 'luxon';
 
@@ -87,6 +87,16 @@ export class Tag {
 
   getAllByType(type: EntityType['type']) {
     return this.entries.filter((tag) => tag.type === type);
+  }
+
+  getAllByTypeAndParent(
+    type: EntityType['type'],
+    parentType: EntityType['entities'][number]['entity'],
+    parentId: EntityType['entities'][number]['entityId'],
+  ) {
+    return this.getAllByType(type).filter(({ entities }) => {
+      return entities.some(({ entity, entityId }) => entity === parentType && entityId === parentId);
+    });
   }
 
   hasTag(title: string, type: EntityType['type']) {

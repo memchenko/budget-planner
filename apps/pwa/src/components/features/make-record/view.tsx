@@ -12,12 +12,12 @@ import {
   TAGS_LIST_PROPERTY_NAME,
   TYPE_OF_RECORD_PROPERTY_NAME,
   AMOUNT_PROPERTY_NAME,
-  FUND_PROPERTY_NAME,
+  ACCOUNT_PROPERTY_NAME,
   State,
   possibleSteps,
 } from './constants';
 import { Input } from '@nextui-org/input';
-import { FundsList } from './funds-list';
+import { AccountsList } from './accounts-list';
 import { Accordion, AccordionItem, AccordionProps } from '@nextui-org/accordion';
 import cn from 'classnames';
 
@@ -27,7 +27,7 @@ export const MakeRecord = observer(() => {
   const typeOfRecord = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME];
   const isNextButtonDisabled = !ctrl.shouldEnableNextButton;
   const nextButtonTitle = getNextButtonTitle(ctrl.state);
-  const shouldIncludeFundStep = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME] === 'cost';
+  const shouldExcludeFunds = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME] === 'income';
 
   const handleAccordionSelection: AccordionProps['onSelectionChange'] = (keys) => {
     if (keys === 'all') {
@@ -40,60 +40,6 @@ export const MakeRecord = observer(() => {
       ctrl.forceStep(key);
     }
   };
-
-  const accordionItems = [
-    <AccordionItem
-      key={State.TypeOfRecordStep}
-      startContent="1."
-      className={cn({ [styles.itemContent]: ctrl.state === State.TypeOfRecordStep })}
-      title={getTitle(State.TypeOfRecordStep)}
-    >
-      <TypeOfRecord value={typeOfRecord} onChange={ctrl.setValue.bind(ctrl, TYPE_OF_RECORD_PROPERTY_NAME)} />
-    </AccordionItem>,
-    <AccordionItem
-      key={State.AmountStep}
-      startContent="2."
-      className={cn({ [styles.itemContent]: ctrl.state === State.AmountStep })}
-      title={getTitle(State.AmountStep)}
-    >
-      <Input
-        autoFocus
-        type="number"
-        step="0.01"
-        min="0"
-        label="Amount"
-        placeholder="0.00"
-        size="lg"
-        value={String(ctrl.values[AMOUNT_PROPERTY_NAME])}
-        onChange={(event) => {
-          ctrl.setValue(AMOUNT_PROPERTY_NAME, parseFloat(event.target.value));
-        }}
-      />
-    </AccordionItem>,
-    <AccordionItem
-      key={State.TagsStep}
-      startContent={shouldIncludeFundStep ? '4.' : '3.'}
-      className={cn({ [styles.itemContent]: ctrl.state === State.TagsStep })}
-      title={getTitle(State.TagsStep)}
-    >
-      <TagsList type={typeOfRecord} onChange={ctrl.setValue.bind(ctrl, TAGS_LIST_PROPERTY_NAME)} />
-    </AccordionItem>,
-  ];
-
-  if (shouldIncludeFundStep) {
-    accordionItems.splice(
-      2,
-      0,
-      <AccordionItem
-        key={State.FundStep}
-        startContent="3."
-        className={cn({ [styles.itemContent]: ctrl.state === State.FundStep })}
-        title={getTitle(State.FundStep)}
-      >
-        <FundsList onChange={ctrl.setValue.bind(ctrl, FUND_PROPERTY_NAME)} />
-      </AccordionItem>,
-    );
-  }
 
   return (
     <div className={styles.makeRecord}>
@@ -108,7 +54,58 @@ export const MakeRecord = observer(() => {
 
           {ctrl.state !== State.Idle && (
             <Accordion selectedKeys={[getSelectedKey(ctrl.state)]} onSelectionChange={handleAccordionSelection}>
-              {accordionItems}
+              <AccordionItem
+                key={State.TypeOfRecordStep}
+                startContent="1."
+                className={cn({ [styles.itemContent]: ctrl.state === State.TypeOfRecordStep })}
+                title={getTitle(State.TypeOfRecordStep)}
+              >
+                <TypeOfRecord value={typeOfRecord} onChange={ctrl.setValue.bind(ctrl, TYPE_OF_RECORD_PROPERTY_NAME)} />
+              </AccordionItem>
+              <AccordionItem
+                key={State.AmountStep}
+                startContent="2."
+                className={cn({ [styles.itemContent]: ctrl.state === State.AmountStep })}
+                title={getTitle(State.AmountStep)}
+              >
+                <Input
+                  autoFocus
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  label="Amount"
+                  placeholder="0.00"
+                  size="lg"
+                  value={String(ctrl.values[AMOUNT_PROPERTY_NAME])}
+                  onChange={(event) => {
+                    ctrl.setValue(AMOUNT_PROPERTY_NAME, parseFloat(event.target.value));
+                  }}
+                />
+              </AccordionItem>
+              <AccordionItem
+                key={State.AccountStep}
+                startContent="3."
+                className={cn({ [styles.itemContent]: ctrl.state === State.AccountStep })}
+                title={getTitle(State.AccountStep)}
+              >
+                <AccountsList
+                  excludeFunds={shouldExcludeFunds}
+                  onChange={ctrl.setValue.bind(ctrl, ACCOUNT_PROPERTY_NAME)}
+                />
+              </AccordionItem>
+              <AccordionItem
+                key={State.TagsStep}
+                startContent="4."
+                className={cn({ [styles.itemContent]: ctrl.state === State.TagsStep })}
+                title={getTitle(State.TagsStep)}
+              >
+                <TagsList
+                  type={typeOfRecord}
+                  parentType={ctrl.values.account.accountType}
+                  parentId={ctrl.values.account.id}
+                  onChange={ctrl.setValue.bind(ctrl, TAGS_LIST_PROPERTY_NAME)}
+                />
+              </AccordionItem>
             </Accordion>
           )}
         </CardBody>
