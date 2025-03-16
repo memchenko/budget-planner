@@ -6,7 +6,7 @@ export const getTitle = (state: State) => {
       return 'Choose type of record';
     case State.AmountStep:
       return 'Enter amount';
-    case State.FundStep:
+    case State.AccountStep:
       return 'Choose fund';
     case State.TagsStep:
       return 'Choose tags';
@@ -29,7 +29,7 @@ export const getSelectedKey = (state: State) => {
       return '1';
     case State.AmountStep:
       return '2';
-    case State.FundStep:
+    case State.AccountStep:
       return '3';
     case State.TagsStep:
       return '4';

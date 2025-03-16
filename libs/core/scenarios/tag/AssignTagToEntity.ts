@@ -46,17 +46,24 @@ export class AssignTagToEntity extends BaseScenario<AssignTagToEntityParams> {
       },
     );
 
-    const sharingRule = await this.sharingRuleRepo.getOneBy({
+    const parentEntitySharingRule = await this.sharingRuleRepo.getOneBy({
       entity: this.params.entity,
       entityId: this.params.entityId,
     });
 
-    if (sharingRule) {
-      const syncWithUserId = tag.userId === sharingRule.ownerId ? sharingRule.userId : sharingRule.ownerId;
+    if (parentEntitySharingRule) {
+      const tagSharingRule = await this.sharingRuleRepo.getOneBy({
+        entity: tagEntityName,
+        entityId: tag.id,
+      });
+      const syncWithUserId =
+        tag.userId === parentEntitySharingRule.ownerId
+          ? parentEntitySharingRule.userId
+          : parentEntitySharingRule.ownerId;
 
       await this.addSynchronizationOrder.run({
         entity: tagEntityName,
-        action: 'update',
+        action: !tagSharingRule ? 'create' : 'update',
         entityId: tag.id,
         userId: syncWithUserId,
       });

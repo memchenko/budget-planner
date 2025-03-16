@@ -20,7 +20,7 @@ export const AccountsList = observer((props: AccountsListProps) => {
           <h4 className="text-foreground-400">Funds</h4>
           <div className={styles.list}>
             {ctrl.allFunds.map(({ id, title }) => (
-              <Radio key={id} value={id} size="lg" color="primary">
+              <Radio key={id} value={`fund/${id}`} size="lg" color="primary">
                 {title}
               </Radio>
             ))}
@@ -30,7 +30,7 @@ export const AccountsList = observer((props: AccountsListProps) => {
       <h4 className="text-foreground-400">Wallets</h4>
       <div className={styles.list}>
         {ctrl.allWallets.map(({ id, title }) => (
-          <Radio key={id} value={id} size="lg" color="primary">
+          <Radio key={id} value={`wallet/${id}`} size="lg" color="primary">
             {title}
           </Radio>
         ))}

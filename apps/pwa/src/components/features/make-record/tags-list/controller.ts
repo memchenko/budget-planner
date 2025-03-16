@@ -29,10 +29,14 @@ export class TagsListController {
     return this.searchQuery.length > 0 && !this.tag.hasTag(this.searchQuery, this.type);
   }
 
-  get mostPopularTags() {
+  get recommendedTags() {
     assert(this.type, 'Type of tags is not defined');
 
-    const popularTags = this.tag.getMostPopularTags(this.type);
+    if (!this.parentType || !this.parentId) {
+      return [];
+    }
+
+    const popularTags = this.tag.getAllByTypeAndParent(this.type, this.parentType, this.parentId);
 
     return popularTags.length > 0 ? popularTags : this.allTags.slice(0, 5);
   }

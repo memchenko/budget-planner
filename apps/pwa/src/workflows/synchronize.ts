@@ -32,7 +32,7 @@ import capitalize from 'lodash/capitalize';
 import { reaction } from 'mobx';
 import * as syncronizationOrder from '~/stores/synchronization-order';
 import { Subject, fromEventPattern, lastValueFrom } from 'rxjs';
-import { distinct, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { distinct, mergeMap, takeUntil } from 'rxjs/operators';
 
 const messageSchema = z.object({
   needConfirmation: z.boolean(),

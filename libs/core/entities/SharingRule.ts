@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { wallet, fund } from 'core/shared/schemas';
+import { wallet, fund, tag } from 'core/shared/schemas';
 import { userSchema } from './User';
 
 export const sharingRuleSchema = z.intersection(
@@ -18,6 +18,10 @@ export const sharingRuleSchema = z.intersection(
     z.object({
       entity: z.literal(fund),
       actions: z.enum(['list', 'read-balance', 'write-cost']).array(),
+    }),
+    z.object({
+      entity: z.literal(tag),
+      actions: z.enum(['list']).array(),
     }),
   ]),
 );

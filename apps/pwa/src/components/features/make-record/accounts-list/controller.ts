@@ -35,21 +35,21 @@ export class AccountsListController {
   }
 
   handleRadioChange(event: Event) {
-    const isInputElement = event.currentTarget instanceof HTMLInputElement;
-    const valueAttr = get(event.currentTarget, 'value', null);
-    const accountTypeAttr = get(event.currentTarget, 'data-account-type', null);
+    const isInputElement = event.target instanceof HTMLInputElement;
+    const valueAttr = get(event.target, 'value', null) as string | null;
+    const [accountType, accountId] = valueAttr?.split('/') ?? [];
 
     if (
       !isInputElement ||
-      typeof valueAttr !== 'string' ||
-      ![fundEntityName, walletEntityName].includes(accountTypeAttr as unknown as AccountType)
+      typeof accountId !== 'string' ||
+      ![fundEntityName, walletEntityName].includes(accountType as unknown as AccountType)
     ) {
       return;
     }
 
     this.onChange({
-      id: valueAttr,
-      accountType: accountTypeAttr as unknown as AccountType,
+      id: accountId,
+      accountType: accountType as unknown as AccountType,
     });
   }
 }

@@ -19,6 +19,8 @@ export interface TagsListProps {
 export const TagsList = observer((props: TagsListProps) => {
   const ctrl = useController(TagsListController);
   ctrl.type = props.type;
+  ctrl.parentId = props.parentId;
+  ctrl.parentType = props.parentType;
 
   const handleTagSelect = (tag: EntityType['id']) => {
     const tagEntity = ctrl.getTagById(tag);
@@ -36,11 +38,11 @@ export const TagsList = observer((props: TagsListProps) => {
 
   return (
     <div className={styles.tagsList}>
-      {ctrl.mostPopularTags.length > 0 && (
+      {ctrl.recommendedTags.length > 0 && (
         <>
           <span className={styles.label}>Recommended:</span>
           <ul className={styles.chipsList}>
-            {ctrl.mostPopularTags.map((tag) => (
+            {ctrl.recommendedTags.map((tag) => (
               <li key={tag.id}>
                 <Chip
                   color={getTagColor(tag.title)}

@@ -13,6 +13,6 @@
     "paths": {
       "core/*": ["./libs/core/*"],
       "formatting/*": ["./libs/formatting/*"]
-    },
+    }
   }
 }

@@ -5,7 +5,6 @@ import { Repo } from 'core/shared/types';
 import { Cost } from 'core/entities/Cost';
 import { Fund } from 'core/entities/Fund';
 import { Wallet } from 'core/entities/Wallet';
-import { Tag } from 'core/entities/Tag';
 import { TOKENS } from 'core/types';
 import { BaseScenario } from 'core/scenarios/BaseScenario';
 import { ScenarioError } from 'core/errors/ScenarioError';
@@ -24,12 +23,9 @@ export class AddCost extends BaseScenario<AddCostParams> {
 
   constructor(
     @inject(TOKENS.SHARING_RULE_REPO) private readonly sharingRuleRepo: Repo<SharingRule, 'id'>,
-    @inject(TOKENS.SYNCHRONIZATION_ORDER_REPO)
-    @inject(TOKENS.COST_REPO)
-    private readonly costRepo: Repo<Cost, 'id'>,
+    @inject(TOKENS.COST_REPO) private readonly costRepo: Repo<Cost, 'id'>,
     @inject(TOKENS.FUND_REPO) private readonly fundRepo: Repo<Fund, 'id'>,
     @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
-    @inject(TOKENS.TAG_REPO) private readonly tagRepo: Repo<Tag, 'id'>,
     @inject(AddSynchronizationOrder) private readonly addSyncronizationOrderScenario: AddSynchronizationOrder,
     @inject(AssignTagToEntity) private readonly assignTagToEntityScenario: AssignTagToEntity,
   ) {
@@ -38,7 +34,6 @@ export class AddCost extends BaseScenario<AddCostParams> {
 
   private cost: Cost | null = null;
   private fund: Fund | null = null;
-  private tag: Tag | null = null;
   private wallet: Wallet | null = null;
   private initialBalance: number | null = null;
 
@@ -47,16 +42,16 @@ export class AddCost extends BaseScenario<AddCostParams> {
     assertEntity(this.cost, ENTITY_NAME.COST);
 
     await Promise.all(
-      this.cost.tags.map((tagId) =>
-        this.assignTagToEntityScenario.run({
-          tagId,
-          entity: this.params.entity,
-          entityId: this.params.entityId,
-        }),
-      ),
+      this.cost.tags
+        .map((tagId) =>
+          this.assignTagToEntityScenario.run({
+            tagId,
+            entity: this.params.entity,
+            entityId: this.params.entityId,
+          }),
+        )
+        .concat(this.subtractCost(this.cost)),
     );
-
-    await this.subtractCost(this.cost);
 
     if (this.params.entity === fund) {
       assertEntity(this.fund, ENTITY_NAME.FUND);

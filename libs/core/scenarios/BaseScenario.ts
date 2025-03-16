@@ -13,7 +13,7 @@ export abstract class BaseScenario<P extends object, R = void> implements Scenar
       return await this.execute();
     } catch (err: unknown) {
       let errorText = `Couldn't execute scenario ${this.constructor.name}`;
-      const scenarioError = (this.error = new ScenarioError(errorText));
+      const scenarioError = (this.error = new ScenarioError(errorText, { cause: err }));
       scenarioError.scenario = this.constructor;
       scenarioError.executionError = err;
 
