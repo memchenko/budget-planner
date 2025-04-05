@@ -3,4 +3,6 @@ export const pages = {
   addFund: '/fund/new',
   editFund: '/fund/:id',
   connection: '/connection',
+  peers: '/peers',
+  account: '/account',
 } as const;

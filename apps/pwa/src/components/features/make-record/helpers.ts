@@ -26,13 +26,13 @@ export const getNextButtonTitle = (state: State) => {
 export const getSelectedKey = (state: State) => {
   switch (state) {
     case State.TypeOfRecordStep:
-      return '1';
+      return '0';
     case State.AmountStep:
-      return '2';
+      return '1';
     case State.AccountStep:
-      return '3';
+      return '2';
     case State.TagsStep:
-      return '4';
+      return '3';
     default:
       return '';
   }

@@ -16,6 +16,7 @@
     "@nextui-org/react": "^2.6.11",
     "@yudiel/react-qr-scanner": "^2.0.8",
     "classnames": "^2.5.1",
+    "feather-icons": "^4.29.2",
     "framer-motion": "^11.2.10",
     "google-auth-library": "^9.14.1",
     "googleapis": "^144.0.0",
@@ -40,6 +41,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/feather-icons": "^4.29.4",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

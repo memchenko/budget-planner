@@ -19,8 +19,10 @@ import { fund, wallet, cost } from '#/libs/core/shared/schemas';
 
 @provide(MakeRecordController)
 export class MakeRecordController {
-  state = State.Idle;
+  state = State.TypeOfRecordStep;
   values = defaultValues;
+
+  onFinish?: VoidFunction;
 
   constructor(
     @inject(TOKENS.USER_STORE) private user: User,
@@ -70,13 +72,8 @@ export class MakeRecordController {
 
   @action
   reset() {
-    this.state = State.Idle;
     this.values = defaultValues;
-  }
-
-  @action
-  start() {
-    this.state = State.TypeOfRecordStep;
+    this.onFinish?.();
   }
 
   @action
@@ -92,7 +89,7 @@ export class MakeRecordController {
         this.state = State.TagsStep;
         break;
       default:
-        this.state = State.Idle;
+        this.state = State.TypeOfRecordStep;
     }
   }
 
@@ -131,7 +128,7 @@ export class MakeRecordController {
       });
     }
 
-    this.state = State.Idle;
     this.values = cloneDeep(defaultValues);
+    this.onFinish?.();
   }
 }

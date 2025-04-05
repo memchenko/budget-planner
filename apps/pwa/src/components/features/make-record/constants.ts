@@ -6,7 +6,6 @@ export const AMOUNT_PROPERTY_NAME = 'amount';
 export const ACCOUNT_PROPERTY_NAME = 'account';
 
 export enum State {
-  Idle,
   TypeOfRecordStep,
   AmountStep,
   AccountStep,
