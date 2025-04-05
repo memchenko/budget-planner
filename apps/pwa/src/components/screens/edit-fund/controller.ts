@@ -14,7 +14,7 @@ import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
-import { fund } from '#/libs/core/shared/schemas';
+import { fund, income as incomeTypeName, cost as costTypeName, tag as tagTypeName } from '#/libs/core/shared/schemas';
 import { INavigateFunc } from '~/shared/interfaces';
 
 @provide(EditFundController)
@@ -122,15 +122,15 @@ export class EditFundController {
   }
 
   @action
-  async handleUserSelected(id: UserEntity['id']) {
+  async handleUserSelected(userId: UserEntity['id']) {
     await this.scenarioRunner.execute({
       scenario: 'AddSharingRule',
       payload: {
         ownerId: this.userStore.current.id,
-        userId: id,
+        userId,
         entityId: this.fund.id,
         entity: fund,
-        actions: ['list', 'read-balance', 'write-cost'],
+        relatedEntities: [incomeTypeName, costTypeName, tagTypeName],
       },
     });
   }

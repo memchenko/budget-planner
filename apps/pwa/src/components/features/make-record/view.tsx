@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
 import { observer } from 'mobx-react-lite';
+import { useEffect, useRef } from 'react';
 import { PrimaryButton } from '~/components/ui/primary-button';
 import { Button } from '~/components/ui/button';
 import { useController } from '~/shared/hooks/useController';
@@ -23,6 +24,7 @@ import cn from 'classnames';
 
 export const MakeRecord = observer(() => {
   const ctrl = useController(MakeRecordController);
+  const amountRef = useRef<HTMLInputElement>(null);
 
   const typeOfRecord = ctrl.values[TYPE_OF_RECORD_PROPERTY_NAME];
   const isNextButtonDisabled = !ctrl.shouldEnableNextButton;
@@ -40,6 +42,14 @@ export const MakeRecord = observer(() => {
       ctrl.forceStep(key);
     }
   };
+
+  useEffect(() => {
+    if (ctrl.state === State.AmountStep) {
+      setTimeout(() => {
+        amountRef.current?.focus();
+      }, 0);
+    }
+  }, [ctrl.state]);
 
   return (
     <div className={styles.makeRecord}>
@@ -70,6 +80,8 @@ export const MakeRecord = observer(() => {
               >
                 <Input
                   autoFocus
+                  ref={amountRef}
+                  enterKeyHint="enter"
                   type="number"
                   step="0.01"
                   min="0"
@@ -79,6 +91,11 @@ export const MakeRecord = observer(() => {
                   value={String(ctrl.values[AMOUNT_PROPERTY_NAME])}
                   onChange={(event) => {
                     ctrl.setValue(AMOUNT_PROPERTY_NAME, parseFloat(event.target.value));
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      ctrl.next();
+                    }
                   }}
                 />
               </AccordionItem>

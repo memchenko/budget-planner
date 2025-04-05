@@ -4,6 +4,7 @@ import { makeAutoObservable, action, computed } from 'mobx';
 import { TOKENS } from '~/shared/constants/di';
 import { User } from '~/stores/user';
 import { Wallet } from '~/stores/wallet';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   AMOUNT_PROPERTY_NAME,
   ACCOUNT_PROPERTY_NAME,
@@ -131,5 +132,6 @@ export class MakeRecordController {
     }
 
     this.state = State.Idle;
+    this.values = cloneDeep(defaultValues);
   }
 }

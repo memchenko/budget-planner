@@ -13,7 +13,14 @@ import {
   entitySchemaMap,
   EntityMap,
 } from 'core/entities';
-import { allEntities, fund, wallet, tag, income, cost } from 'core/shared/schemas';
+import {
+  allEntities,
+  fund as fundTypeName,
+  wallet as walletTypeName,
+  tag as tagTypeName,
+  income,
+  cost,
+} from 'core/shared/schemas';
 import { assert } from 'ts-essentials';
 import { hasProperty, matchesSchema } from '~/shared/type-guards';
 import {
@@ -36,7 +43,7 @@ import { distinct, mergeMap, takeUntil } from 'rxjs/operators';
 
 const messageSchema = z.object({
   needConfirmation: z.boolean(),
-  entityType: allEntities.extract([fund, wallet, tag, income, cost]),
+  entityType: allEntities.extract([fundTypeName, walletTypeName, tagTypeName, income, cost]),
   value: z.object({
     id: z.string(),
   }),
@@ -161,17 +168,17 @@ export class Synchronizer implements ICooperativeWorkflow {
   private async handleOrder(order: SynchronizationOrder) {
     if (order.action === 'create') {
       switch (order.entity) {
-        case fund: {
-          const entity = await this.fund.getOneBy({ id: order.entityId });
+        case fundTypeName: {
+          const fundEntity = await this.fund.getOneBy({ id: order.entityId });
 
           return this.syncEntity({
             operation: 'create',
-            entityType: fund,
-            entity,
+            entityType: fundTypeName,
+            entity: fundEntity,
             order,
             needConfirmation: true,
-            successMessage: `The peer accepted your fund "${entity?.title}"`,
-            failureMessage: `The peer refused your fund "${entity?.title}"`,
+            successMessage: `The peer accepted your fund "${fundEntity?.title}"`,
+            failureMessage: `The peer refused your fund "${fundEntity?.title}"`,
           });
         }
         case cost: {
@@ -192,21 +199,21 @@ export class Synchronizer implements ICooperativeWorkflow {
             needConfirmation: false,
           });
         }
-        case tag: {
+        case tagTypeName: {
           return this.syncEntity({
             operation: 'create',
-            entityType: tag,
+            entityType: tagTypeName,
             entity: await this.tag.getOneBy({ id: order.entityId }),
             order,
             needConfirmation: false,
           });
         }
-        case wallet: {
+        case walletTypeName: {
           const entity = await this.wallet.getOneBy({ id: order.entityId });
 
           return this.syncEntity({
             operation: 'create',
-            entityType: wallet,
+            entityType: walletTypeName,
             entity,
             order,
             needConfirmation: true,
@@ -219,10 +226,10 @@ export class Synchronizer implements ICooperativeWorkflow {
 
     if (order.action === 'update') {
       switch (order.entity) {
-        case fund: {
+        case fundTypeName: {
           return this.syncEntity({
             operation: 'update',
-            entityType: fund,
+            entityType: fundTypeName,
             entity: await this.fund.getOneBy({ id: order.entityId }),
             order,
             needConfirmation: false,
@@ -246,19 +253,19 @@ export class Synchronizer implements ICooperativeWorkflow {
             needConfirmation: false,
           });
         }
-        case tag: {
+        case tagTypeName: {
           return this.syncEntity({
             operation: 'update',
-            entityType: tag,
+            entityType: tagTypeName,
             entity: await this.tag.getOneBy({ id: order.entityId }),
             order,
             needConfirmation: false,
           });
         }
-        case wallet: {
+        case walletTypeName: {
           return this.syncEntity({
             operation: 'update',
-            entityType: wallet,
+            entityType: walletTypeName,
             entity: await this.wallet.getOneBy({ id: order.entityId }),
             order,
             needConfirmation: false,

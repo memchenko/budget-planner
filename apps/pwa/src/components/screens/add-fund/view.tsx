@@ -7,7 +7,7 @@ import { Switch } from '~/components/ui/switch';
 import { CardTitle } from '~/components/ui/card-title';
 import { Hint } from '~/components/ui/hint';
 import { PrimaryButton } from '~/components/ui/primary-button';
-import { Screen } from '~/components/layouts/screen';
+import { Column } from '~/components/layouts/column';
 import { AddFundController } from './controller';
 import { useController } from '~/shared/hooks/useController';
 import { z } from 'zod';
@@ -22,7 +22,7 @@ export const AddFund = observer(() => {
 
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>
-      <div>
+      <Column>
         <Card className="card">
           <CardHeader className="card-element">
             <CardTitle>Name</CardTitle>
@@ -141,7 +141,7 @@ export const AddFund = observer(() => {
           </CardBody>
         </Card>
         <PrimaryButton type="submit">Submit</PrimaryButton>
-      </div>
+      </Column>
     </form>
   );
 });
