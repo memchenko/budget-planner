@@ -5,7 +5,7 @@ import { useController } from '~/shared/hooks/useController';
 import { FundsController, Mode } from './controller';
 import { FundsState } from './components/funds-state';
 import { FundsOrder } from './components/funds-order';
-import { Menu } from './components/menu';
+import { FundActionsMenu } from './components/fund-actions-menu';
 import { Button } from '~/components/ui/button';
 
 export interface FundsProps {
@@ -21,7 +21,7 @@ export const Funds = observer((props: FundsProps) => {
     <Card className="card">
       <CardHeader className="flex justify-between items-center">
         <CardTitle>Funds</CardTitle>
-        {ctrl.hasFunds && <Menu onChangePriority={ctrl.enableReorderMode} onDistribute={ctrl.distribute} />}
+        {ctrl.hasFunds && <FundActionsMenu onChangePriority={ctrl.enableReorderMode} onDistribute={ctrl.distribute} />}
       </CardHeader>
       <CardBody className="flex gap-4 flex-col">
         {!ctrl.hasFunds && <p className="text-center p-4 text-foreground-300">No funds created yet</p>}

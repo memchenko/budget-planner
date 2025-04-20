@@ -4,7 +4,5 @@ import cn from 'classnames';
 export const Button = (props: ButtonProps) => {
   const { className, ...restProps } = props;
 
-  return (
-    <BaseButton className={cn('uppercase typography text-xl font-semibold', className)} size="lg" {...restProps} />
-  );
+  return <BaseButton className={cn('typography text-xl', className)} size="lg" {...restProps} />;
 };

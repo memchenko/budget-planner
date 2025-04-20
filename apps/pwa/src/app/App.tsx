@@ -7,7 +7,7 @@ import './App.css';
 import { Main } from '~/components/screens/main';
 import { AddFund } from '~/components/screens/add-fund';
 import { EditFund } from '~/components/screens/edit-fund';
-import { Connection } from '~/components/screens/connection';
+import { Peers } from '~/components/screens/peers';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { Screen } from '~/components/layouts/screen';
 import { pages } from '~/shared/constants/pages';
@@ -61,7 +61,7 @@ export function App() {
                 <Route path={pages.index} Component={Main} />
                 <Route path={pages.addFund} Component={AddFund} />
                 <Route path={pages.editFund} Component={EditFund} />
-                <Route path={pages.connection} Component={Connection} />
+                <Route path={pages.peers} Component={Peers} />
               </Route>
             </Routes>
           </ErrorBoundary>

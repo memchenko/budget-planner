@@ -67,7 +67,7 @@ export class WebRTCConnectionController {
   get progressText() {
     switch (this.state) {
       case State.CREATING_OFFER: {
-        return 'Setting up connection settings';
+        return 'Preparing connection settings';
       }
       case State.ESTABLISHING_CONNECTION: {
         return 'Establishing connection';
@@ -96,7 +96,7 @@ export class WebRTCConnectionController {
   }
 
   @action
-  async initiateOffering() {
+  initiateOffering() {
     this.mode = Mode.OFFERER;
     this.state = State.CREATING_OFFER;
   }
@@ -128,13 +128,16 @@ export class WebRTCConnectionController {
     }
 
     try {
+      console.log('QR CODE');
       const json = JSON.parse(value);
       assert(matchesSchema(json, webRtcDescriptionSchema));
 
+      console.log('JSON');
       this.state = State.IDLE;
 
       if (this.mode === Mode.ANSWERER) {
         await this.webrtc.handleOffer(json);
+        console.log('TEST');
         this.state = State.SHOWING_QR;
       }
 
@@ -173,6 +176,7 @@ export class WebRTCConnectionController {
   }
 
   private handleWebRTCReady() {
+    console.log('WEBRTC READY');
     if (this.mode === Mode.ANSWERER) {
       this.webrtc.sendMessage({
         type: readyEventTypeSchema.value,

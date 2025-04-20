@@ -130,9 +130,11 @@ export class Greeting implements ICooperativeWorkflow {
     this.peer.endChannel();
 
     this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, initiator.id);
+    this.user.connectUser(initiator.id);
 
     const unsub = this.peer.onclose(() => {
       this.notification.info(`${initiator.firstName} ${initiator.lastName} disconnected`);
+      this.user.disconnectUser(initiator.id);
       unsub();
     });
   }

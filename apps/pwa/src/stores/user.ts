@@ -11,6 +11,7 @@ export type EntityType = entities.User & {
 @injectable()
 export class User {
   @observable entries: EntityType[] = [];
+  @observable connectedUsers = new Set<EntityType['id']>();
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -58,6 +59,14 @@ export class User {
 
   getOneById(id: EntityType['id']) {
     return this.entries.find((entry) => entry.id === id);
+  }
+
+  connectUser(id: EntityType['id']) {
+    this.connectedUsers.add(id);
+  }
+
+  disconnectUser(id: EntityType['id']) {
+    this.connectedUsers.delete(id);
   }
 
   @computed
