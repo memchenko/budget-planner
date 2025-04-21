@@ -1,7 +1,0 @@
-.item {
-  @apply flex items-center justify-between w-full p-4;
-}
-
-.actions {
-  @apply flex justify-end gap-4 pt-8;
-}

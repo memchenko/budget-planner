@@ -1,5 +1,0 @@
-@layer components {
-  .typography {
-    @apply font-sans text-2xl text-primary-900;
-  }
-}

@@ -1,1 +1,0 @@
-worker: node apps/app/index.js
