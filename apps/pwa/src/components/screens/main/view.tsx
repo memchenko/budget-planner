@@ -26,7 +26,6 @@ export const Main = observer(() => {
 
   return (
     <Column>
-      {ctrl.isSyncing && <CircularProgress isIndeterminate size="sm" />}
       <Wallet />
       <Funds onAddNewFund={ctrl.handleAddNewFundClick} />
       <TabPane>

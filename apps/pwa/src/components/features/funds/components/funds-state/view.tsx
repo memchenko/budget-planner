@@ -1,5 +1,6 @@
 import { Progress } from '@nextui-org/progress';
 import { Fragment } from 'react';
+import feather from 'feather-icons';
 import { observer } from 'mobx-react-lite';
 import { Card, CardBody } from '@nextui-org/card';
 import cn from 'classnames';
@@ -19,9 +20,13 @@ export interface FundsStateProps {
     dailyRemainder: number | null;
     remainderLeft: string | null;
     remainderWidth: string | null;
-    isExternal: boolean;
+    isShared: boolean;
+    isUnsynced: boolean;
+    isSyncing: boolean;
   }[];
 }
+
+const ICON_SIZE = 15;
 
 export const FundsState = observer((props: FundsStateProps) => {
   const { list } = props;
@@ -29,56 +34,93 @@ export const FundsState = observer((props: FundsStateProps) => {
 
   return (
     <>
-      {list.map(({ id, isExternal, title, balance, capacity, dailyRemainder, remainderLeft, remainderWidth }) => {
-        let view = (
-          <Card
-            className={cn('flex items-end gap-2', {
-              ['border-2']: isExternal,
-              ['border-lime-500']: isExternal,
-            })}
-          >
-            <CardBody>
-              <Progress
-                showValueLabel
-                label={title}
-                value={balance}
-                valueLabel={<ValueLabel capacity={capacity} balance={balance} dailyRemainder={dailyRemainder} />}
-                maxValue={capacity}
-                classNames={{
-                  indicator: cn(styles.indicator, {
-                    [styles.insufficientRemainder]: remainderLeft === '100%' && dailyRemainder !== null,
-                  }),
-                }}
-                style={
-                  {
-                    '--remainder-width': `${remainderWidth}`,
-                    '--remainder-left': `${remainderLeft}`,
-                  } as React.CSSProperties
-                }
-                color="primary"
-                size="lg"
-              />
-            </CardBody>
-          </Card>
-        );
-
-        if (ctrl.shouldDisplayMenu) {
-          view = (
-            <Menu
-              items={ctrl.getMenu(id)}
-              dropdownProps={{
-                closeOnSelect: false,
-                onClose: ctrl.reset,
-                placement: 'bottom-end',
-              }}
-            >
-              {view}
-            </Menu>
+      {list.map(
+        ({
+          id,
+          isShared,
+          isUnsynced,
+          isSyncing,
+          title,
+          balance,
+          capacity,
+          dailyRemainder,
+          remainderLeft,
+          remainderWidth,
+        }) => {
+          let view = (
+            <Card className="flex items-end gap-2">
+              <CardBody>
+                <Progress
+                  showValueLabel
+                  label={
+                    <div className="flex gap-2 items-center">
+                      <span>{title}</span>
+                      {isShared && (
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: feather.icons.users.toSvg({
+                              width: ICON_SIZE,
+                              height: ICON_SIZE,
+                              class: 'text-default',
+                            }),
+                          }}
+                        />
+                      )}
+                      {isUnsynced && (
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: feather.icons['refresh-cw'].toSvg({
+                              width: ICON_SIZE,
+                              height: ICON_SIZE,
+                              class: 'text-default',
+                            }),
+                          }}
+                          className={cn({
+                            'animate-spin': isSyncing,
+                          })}
+                        />
+                      )}
+                    </div>
+                  }
+                  value={balance}
+                  valueLabel={<ValueLabel capacity={capacity} balance={balance} dailyRemainder={dailyRemainder} />}
+                  maxValue={capacity}
+                  classNames={{
+                    indicator: cn(styles.indicator, {
+                      [styles.insufficientRemainder]: remainderLeft === '100%' && dailyRemainder !== null,
+                    }),
+                  }}
+                  style={
+                    {
+                      '--remainder-width': `${remainderWidth}`,
+                      '--remainder-left': `${remainderLeft}`,
+                    } as React.CSSProperties
+                  }
+                  color="primary"
+                  size="lg"
+                />
+              </CardBody>
+            </Card>
           );
-        }
 
-        return <Fragment key={id}>{view}</Fragment>;
-      })}
+          if (ctrl.shouldDisplayMenu) {
+            view = (
+              <Menu
+                items={ctrl.getMenu(id)}
+                dropdownProps={{
+                  closeOnSelect: false,
+                  onClose: ctrl.reset,
+                  placement: 'bottom-end',
+                }}
+              >
+                {view}
+              </Menu>
+            );
+          }
+
+          return <Fragment key={id}>{view}</Fragment>;
+        },
+      )}
     </>
   );
 });

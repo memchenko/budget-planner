@@ -81,4 +81,8 @@ export class SynchronizationOrder {
   getAllByUserId(userId: EntityType['userId']) {
     return this.all.filter((entry) => entry.userId === userId);
   }
+
+  isEntityUnsynced(entityType: EntityType['entity'], entityId: EntityType['entityId']) {
+    return this.entries.some((entry) => entry.entity === entityType && entry.entityId === entityId);
+  }
 }

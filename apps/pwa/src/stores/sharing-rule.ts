@@ -61,4 +61,8 @@ export class SharingRule {
   get all() {
     return this.entries;
   }
+
+  isEntityShared(entityType: EntityType['entity'], entityId: EntityType['entityId']) {
+    return this.entries.some((entry) => entry.entity === entityType && entry.entityId === entityId);
+  }
 }

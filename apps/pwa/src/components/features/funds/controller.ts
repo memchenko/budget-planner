@@ -2,9 +2,11 @@ import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
 import { computed, makeAutoObservable, observable, action } from 'mobx';
 import { DateTime } from 'luxon';
-import { Fund } from '~/stores/fund';
+import * as fundStore from '~/stores/fund';
 import { Wallet } from '~/stores/wallet';
-import { User } from '~/stores/user';
+import * as userStore from '~/stores/user';
+import * as sharingRuleStore from '~/stores/sharing-rule';
+import * as synchronizationOrderStore from '~/stores/synchronization-order';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 
@@ -17,13 +19,17 @@ export enum Mode {
 export class FundsController {
   constructor(
     @inject(TOKENS.FUND_STORE)
-    private fundsStore: Fund,
+    private fundsStore: fundStore.Fund,
     @inject(TOKENS.WALLET_STORE)
     private walletsStore: Wallet,
     @inject(TOKENS.SCENARIO_RUNNER)
     private scenarioRunner: ScenarioRunner,
     @inject(TOKENS.USER_STORE)
-    private userStore: User,
+    private userStore: userStore.User,
+    @inject(TOKENS.SHARING_RULE_STORE)
+    private readonly sharingRuleStore: sharingRuleStore.SharingRule,
+    @inject(TOKENS.SYNCHRONIZATION_ORDER_STORE)
+    private readonly synchronizationOrderStore: synchronizationOrderStore.SynchronizationOrder,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -40,7 +46,7 @@ export class FundsController {
     return this.fundsStore.all
       .slice()
       .sort((a, b) => a.priority - b.priority)
-      .map(({ id, userId, balance, capacity, title, calculateDailyLimit, priority }) => {
+      .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {
         const result = {
           id,
           balance,
@@ -50,7 +56,9 @@ export class FundsController {
           remainderWidth: '0',
           dailyRemainder: null as number | null,
           priority,
-          isExternal: userId !== this.userStore.current.id,
+          isShared: this.sharingRuleStore.isEntityShared('fund', id),
+          isUnsynced: this.synchronizationOrderStore.isEntityUnsynced('fund', id),
+          isSyncing: this.synchronizationOrderStore.isSyncing,
         };
 
         if (calculateDailyLimit) {
