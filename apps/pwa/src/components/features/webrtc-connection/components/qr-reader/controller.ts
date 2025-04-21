@@ -8,9 +8,11 @@ import { NotificationShowEvent } from '~/shared/events';
 
 @provide(QRReaderController)
 export class QRReaderController {
-  videoEl: HTMLVideoElement | null = null;
-  qrScanner: QrScanner | null = null;
   onRead?: (data: string) => void;
+
+  private qrScanner: QrScanner | null = null;
+  private starting: Promise<any> | null = null;
+  private resetAbortController = new AbortController();
 
   constructor(
     @inject(TOKENS.EVENTS.NOTIFICATION_SHOW)
@@ -59,33 +61,54 @@ export class QRReaderController {
     }
   }
 
-  setVideoElement(video: HTMLVideoElement | null) {
+  async setVideoElement(video: HTMLVideoElement | null) {
     if (!video) {
+      return this.reset();
+    }
+
+    this.resetAbortController.abort();
+
+    try {
+      this.qrScanner = new QrScanner(
+        video,
+        (result) => {
+          if (hasProperty(result, 'data')) {
+            this.onRead?.(result.data);
+          }
+        },
+        {
+          highlightScanRegion: true,
+          highlightCodeOutline: true,
+        },
+      );
+
+      this.starting = this.qrScanner.start();
+    } catch {
       this.notificationShowEvent.push({
         type: 'error',
         message: "Camera couldn't initiate",
       });
-      return;
     }
-
-    this.qrScanner = new QrScanner(
-      video,
-      (result) => {
-        if (hasProperty(result, 'data')) {
-          this.onRead?.(result.data);
-        }
-      },
-      {
-        highlightScanRegion: true,
-        highlightCodeOutline: true,
-      },
-    );
-
-    this.qrScanner.start();
   }
 
-  reset() {
-    this.qrScanner?.stop();
-    this.qrScanner?.destroy();
+  async reset() {
+    try {
+      await Promise.race([
+        this.starting,
+        new Promise((_, reject) => {
+          this.resetAbortController.signal.addEventListener('abort', reject, { once: true });
+        }),
+      ]);
+      console.log('RESETTING');
+
+      if (this.qrScanner) {
+        this.qrScanner.stop();
+        this.qrScanner.destroy();
+
+        this.qrScanner = null;
+      }
+    } catch {
+      console.log('ABORTED');
+    }
   }
 }

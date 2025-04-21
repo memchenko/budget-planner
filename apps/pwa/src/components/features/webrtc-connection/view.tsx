@@ -24,6 +24,8 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
     } else {
       ctrl.initiateAnswering();
     }
+
+    return ctrl.reset;
   }, [props.isInitiator, ctrl]);
 
   return (
@@ -32,7 +34,7 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
         <div className="flex flex-col gap-4 items-end">
           <Qr data={ctrl.qrCodeValue} />
           <div className={styles.proceed}>
-            <PrimaryButton onPress={ctrl.readAnswer}>
+            <PrimaryButton fullWidth onPress={ctrl.readAnswer}>
               <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
               Proceed
             </PrimaryButton>

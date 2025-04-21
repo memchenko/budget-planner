@@ -1,8 +1,9 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 import feather from 'feather-icons';
 import { Input } from '@nextui-org/input';
 import { useController } from '~/shared/hooks/useController';
+// import { useUnmount } from '~/shared/hooks/useUnmount';
 import { Button } from '~/components/ui/button';
 
 import { QRReaderController } from './controller';
@@ -15,11 +16,7 @@ export const QrReader = observer(({ onRead }: QrReaderProps) => {
   const ctrl = useController(QRReaderController);
   ctrl.onRead = onRead;
 
-  useEffect(() => {
-    if (ctrl.videoEl) {
-      return ctrl.reset;
-    }
-  }, [ctrl]);
+  // useUnmount(ctrl.reset);
 
   return (
     <div className="flex flex-col gap-4 items-end sm:items-center">

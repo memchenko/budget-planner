@@ -6,6 +6,7 @@ import { WebRTCConnection } from '~/components/features/webrtc-connection';
 import { PrimaryButton } from '~/components/ui/primary-button';
 import { SecondaryButton } from '~/components/ui/secondary-button';
 import { ConnectionController } from './controller';
+import { useUnmount } from '~/shared/hooks/useUnmount';
 
 export type ConnectionProps = {
   onConnected: VoidFunction;
@@ -13,6 +14,8 @@ export type ConnectionProps = {
 
 export const Connection = observer((props: ConnectionProps) => {
   const ctrl = useController(ConnectionController);
+
+  useUnmount(ctrl.reset);
 
   return (
     <div>

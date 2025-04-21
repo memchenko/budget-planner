@@ -36,4 +36,9 @@ export class ConnectionController {
       this.eventBus.send(LOCAL_EVENTS.START_GREETING);
     }
   }
+
+  reset() {
+    this.shouldStartConnecting = false;
+    this.isInitiator = false;
+  }
 }

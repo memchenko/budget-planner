@@ -128,16 +128,14 @@ export class WebRTCConnectionController {
     }
 
     try {
-      console.log('QR CODE');
       const json = JSON.parse(value);
       assert(matchesSchema(json, webRtcDescriptionSchema));
 
-      console.log('JSON');
       this.state = State.IDLE;
 
       if (this.mode === Mode.ANSWERER) {
         await this.webrtc.handleOffer(json);
-        console.log('TEST');
+
         this.state = State.SHOWING_QR;
       }
 
@@ -176,7 +174,6 @@ export class WebRTCConnectionController {
   }
 
   private handleWebRTCReady() {
-    console.log('WEBRTC READY');
     if (this.mode === Mode.ANSWERER) {
       this.webrtc.sendMessage({
         type: readyEventTypeSchema.value,
@@ -191,5 +188,12 @@ export class WebRTCConnectionController {
     if (json.type === readyEventTypeSchema.value) {
       this.state = State.ESTABLISHED;
     }
+  }
+
+  reset() {
+    console.log('RESET WHOLE');
+
+    this.mode = null;
+    this.state = State.IDLE;
   }
 }
