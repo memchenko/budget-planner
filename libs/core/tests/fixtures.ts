@@ -8,7 +8,7 @@ import { User } from 'core/entities/User';
 import { Wallet } from 'core/entities/Wallet';
 import { SharingRule } from 'core/entities/SharingRule';
 import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
-import { wallet, cost, fund, income, tag } from 'core/shared/schemas';
+import { wallet, cost, fund } from 'core/shared/schemas';
 import { scenariosModule } from 'core/index';
 import { InMemoryRepo } from 'core/tests/mocks';
 import { Container } from 'inversify';
@@ -300,14 +300,15 @@ export class FixturePreset {
   }
 
   get default() {
-    const { user, wallet } = this.initial;
-    const { eager, culculatingDailyLimit, cumulative } = new FundFixture(user.id);
-    const { rent, electricity, education, transport, grocery, hygiene, cinema, restaurant } = new CostFixture(user.id);
-    const { salary, gift } = new IncomeFixture(user.id);
-    const { coffee, tea, foodForCats, dinner, fastfood } = new TagFixture(user.id);
+    // const { user, wallet } = this.initial;
+    // const { eager, culculatingDailyLimit, cumulative } = new FundFixture(user.id);
+    // const { rent, electricity, education, transport, grocery, hygiene, cinema, restaurant } = new CostFixture(user.id);
+    // const { salary, gift } = new IncomeFixture(user.id);
+    // const { coffee, tea, foodForCats, dinner, fastfood } = new TagFixture(user.id);
 
-    this.stores.user.set(user.id, user);
-    this.stores.wallet.set(wallet.id, wallet);
+    // this.stores.user.set(user.id, user);
+    // this.stores.wallet.set(wallet.id, wallet);
+    return;
   }
 
   get minimalistic() {
@@ -320,32 +321,19 @@ export class FixturePreset {
 
     return { user, wallet, fund };
   }
-
-  get cooperative() {}
 }
 
-export const createDefaultSetup = (stores: {
-  user: Map<string, User>;
-  wallet: Map<string, Wallet>;
-  fund: Map<string, Fund>;
-  cost: Map<string, Cost>;
-  tag: Map<string, Tag>;
-}) => {
-  const { user, wallet } = createInitialSetup(stores);
-
-  const fundNecessary = createFund({ userId: user.id, isEager: true, priority: 1 });
-  stores.fund.set(fundNecessary.id, fundNecessary);
-
-  const fundGrocery = createFund({ userId: user.id, calculateDailyLimit: true, priority: 2 });
-  stores.fund.set(fundGrocery.id, fundGrocery);
-
-  const fundLeisure = createFund({ userId: user.id, isCumulative: true, priority: 3 });
-  stores.fund.set(fundLeisure.id, fundLeisure);
-
-  const tagGrocery = createTag({ userId: user.id, title: 'Grocery' });
-  stores.tag.set(tagGrocery.id, tagGrocery);
-
-  const cost1 = createCost({ userId: user.id, entityId: wallet.id });
+export const createDefaultSetup = () => {
+  // const { user, wallet } = createInitialSetup(stores);
+  // const fundNecessary = createFund({ userId: user.id, isEager: true, priority: 1 });
+  // stores.fund.set(fundNecessary.id, fundNecessary);
+  // const fundGrocery = createFund({ userId: user.id, calculateDailyLimit: true, priority: 2 });
+  // stores.fund.set(fundGrocery.id, fundGrocery);
+  // const fundLeisure = createFund({ userId: user.id, isCumulative: true, priority: 3 });
+  // stores.fund.set(fundLeisure.id, fundLeisure);
+  // const tagGrocery = createTag({ userId: user.id, title: 'Grocery' });
+  // stores.tag.set(tagGrocery.id, tagGrocery);
+  // const cost1 = createCost({ userId: user.id, entityId: wallet.id });
 };
 
 export const test = base.extend({

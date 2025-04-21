@@ -12,7 +12,7 @@ import { UNKNOWN_ERROR_TEXT } from 'core/shared/constants';
 import { assertEntity } from 'core/shared/assertions';
 import { ENTITY_NAME } from 'core/shared/constants';
 import { Wallet } from 'core/entities/Wallet';
-import { fund, wallet as walletEntityName } from 'core/shared/schemas';
+import { fund } from 'core/shared/schemas';
 
 const UPDATE_WALLET_ERROR = "Coudn't update wallet";
 const DELETE_FUND_ERROR = "Couldn't delete fund";
@@ -55,10 +55,6 @@ export class DeleteFund extends BaseScenario<DeleteFundParams> {
     const fundSharingRule = await this.sharingRuleRepo.getOneBy({
       entity: fund,
       entityId: fundToDelete.id,
-    });
-    const walletSharingRule = await this.sharingRuleRepo.getOneBy({
-      entity: walletEntityName,
-      entityId: wallet.id,
     });
 
     if (fundSharingRule !== null) {

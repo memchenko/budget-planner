@@ -32,8 +32,6 @@ export class AddSharingRule extends BaseScenario<AddSharingRuleParams> {
     super();
   }
 
-  private sharingRule: SharingRule | null = null;
-
   async execute() {
     const sharingRule = await this.sharingRuleRepo.getOneBy({
       entity: this.params.entity,
@@ -45,7 +43,7 @@ export class AddSharingRule extends BaseScenario<AddSharingRuleParams> {
       return;
     }
 
-    const nonNullableSharingRule = (this.sharingRule = await this.sharingRuleRepo.create(this.params));
+    const nonNullableSharingRule = await this.sharingRuleRepo.create(this.params);
     assert(nonNullableSharingRule, ADD_SHARING_RULE_ERROR);
 
     await this.addSynchronizationOrderScenario.run({

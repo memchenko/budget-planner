@@ -5,7 +5,6 @@ import { Repo } from 'core/shared/types';
 import { Income } from 'core/entities/Income';
 import { Wallet } from 'core/entities/Wallet';
 import { SharingRule } from 'core/entities/SharingRule';
-import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
 import { TOKENS } from 'core/types';
 import { BaseScenario } from 'core/scenarios/BaseScenario';
 import { AddSynchronizationOrder } from 'core/scenarios/AddSynchronizationOrder';
@@ -21,8 +20,6 @@ export class AddIncome extends BaseScenario<AddIncomeParams> {
   constructor(
     @inject(TOKENS.INCOME_REPO) private readonly incomeRepo: Repo<Income, 'id'>,
     @inject(TOKENS.SHARING_RULE_REPO) private readonly sharingRuleRepo: Repo<SharingRule, 'id'>,
-    @inject(TOKENS.SYNCHRONIZATION_ORDER_REPO)
-    private readonly synchronizationOrderRepo: Repo<SynchronizationOrder, 'id'>,
     @inject(TOKENS.WALLET_REPO) private readonly walletRepo: Repo<Wallet, 'id'>,
     @inject(AddSynchronizationOrder) private readonly addSynchronizationOrderScenario: AddSynchronizationOrder,
   ) {
