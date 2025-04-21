@@ -13,12 +13,15 @@ import { useController } from '~/shared/hooks/useController';
 import { z } from 'zod';
 
 import { schema } from './schema';
+import { useUnmount } from '~/shared/hooks/useUnmount';
 
 export const AddFund = observer(() => {
   const ctrl = useController(AddFundController);
-  const { handleSubmit, control } = useForm<z.infer<typeof schema>>({
+  const { handleSubmit, control, reset } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
+
+  useUnmount(reset);
 
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>

@@ -14,13 +14,16 @@ import { useController } from '~/shared/hooks/useController';
 import { z } from 'zod';
 import { schema } from './schema';
 import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
+import { useUnmount } from '~/shared/hooks/useUnmount';
 
 export const EditFund = observer(() => {
   const ctrl = useController(EditFundController);
-  const { handleSubmit, control } = useForm<z.infer<typeof schema>>({
+  const { handleSubmit, control, reset } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     values: ctrl.initialValues,
   });
+
+  useUnmount(reset);
 
   return (
     <form onSubmit={handleSubmit(ctrl.handleSubmit)}>

@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from 'mobx';
-import { provide } from 'inversify-binding-decorators';
+import { fluentProvide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runner';
 import { schema } from './schema';
@@ -9,7 +9,8 @@ import { TOKENS } from '~/shared/constants/di';
 import { INavigateFunc } from '~/shared/interfaces';
 import { pages } from '~/shared/constants/pages';
 
-@provide(AddFundController)
+// prettier-ignore
+@(fluentProvide(AddFundController).inTransientScope().done())
 export class AddFundController {
   constructor(
     @inject(TOKENS.SCENARIO_RUNNER) private readonly scenarioRunner: ScenarioRunner,

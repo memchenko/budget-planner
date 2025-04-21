@@ -1,5 +1,5 @@
 import { action, computed, makeAutoObservable } from 'mobx';
-import { provide } from 'inversify-binding-decorators';
+import { fluentProvide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
 import { assert } from 'ts-essentials';
@@ -17,7 +17,8 @@ import get from 'lodash/get';
 import { fund, income as incomeTypeName, cost as costTypeName, tag as tagTypeName } from '#/libs/core/shared/schemas';
 import { INavigateFunc } from '~/shared/interfaces';
 
-@provide(EditFundController)
+// prettier-ignore
+@(fluentProvide(EditFundController).inTransientScope().done())
 export class EditFundController {
   id!: string;
   fund!: FundEntity;
