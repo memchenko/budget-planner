@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import feather from 'feather-icons';
 import { useController } from '~/shared/hooks/useController';
 import { WebRTCConnectionController } from './controller';
-import styles from './styles.module.css';
 import { PrimaryButton } from '~/components/ui/primary-button';
 import { Qr } from './components/qr';
 import { QrReader } from './components/qr-reader';
@@ -31,9 +30,9 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
   return (
     <div>
       {ctrl.shouldDisplayQrCode && (
-        <div className="flex flex-col gap-4 items-end">
+        <div className="flex flex-col gap-4 items-center">
           <Qr data={ctrl.qrCodeValue} />
-          <div className={styles.proceed}>
+          <div className="w-full">
             <PrimaryButton fullWidth onPress={ctrl.readAnswer}>
               <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
               Proceed

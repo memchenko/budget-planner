@@ -32,8 +32,12 @@ export class QRController {
   }
 
   setCanvas(element: HTMLCanvasElement | null) {
+    if (!element) {
+      return;
+    }
+
     try {
-      assert(element && this.data);
+      assert(this.data);
 
       this.canvas = element;
 
@@ -41,7 +45,7 @@ export class QRController {
     } catch {
       this.notificationShowEvent.push({
         type: 'error',
-        message: 'Cannot initiate qr code',
+        message: 'Cannot initiate QR code',
       });
     }
   }

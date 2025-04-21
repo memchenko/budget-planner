@@ -14,7 +14,7 @@ export const Qr = observer((props: QrProps) => {
   ctrl.data = props.data;
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center w-full">
       <canvas ref={(el) => ctrl.setCanvas(el)} className={styles.canvas} />
       <Button fullWidth size="lg" onPress={ctrl.handleClipboardClickButton}>
         <span dangerouslySetInnerHTML={{ __html: feather.icons.clipboard.toSvg() }} />

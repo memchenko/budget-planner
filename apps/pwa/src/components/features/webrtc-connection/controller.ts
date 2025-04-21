@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 import { provide } from 'inversify-binding-decorators';
-import { observable, computed, action, makeAutoObservable, when } from 'mobx';
+import { makeAutoObservable, when } from 'mobx';
 import { TOKENS } from '~/shared/constants/di.js';
 import { WebRTC } from '~/shared/impl/webrtc/index.js';
 import { assert } from 'ts-essentials';
@@ -23,27 +23,24 @@ export enum State {
 
 @provide(WebRTCConnectionController)
 export class WebRTCConnectionController {
-  @observable mode: Mode | null = null;
-  @observable state: State = State.IDLE;
+  mode: Mode | null = null;
+  state: State = State.IDLE;
+  private isWebRTCInitialized = false;
 
   onReady?: VoidFunction;
 
-  @computed
   get shouldDisplayButtons() {
     return this.state === State.IDLE;
   }
 
-  @computed
   get shouldReadCode() {
     return this.state === State.READING_QR;
   }
 
-  @computed
   get shouldDisplayQrCode() {
     return this.state === State.SHOWING_QR;
   }
 
-  @computed
   get qrCodeValue() {
     if (this.mode === Mode.ANSWERER) {
       assert(this.webrtc.answer !== null, 'Answer must be set to display qr code');
@@ -58,12 +55,10 @@ export class WebRTCConnectionController {
     throw new Error('Mode must be set to display qr code');
   }
 
-  @computed
   get isEstablished() {
     return this.state === State.ESTABLISHED;
   }
 
-  @computed
   get progressText() {
     switch (this.state) {
       case State.CREATING_OFFER: {
@@ -78,7 +73,6 @@ export class WebRTCConnectionController {
     }
   }
 
-  @computed
   get shouldDisplayProgress() {
     return [State.CREATING_OFFER, State.ESTABLISHING_CONNECTION].includes(this.state);
   }
@@ -95,20 +89,23 @@ export class WebRTCConnectionController {
     when(() => this.state === State.ESTABLISHED, this.handleEstablished);
   }
 
-  @action
   initiateOffering() {
     this.mode = Mode.OFFERER;
     this.state = State.CREATING_OFFER;
   }
 
-  @action
   initiateAnswering() {
     this.mode = Mode.ANSWERER;
     this.state = State.READING_QR;
   }
 
-  @action
   async createOffer() {
+    if (this.isWebRTCInitialized) {
+      return;
+    }
+
+    this.isWebRTCInitialized = true;
+
     const offer = await this.webrtc.initiate();
 
     assert(offer !== null, "Couldn't initiate webrtc");
@@ -116,12 +113,10 @@ export class WebRTCConnectionController {
     this.state = State.SHOWING_QR;
   }
 
-  @action
   readAnswer() {
     this.state = State.READING_QR;
   }
 
-  @action
   async handleQRCodes(value: string) {
     if (this.state === State.IDLE) {
       return;
@@ -168,7 +163,6 @@ export class WebRTCConnectionController {
     this.onReady?.();
   }
 
-  @action
   private handleWebRTCConnected() {
     this.state = State.ESTABLISHING_CONNECTION;
   }
@@ -191,8 +185,6 @@ export class WebRTCConnectionController {
   }
 
   reset() {
-    console.log('RESET WHOLE');
-
     this.mode = null;
     this.state = State.IDLE;
   }
