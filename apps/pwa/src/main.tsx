@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './app/App.tsx';
+import { App } from './app/App';
 import './app/inversify.config.ts';
 import './styles/index.css';
 
