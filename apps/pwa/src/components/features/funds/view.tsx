@@ -9,12 +9,11 @@ import { FundActionsMenu } from './components/fund-actions-menu';
 import { Button } from '~/components/ui/button';
 
 export interface FundsProps {
-  onFundClick: (id: string) => void;
   onAddNewFund: () => void;
 }
 
 export const Funds = observer((props: FundsProps) => {
-  const { onFundClick, onAddNewFund } = props;
+  const { onAddNewFund } = props;
   const ctrl = useController(FundsController);
 
   return (
@@ -25,7 +24,7 @@ export const Funds = observer((props: FundsProps) => {
       </CardHeader>
       <CardBody className="flex gap-4 flex-col">
         {!ctrl.hasFunds && <p className="text-center p-4 text-foreground-300">No funds created yet</p>}
-        {ctrl.mode === Mode.View && <FundsState list={ctrl.funds} onFundClick={onFundClick} />}
+        {ctrl.mode === Mode.View && <FundsState list={ctrl.funds} />}
         {ctrl.mode === Mode.Reorder && (
           <FundsOrder list={ctrl.funds} onConfirm={ctrl.reprioiritize} onCancel={ctrl.enableViewMode} />
         )}

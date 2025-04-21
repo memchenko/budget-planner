@@ -1,6 +1,11 @@
 import { Progress } from '@nextui-org/progress';
+import { Fragment } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Card, CardBody } from '@nextui-org/card';
 import cn from 'classnames';
+import { Menu } from '~/components/ui/menu';
+import { useController } from '~/shared/hooks/useController';
+import { FundsStateController } from './controller';
 
 import { ValueLabel } from '../value-label';
 import styles from './styles.module.css';
@@ -16,24 +21,21 @@ export interface FundsStateProps {
     remainderWidth: string | null;
     isExternal: boolean;
   }[];
-  onFundClick: (id: string) => void;
 }
 
-export const FundsState = (props: FundsStateProps) => {
-  const { list, onFundClick } = props;
+export const FundsState = observer((props: FundsStateProps) => {
+  const { list } = props;
+  const ctrl = useController(FundsStateController);
 
   return (
     <>
       {list.map(({ id, isExternal, title, balance, capacity, dailyRemainder, remainderLeft, remainderWidth }) => {
-        return (
+        let view = (
           <Card
-            key={id}
-            isPressable
             className={cn('flex items-end gap-2', {
               ['border-2']: isExternal,
               ['border-lime-500']: isExternal,
             })}
-            onPress={onFundClick.bind(null, id)}
           >
             <CardBody>
               <Progress
@@ -59,7 +61,24 @@ export const FundsState = (props: FundsStateProps) => {
             </CardBody>
           </Card>
         );
+
+        if (ctrl.shouldDisplayMenu) {
+          view = (
+            <Menu
+              items={ctrl.getMenu(id)}
+              dropdownProps={{
+                closeOnSelect: false,
+                onClose: ctrl.reset,
+                placement: 'bottom-end',
+              }}
+            >
+              {view}
+            </Menu>
+          );
+        }
+
+        return <Fragment key={id}>{view}</Fragment>;
       })}
     </>
   );
-};
+});

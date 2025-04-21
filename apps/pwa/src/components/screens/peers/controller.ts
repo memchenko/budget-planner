@@ -21,8 +21,12 @@ export class PeersController {
     });
   }
 
-  get users() {
-    return this.userStore.all;
+  get hasAnyPeer() {
+    return this.userStore.hasAnyExternal;
+  }
+
+  get peers() {
+    return this.userStore.externals;
   }
 
   isUserConnected(id: user.EntityType['id']) {

@@ -2,6 +2,7 @@ import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { when, IReactionDisposer } from 'mobx';
 import { User } from '~/stores/user';
+import { App } from '~/stores/app';
 import { UserReadyEvent } from '~/shared/events';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import { TOKENS } from '~/shared/constants/di';
@@ -19,6 +20,8 @@ export class CreateUser implements IAutoWorkflow {
     private readonly userReadyEvent: UserReadyEvent,
     @inject(TOKENS.SCENARIO_RUNNER)
     private readonly scenarioRunner: ScenarioRunner,
+    @inject(TOKENS.APP_STORE)
+    private readonly appStore: App,
   ) {
     this.userStoreReadyDisposer = when(() => this.usersStore.isReady, this.execute.bind(this));
   }
@@ -35,6 +38,7 @@ export class CreateUser implements IAutoWorkflow {
           avatarSrc: faker.image.avatar(),
         },
       });
+      this.appStore.userId = this.usersStore.current.id;
     }
 
     this.userReadyEvent.push({});

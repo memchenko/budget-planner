@@ -17,6 +17,6 @@ export class ScenarioRunner {
     const { scenario: scenarioName, payload } = parameters;
     const scenario = container.resolve<{ run: (arg: any) => void }>(scenarios[scenarioName] as any);
 
-    await scenario.run(payload);
+    return await scenario.run(payload);
   }
 }

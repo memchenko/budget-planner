@@ -20,18 +20,22 @@ export const Peers = observer(() => {
   return (
     <div>
       <h1 className="typography mb-4">Your peers</h1>
-      {ctrl.users.length === 0 && <div>You have no any peers yet</div>}
+      {!ctrl.hasAnyPeer && <div>You have no any peers yet</div>}
       <ul className="flex flex-col gap-2">
-        {ctrl.users.map(({ id, avatarSrc, firstName, lastName }) => (
+        {ctrl.peers.map(({ id, avatarSrc, firstName, lastName }) => (
           <Menu
             key={id}
             items={[
               {
-                title: 'Delete',
+                key: 'delete',
+                view: 'Delete',
                 color: 'danger',
                 action: ctrl.forgetPeer,
               },
             ]}
+            dropdownProps={{
+              placement: 'bottom-end',
+            }}
           >
             <li>
               <Card className="w-full">

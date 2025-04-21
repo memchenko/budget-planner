@@ -14,11 +14,13 @@ export const FundActionsMenu = (props: FundActionsMenuProps) => {
     <Menu
       items={[
         {
-          title: 'Distribute',
+          key: 'distribute',
+          view: 'Distribute',
           action: onDistribute,
         },
         {
-          title: 'Reprioritize',
+          key: 'reprioritize',
+          view: 'Reprioritize',
           action: onChangePriority,
         },
       ]}

@@ -145,14 +145,6 @@ export const EditFund = observer(() => {
             />
           </CardBody>
         </Card>
-        <div>
-          {ctrl.users.map((user, index) => (
-            <div key={index} onClick={ctrl.handleUserSelected.bind(ctrl, user.id)}>
-              <img src={user.avatarSrc} alt="" width={25} height={25} />
-              {user.firstName} {user.lastName}
-            </div>
-          ))}
-        </div>
 
         <DangerButton type="submit" name={DELETE_BUTTON_NAME} className="flex-shrink-0">
           Delete this fund

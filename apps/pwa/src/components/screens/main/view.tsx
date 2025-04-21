@@ -13,7 +13,7 @@ import { MakeRecord } from '~/components/features/make-record';
 import { PrimaryButton } from '~/components/ui/primary-button';
 
 export const Main = observer(() => {
-  const ctrl = useController(MainController, true);
+  const ctrl = useController(MainController);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   if (ctrl.isLoading) {
@@ -28,7 +28,7 @@ export const Main = observer(() => {
     <Column>
       {ctrl.isSyncing && <CircularProgress isIndeterminate size="sm" />}
       <Wallet />
-      <Funds onFundClick={ctrl.handleFundClick} onAddNewFund={ctrl.handleAddNewFundClick} />
+      <Funds onAddNewFund={ctrl.handleAddNewFundClick} />
       <TabPane>
         <div className="aspect-square">
           <PrimaryButton isIconOnly className="text-foreground rounded-full !size-full" onPress={onOpen}>

@@ -1,4 +1,4 @@
-import { action, computed, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import { fluentProvide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { matchPath, ParamParseKey } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { assert } from 'ts-essentials';
 import { ScenarioRunner, ScenarioPayloadMap } from '~/shared/impl/scenario-runner';
 import { schema } from './schema';
 import { z } from 'zod';
-import { User, EntityType as UserEntity } from '~/stores/user';
+import { User } from '~/stores/user';
 import { Fund, EntityType as FundEntity } from '~/stores/fund';
 import { TOKENS } from '~/shared/constants/di';
 import { pages } from '~/shared/constants/pages';
@@ -14,7 +14,6 @@ import { DELETE_BUTTON_NAME, SUBMIT_BUTTON_NAME } from './constants';
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
-import { fund, income as incomeTypeName, cost as costTypeName, tag as tagTypeName } from '#/libs/core/shared/schemas';
 import { INavigateFunc } from '~/shared/interfaces';
 
 // prettier-ignore
@@ -33,11 +32,6 @@ export class EditFundController {
 
     this.getFundId();
     this.getFund();
-  }
-
-  @computed
-  get users() {
-    return this.userStore.externals;
   }
 
   getFundId() {
@@ -118,20 +112,6 @@ export class EditFundController {
       payload: {
         fundId: this.fund.id,
         userId: this.userStore.current.id,
-      },
-    });
-  }
-
-  @action
-  async handleUserSelected(userId: UserEntity['id']) {
-    await this.scenarioRunner.execute({
-      scenario: 'AddSharingRule',
-      payload: {
-        ownerId: this.userStore.current.id,
-        userId,
-        entityId: this.fund.id,
-        entity: fund,
-        relatedEntities: [incomeTypeName, costTypeName, tagTypeName],
       },
     });
   }

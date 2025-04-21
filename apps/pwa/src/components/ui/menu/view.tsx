@@ -1,27 +1,36 @@
 import { PropsWithChildren } from 'react';
 import cn from 'classnames';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownItemProps } from '@nextui-org/dropdown';
+import {
+  Dropdown,
+  DropdownProps,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  DropdownItemProps,
+} from '@nextui-org/dropdown';
 
 export type MenuProps = PropsWithChildren<{
   items: Item[];
+  dropdownProps?: Omit<DropdownProps, 'children'>;
 }>;
 
 export type Item = {
-  title: string;
+  key: string;
+  view: PropsWithChildren['children'];
   color?: DropdownItemProps['color'];
   action: VoidFunction;
 };
 
 export const Menu = (props: MenuProps) => {
-  const { items, children } = props;
+  const { items, children, dropdownProps } = props;
 
   return (
-    <Dropdown backdrop="opaque">
+    <Dropdown backdrop="opaque" {...dropdownProps}>
       <DropdownTrigger>{children}</DropdownTrigger>
       <DropdownMenu
         className="w-full"
-        onAction={(title) => {
-          const handler = items.find((item) => item.title === title);
+        onAction={(key) => {
+          const handler = items.find((item) => item.key === key);
 
           handler?.action();
         }}
@@ -30,15 +39,15 @@ export const Menu = (props: MenuProps) => {
           title: 'text-xl',
         }}
       >
-        {items.map(({ title, color }) => (
+        {items.map(({ key, view, color }) => (
           <DropdownItem
-            key={title}
+            key={key}
             className={cn({
               'text-danger': color === 'danger',
             })}
             color={color}
           >
-            {title}
+            {view}
           </DropdownItem>
         ))}
       </DropdownMenu>

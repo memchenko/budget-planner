@@ -37,10 +37,6 @@ export class MainController {
     this.appStore.isLoaded = true;
   }
 
-  handleFundClick = (id: string) => {
-    this.navigate(pages.editFund, { id });
-  };
-
   handleAddNewFundClick = () => {
     this.navigate(pages.addFund);
   };

@@ -88,4 +88,8 @@ export class User {
   get externals() {
     return this.all.filter((entry) => entry.id !== this.current.id);
   }
+
+  get hasAnyExternal() {
+    return this.all.length > 1;
+  }
 }
