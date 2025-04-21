@@ -23,6 +23,7 @@ export interface FundsStateProps {
     isShared: boolean;
     isUnsynced: boolean;
     isSyncing: boolean;
+    isExternal: boolean;
   }[];
 }
 
@@ -40,6 +41,7 @@ export const FundsState = observer((props: FundsStateProps) => {
           isShared,
           isUnsynced,
           isSyncing,
+          isExternal,
           title,
           balance,
           capacity,
@@ -55,6 +57,17 @@ export const FundsState = observer((props: FundsStateProps) => {
                   label={
                     <div className="flex gap-2 items-center">
                       <span>{title}</span>
+                      {isExternal && (
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: feather.icons['external-link'].toSvg({
+                              width: ICON_SIZE,
+                              height: ICON_SIZE,
+                              class: 'text-default',
+                            }),
+                          }}
+                        />
+                      )}
                       {isShared && (
                         <span
                           dangerouslySetInnerHTML={{

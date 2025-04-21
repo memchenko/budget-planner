@@ -47,6 +47,7 @@ export class FundsController {
       .slice()
       .sort((a, b) => a.priority - b.priority)
       .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {
+        const isUserOwner = this.sharingRuleStore.isUserOwner('fund', id, this.userStore.current.id);
         const result = {
           id,
           balance,
@@ -56,9 +57,10 @@ export class FundsController {
           remainderWidth: '0',
           dailyRemainder: null as number | null,
           priority,
-          isShared: this.sharingRuleStore.isEntityShared('fund', id),
+          isShared: isUserOwner && this.sharingRuleStore.isEntityShared('fund', id),
           isUnsynced: this.synchronizationOrderStore.isEntityUnsynced('fund', id),
           isSyncing: this.synchronizationOrderStore.isSyncing,
+          isExternal: !isUserOwner,
         };
 
         if (calculateDailyLimit) {
