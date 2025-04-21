@@ -26,7 +26,7 @@ export interface FundsStateProps {
   }[];
 }
 
-const ICON_SIZE = 15;
+const ICON_SIZE = 18;
 
 export const FundsState = observer((props: FundsStateProps) => {
   const { list } = props;
@@ -103,7 +103,7 @@ export const FundsState = observer((props: FundsStateProps) => {
             </Card>
           );
 
-          if (ctrl.shouldDisplayMenu) {
+          if (ctrl.shouldDisplayMenu(id)) {
             view = (
               <Menu
                 items={ctrl.getMenu(id)}
