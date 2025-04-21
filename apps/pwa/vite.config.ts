@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
-  base: '',
+  base: '/budget-tracker.github.io/',
   plugins: [
     react(),
     command === 'serve' && basicSsl(),
