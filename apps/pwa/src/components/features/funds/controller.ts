@@ -47,7 +47,7 @@ export class FundsController {
       .slice()
       .sort((a, b) => a.priority - b.priority)
       .map(({ id, balance, capacity, title, calculateDailyLimit, priority }) => {
-        const isUserOwner = this.sharingRuleStore.isUserOwner('fund', id, this.userStore.current.id);
+        const isUserOwner = this.fundsStore.isUserOwner(this.userStore.current.id, id);
         const result = {
           id,
           balance,

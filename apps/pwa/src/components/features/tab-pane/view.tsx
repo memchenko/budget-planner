@@ -9,9 +9,9 @@ export const TabPane = (props: PropsWithChildren) => {
   const { pathname } = useLocation();
 
   return (
-    <div className="flex items-end gap-2 fixed bottom-0 left-0 w-full p-2">
+    <div className="flex items-end gap-2 fixed bottom-0 left-0 w-full p-2 z-50">
       <div className="flex-grow">
-        <Tabs fullWidth selectedKey={pathname} color="primary" placement="bottom" size="lg" variant="bordered">
+        <Tabs fullWidth selectedKey={pathname} color="primary" placement="bottom" size="lg" variant="solid">
           <Tab
             key={pages.index}
             href={pages.index}
@@ -24,6 +24,7 @@ export const TabPane = (props: PropsWithChildren) => {
           />
           <Tab
             key={pages.account}
+            href={pages.account}
             title={<div dangerouslySetInnerHTML={{ __html: feather.icons.user.toSvg() }}></div>}
           />
         </Tabs>

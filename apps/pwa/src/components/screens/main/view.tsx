@@ -25,19 +25,21 @@ export const Main = observer(() => {
   }
 
   return (
-    <Column>
-      <Wallet />
-      <Funds onAddNewFund={ctrl.handleAddNewFundClick} />
-      <TabPane>
-        <div className="aspect-square">
-          <PrimaryButton isIconOnly className="text-foreground rounded-full !size-full" onPress={onOpen}>
-            <span dangerouslySetInnerHTML={{ __html: feather.icons.plus.toSvg() }} />
-          </PrimaryButton>
-        </div>
-      </TabPane>
-      <Drawer isOpen={isOpen} placement="bottom" backdrop="opaque" size="lg" onOpenChange={onOpenChange}>
-        <DrawerContent>{(onClose) => <MakeRecord onFinish={onClose} />}</DrawerContent>
-      </Drawer>
-    </Column>
+    <div className="pb-32">
+      <Column>
+        <Wallet />
+        <Funds onAddNewFund={ctrl.handleAddNewFundClick} />
+        <TabPane>
+          <div className="aspect-square">
+            <PrimaryButton isIconOnly className="text-foreground rounded-full !size-full" onPress={onOpen}>
+              <span dangerouslySetInnerHTML={{ __html: feather.icons.plus.toSvg() }} />
+            </PrimaryButton>
+          </div>
+        </TabPane>
+        <Drawer isOpen={isOpen} placement="bottom" backdrop="opaque" size="lg" onOpenChange={onOpenChange}>
+          <DrawerContent>{(onClose) => <MakeRecord onFinish={onClose} />}</DrawerContent>
+        </Drawer>
+      </Column>
+    </div>
   );
 });

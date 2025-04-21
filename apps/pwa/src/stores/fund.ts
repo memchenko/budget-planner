@@ -79,4 +79,8 @@ export class Fund {
   getFundBalance(fundId: entities.Fund['id']) {
     return this.getFund(fundId)?.balance ?? null;
   }
+
+  isUserOwner(userId: string, entityId: string) {
+    return this.entries.some((entry) => entry.id === entityId && entry.userId === userId);
+  }
 }

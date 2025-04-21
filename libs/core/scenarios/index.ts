@@ -17,6 +17,11 @@ export const DeleteUser = buildDeleteEntityScenario<User>({
   repoType: TOKENS.USER_REPO,
 });
 
+export const UpdateUser = buildUpdateEntityScenario<User>({
+  entityName: ENTITY_NAME.USER,
+  repoType: TOKENS.USER_REPO,
+});
+
 // Tag entity scenarios
 export const CreateTag = buildCreateEntityScenario<Tag>({
   entityName: ENTITY_NAME.TAG,

@@ -69,8 +69,4 @@ export class SharingRule {
   isSharedWithUser(entityType: EntityType['entity'], entityId: EntityType['entityId'], userId: string) {
     return this.entries.find((entry) => entry.entity === entityType && entry.entityId === entityId)?.userId === userId;
   }
-
-  isUserOwner(entityType: EntityType['entity'], entityId: EntityType['entityId'], userId: string) {
-    return this.entries.find((entry) => entry.entity === entityType && entry.entityId === entityId)?.ownerId === userId;
-  }
 }
