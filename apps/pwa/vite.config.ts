@@ -12,6 +12,12 @@ export default defineConfig(({ command }) => ({
     command === 'serve' && basicSsl(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
+      strategies: 'injectManifest',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
@@ -55,6 +61,9 @@ export default defineConfig(({ command }) => ({
         short_name: 'Budget',
         description: 'Personal finance tracking app',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/budget-tracker.github.io/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -65,6 +74,12 @@ export default defineConfig(({ command }) => ({
             src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
           },
         ],
       },
