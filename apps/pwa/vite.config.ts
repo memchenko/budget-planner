@@ -17,7 +17,6 @@ export default defineConfig(({ command }) => ({
         enabled: true,
         type: 'module',
       },
-      strategies: 'injectManifest',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
