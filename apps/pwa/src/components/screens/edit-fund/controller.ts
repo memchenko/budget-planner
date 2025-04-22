@@ -70,6 +70,7 @@ export class EditFundController {
   @action
   handleSubmit(data: z.infer<typeof schema>, event?: React.BaseSyntheticEvent) {
     const name = get(event, ['nativeEvent', 'submitter', 'name']);
+    debugger;
 
     assert(name, 'Cannot update fund. Event is missing.');
     assert(this.fund.id, 'Cannot delete fund. ID is missing.');
