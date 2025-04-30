@@ -99,7 +99,6 @@ export class QRReaderController {
           this.resetAbortController.signal.addEventListener('abort', reject, { once: true });
         }),
       ]);
-      console.log('RESETTING');
 
       if (this.qrScanner) {
         this.qrScanner.stop();

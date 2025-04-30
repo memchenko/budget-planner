@@ -13,7 +13,7 @@ export interface TagsListProps {
   type: TagsListController['type'];
   parentType: EntityType['entities'][number]['entity'];
   parentId: EntityType['entities'][number]['entityId'];
-  onChange(selectedTags: TagsListController['selectedTags']): void;
+  onChange(selectedTags: TagsListController['selectedTags'][number]['id'][]): void;
 }
 
 export const TagsList = observer((props: TagsListProps) => {
@@ -27,13 +27,13 @@ export const TagsList = observer((props: TagsListProps) => {
 
     if (tagEntity) {
       ctrl.selectedTags = [...ctrl.selectedTags, tagEntity];
-      props.onChange(ctrl.selectedTags);
+      props.onChange(ctrl.selectedTags.map(({ id }) => id));
     }
   };
 
   const handleTagUnselect = (tag: EntityType['id']) => {
     ctrl.selectedTags = ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag);
-    props.onChange(ctrl.selectedTags);
+    props.onChange(ctrl.selectedTags.map(({ id }) => id));
   };
 
   return (

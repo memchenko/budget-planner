@@ -102,7 +102,7 @@ export class MakeRecordController {
   finish() {
     const commonPayload = {
       userId: this.user.current.id,
-      tags: this.values[TAGS_LIST_PROPERTY_NAME].map(({ id }) => id),
+      tags: this.values[TAGS_LIST_PROPERTY_NAME],
       amount: this.values[AMOUNT_PROPERTY_NAME],
       date: Date.now(),
       note: '',

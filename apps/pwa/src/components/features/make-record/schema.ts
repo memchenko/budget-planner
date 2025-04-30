@@ -9,12 +9,7 @@ import { fund, wallet, cost, income } from '#/libs/core/shared/schemas';
 
 export const formSchema = z.object({
   [TYPE_OF_RECORD_PROPERTY_NAME]: z.enum([cost, income]),
-  [TAGS_LIST_PROPERTY_NAME]: z
-    .object({
-      id: z.string(),
-    })
-    .array()
-    .min(1),
+  [TAGS_LIST_PROPERTY_NAME]: z.string().array().min(1),
   [AMOUNT_PROPERTY_NAME]: z.number().positive(),
   [ACCOUNT_PROPERTY_NAME]: z.object({
     id: z.string(),
