@@ -1,40 +1,20 @@
-# Accepting Peer Connection
+# Принятие подключения от пира
 
-## Description
+## Обзор
 
-As an answerer, you can accept a connection request from another user to enable collaborative budget management. This allows you to share financial data and manage budgets together.
+Это функция принятия запроса на подключение от другого пользователя для совместного управления бюджетом. После установления соединения пользователи могут обмениваться финансовыми данными и управлять общими фондами.
 
-## Flow
+## История пользователя
 
-### 1. Receiving Connection Request
+Как пользователь, я хочу принимать подключения от других пользователей, чтобы совместно управлять бюджетом и обмениваться финансовыми данными.
 
-- Receive a connection code from the user who wants to connect
-- Open the "Peers" screen
-- Click the "Connect to peer" button
+### Пользовательский сценарий
 
-### 2. Establishing Connection
-
-- Enter the received connection code
-- Wait for the connection to be established
-- Review the initiator's information and decide whether to accept or reject
-
-### 3. After Connection
-
-- If accepted:
-  - The initiator appears in your peers list
-  - You can start sharing your financial data
-  - You'll see when the peer is online/offline
-- If rejected:
-  - The connection is terminated
-  - You can try connecting again later
-
-### 4. Managing Connection
-
-- You can disconnect from a peer at any time
-- You can remove a peer from your list
-- You can see the connection status of your peers
-
-## Related Features
-
-- [Fund Management](./fund-management.md)
-- [Cost Tracking](./cost-tracking.md)
+1. Пользователь получает код подключения от другого пользователя;
+2. Пользователь открывает экран "Пиры";
+3. Пользователь нажимает на кнопку "Подключиться к пиру";
+4. Пользователь вводит полученный код подключения;
+5. Пользователь ожидает установления соединения;
+6. Пользователь получает запрос на подтверждение данных другого пользователя;
+7. Пользователь просматривает информацию о другом пользователе;
+8. Пользователь принимает или отклоняет подключение.
