@@ -1,4 +1,4 @@
-# Budget Planner Bot
+# Budget Planner
 
 A decentralized collaborative finance planning and tracking application.
 
