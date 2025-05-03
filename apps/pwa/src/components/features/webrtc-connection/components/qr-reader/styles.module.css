@@ -1,0 +1,15 @@
+.desktopVideo {
+    @apply h-full max-w-none object-cover;
+}
+
+@media (orientation: portrait) {
+    .video {
+        @apply w-full;
+    }
+}
+
+@media (orientation: landscape) {
+    .video {
+        @apply h-full;
+    }
+}
