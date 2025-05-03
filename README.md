@@ -1,19 +1,19 @@
-# Budget Planner
+# Планировщик бюджета
 
-A decentralized collaborative finance planning and tracking application.
+Децентрализованное приложение для совместного планирования и отслеживания финансов.
 
-## Documentation
+## Документация
 
-- [Glossary](docs/glossary.md) - Key terms and concepts used in the project
-- [Use Cases](docs/cases/) - Detailed descriptions of application use cases
-  - **Fund Management**
-    - [Create Fund](docs/cases/create-fund.md) - Creating a new fund for financial planning
-    - [Share Fund](docs/cases/share-fund.md) - Sharing a fund with another user
-    - [Reprioritize Funds](docs/cases/reprioritize-funds.md) - Adjusting fund priorities
-    - [Distribute Balance](docs/cases/distribute-balance.md) - Allocating available balance across funds
-  - **Record Management**
-    - [Make Record](docs/cases/make-record.md) - Creating new financial records
-    - [Create Tag](docs/cases/create-tag.md) - Adding tags for record categorization
-  - **Peer Connection**
-    - [Initiating Peer Connection](docs/cases/initiating-peer-connection.md) - Establishing connection with another user
-    - [Accepting Peer Connection](docs/cases/accepting-peer-connection.md) - Accepting connection request from another user
+- [Глоссарий](docs/glossary.md) - Ключевые термины и понятия, используемые в проекте
+- [Сценарии использования](docs/cases/) - Подробные описания сценариев использования приложения
+  - **Управление фондами**
+    - [Создание фонда](docs/cases/create-fund.md) - Создание нового фонда для финансового планирования
+    - [Общий доступ к фонду](docs/cases/share-fund.md) - Предоставление доступа к фонду другому пользователю
+    - [Изменение приоритетов фондов](docs/cases/reprioritize-funds.md) - Настройка приоритетов фондов
+    - [Распределение баланса](docs/cases/distribute-balance.md) - Распределение доступного баланса между фондами
+  - **Управление записями**
+    - [Создание записи](docs/cases/make-record.md) - Создание новых финансовых записей
+    - [Создание тега](docs/cases/create-tag.md) - Добавление тегов для категоризации записей
+  - **Подключение пользователей**
+    - [Инициация подключения](docs/cases/initiating-peer-connection.md) - Установление соединения с другим пользователем
+    - [Принятие подключения](docs/cases/accepting-peer-connection.md) - Принятие запроса на подключение от другого пользователя
