@@ -18,9 +18,9 @@ export const Main = observer(() => {
 
   if (ctrl.isLoading) {
     return (
-      <Column>
-        <CircularProgress isIndeterminate />
-      </Column>
+      <div className="h-full w-full flex justify-center align-middle">
+        <CircularProgress isIndeterminate size="lg" />
+      </div>
     );
   }
 
