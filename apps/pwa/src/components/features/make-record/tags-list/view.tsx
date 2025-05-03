@@ -8,6 +8,7 @@ import { TagsListController } from './controller';
 import styles from './styles.module.css';
 import { getTagColor } from './helpers';
 import { EntityType } from '~/stores/tag';
+import { useUnmount } from '~/shared/hooks/useUnmount';
 
 export interface TagsListProps {
   type: TagsListController['type'];
@@ -35,6 +36,8 @@ export const TagsList = observer((props: TagsListProps) => {
     ctrl.selectedTags = ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag);
     props.onChange(ctrl.selectedTags.map(({ id }) => id));
   };
+
+  useUnmount(ctrl.reset);
 
   return (
     <div className={styles.tagsList}>

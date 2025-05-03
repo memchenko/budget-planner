@@ -84,4 +84,9 @@ export class TagsListController {
   handleSearchQueryChange(query: string) {
     this.searchQuery = query;
   }
+
+  @action
+  reset() {
+    this.selectedTags = [];
+  }
 }

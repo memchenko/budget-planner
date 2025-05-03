@@ -20,7 +20,7 @@ import { fund, wallet, cost } from '#/libs/core/shared/schemas';
 @provide(MakeRecordController)
 export class MakeRecordController {
   state = State.TypeOfRecordStep;
-  values = defaultValues;
+  values = cloneDeep(defaultValues);
 
   onFinish?: VoidFunction;
 
@@ -72,7 +72,8 @@ export class MakeRecordController {
 
   @action
   reset() {
-    this.values = defaultValues;
+    this.values = cloneDeep(defaultValues);
+    this.state = State.TypeOfRecordStep;
     this.onFinish?.();
   }
 
@@ -128,7 +129,6 @@ export class MakeRecordController {
       });
     }
 
-    this.values = cloneDeep(defaultValues);
-    this.onFinish?.();
+    this.reset();
   }
 }
