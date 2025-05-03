@@ -13,3 +13,6 @@ A decentralized collaborative finance planning and tracking application.
   - **Record Management**
     - [Make Record](docs/cases/make-record.md) - Creating new financial records
     - [Create Tag](docs/cases/create-tag.md) - Adding tags for record categorization
+  - **Peer Connection**
+    - [Initiating Peer Connection](docs/cases/initiating-peer-connection.md) - Establishing connection with another user
+    - [Accepting Peer Connection](docs/cases/accepting-peer-connection.md) - Accepting connection request from another user
