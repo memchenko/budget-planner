@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
-  base: '/budget-tracker/',
+  base: '/budget-planner/',
   plugins: [
     react(),
     command === 'serve' && basicSsl(),
@@ -62,7 +62,7 @@ export default defineConfig(({ command }) => ({
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
-        start_url: '/budget-tracker/',
+        start_url: '/budget-planner/',
         icons: [
           {
             src: 'icon-192.png',

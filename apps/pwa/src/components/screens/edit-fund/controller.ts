@@ -35,7 +35,7 @@ export class EditFundController {
   }
 
   getFundId() {
-    const path = `/budget-tracker${pages.editFund}`;
+    const path = `/budget-planner${pages.editFund}`;
     const id = matchPath<ParamParseKey<typeof path>, typeof path>(
       path,
       window.location.pathname,

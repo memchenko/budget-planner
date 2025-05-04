@@ -95,7 +95,7 @@ export class AccountController {
     // eslint-disable-next-line
     // @ts-ignore
     const fileHandle = await window.showSaveFilePicker({
-      suggestedName: 'budget-tracker.json',
+      suggestedName: 'budget-planner.json',
       types: [
         {
           description: 'JSON File',
