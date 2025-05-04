@@ -10,6 +10,7 @@ import { assert } from 'ts-essentials';
 @provide(TagsListController)
 export class TagsListController {
   type?: 'cost' | 'income';
+  onChange?: (selectedTags: EntityType['id'][]) => void;
   selectedTags: EntityType[] = [];
   searchQuery = '';
   parentType?: EntityType['entities'][number]['entity'];
@@ -37,8 +38,12 @@ export class TagsListController {
     }
 
     const popularTags = this.tag.getAllByTypeAndParent(this.type, this.parentType, this.parentId);
+    let result = popularTags.length > 0 ? popularTags : this.allTags.slice(0, 5);
+    result = result.filter((tag) => {
+      return !this.selectedTags.some((selectedTag) => selectedTag.id === tag.id);
+    });
 
-    return popularTags.length > 0 ? popularTags : this.allTags.slice(0, 5);
+    return result;
   }
 
   @computed
@@ -83,6 +88,27 @@ export class TagsListController {
   @action
   handleSearchQueryChange(query: string) {
     this.searchQuery = query;
+  }
+
+  @action
+  handleTagSelect(tagId: EntityType['id']) {
+    const tagEntity = this.getTagById(tagId);
+    const isTagSelected = this.selectedTags.some((selectedTag) => selectedTag.id === tagId);
+
+    if (isTagSelected) {
+      return;
+    }
+
+    if (tagEntity) {
+      this.selectedTags = [...this.selectedTags, tagEntity];
+      this.onChange?.(this.selectedTags.map(({ id }) => id));
+    }
+  }
+
+  @action
+  handleTagUnselect(tagId: EntityType['id']) {
+    this.selectedTags = this.selectedTags.filter((selectedTag) => selectedTag.id !== tagId);
+    this.onChange?.(this.selectedTags.map(({ id }) => id));
   }
 
   @action

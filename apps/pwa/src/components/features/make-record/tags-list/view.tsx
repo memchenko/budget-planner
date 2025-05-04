@@ -22,20 +22,7 @@ export const TagsList = observer((props: TagsListProps) => {
   ctrl.type = props.type;
   ctrl.parentId = props.parentId;
   ctrl.parentType = props.parentType;
-
-  const handleTagSelect = (tag: EntityType['id']) => {
-    const tagEntity = ctrl.getTagById(tag);
-
-    if (tagEntity) {
-      ctrl.selectedTags = [...ctrl.selectedTags, tagEntity];
-      props.onChange(ctrl.selectedTags.map(({ id }) => id));
-    }
-  };
-
-  const handleTagUnselect = (tag: EntityType['id']) => {
-    ctrl.selectedTags = ctrl.selectedTags.filter((selectedTag) => selectedTag.id !== tag);
-    props.onChange(ctrl.selectedTags.map(({ id }) => id));
-  };
+  ctrl.onChange = props.onChange;
 
   useUnmount(ctrl.reset);
 
@@ -52,7 +39,7 @@ export const TagsList = observer((props: TagsListProps) => {
                   size="lg"
                   variant="flat"
                   className="cursor-pointer"
-                  onClick={() => handleTagSelect(tag.id)}
+                  onClick={() => ctrl.handleTagSelect(tag.id)}
                 >
                   {tag.title}
                 </Chip>
@@ -69,18 +56,17 @@ export const TagsList = observer((props: TagsListProps) => {
           updatePositionDeps: [ctrl.selectedTags.length],
         }}
         listboxProps={{
-          emptyContent: ctrl.shouldDisplayCreateTagButton ? (
+          emptyContent: 'No more tags exist',
+          bottomContent: ctrl.shouldDisplayCreateTagButton ? (
             <Button fullWidth color="primary" onPress={ctrl.handleCreateTagClick}>
               Create tag "{ctrl.searchQuery}"
             </Button>
-          ) : (
-            'No more tags exist'
-          ),
+          ) : null,
         }}
         selectedKey={null}
         onInputChange={ctrl.handleSearchQueryChange}
         onSelectionChange={(key) => {
-          return handleTagSelect(String(key));
+          return ctrl.handleTagSelect(String(key));
         }}
         onClick={(e) => {
           e.currentTarget.focus();
@@ -106,8 +92,8 @@ export const TagsList = observer((props: TagsListProps) => {
                   size="lg"
                   variant="flat"
                   className="cursor-pointer"
-                  onClick={() => handleTagUnselect(tag.id)}
-                  onClose={() => handleTagUnselect(tag.id)}
+                  onClick={() => ctrl.handleTagUnselect(tag.id)}
+                  onClose={() => ctrl.handleTagUnselect(tag.id)}
                 >
                   {tag.title}
                 </Chip>
