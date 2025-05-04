@@ -2,6 +2,7 @@ import React from 'react';
 import { provide } from 'inversify-binding-decorators';
 import { inject } from 'inversify';
 import { makeAutoObservable } from 'mobx';
+import omit from 'lodash/omit';
 import { TOKENS } from '~/shared/constants/di';
 import { ScenarioRunner } from '~/shared/impl/scenario-runner';
 import * as userStore from '~/stores/user';
@@ -53,14 +54,34 @@ export class AccountController {
   }
 
   async export() {
+    const userId = this.userStore.current.id;
+
     const data = {
-      user: this.userStore.entries,
-      wallet: this.walletStore.entries,
-      fund: this.fundStore.entries,
-      income: this.incomeStore.entries,
-      cost: this.costStore.entries,
-      tag: this.tagStore.entries,
-      sharingRule: this.sharingRuleStore.entries,
+      user: this.userStore.entries.map((entry) => omit(entry, 'avatarSrc')),
+      wallet: this.walletStore.entries.map((entry) => ({
+        ...entry,
+        userId: entry.userId === userId ? null : entry.userId,
+      })),
+      fund: this.fundStore.entries.map((entry) => ({
+        ...entry,
+        userId: entry.userId === userId ? null : entry.userId,
+      })),
+      income: this.incomeStore.entries.map((entry) => ({
+        ...entry,
+        userId: entry.userId === userId ? null : entry.userId,
+      })),
+      cost: this.costStore.entries.map((entry) => ({
+        ...entry,
+        userId: entry.userId === userId ? null : entry.userId,
+      })),
+      tag: this.tagStore.entries.map((entry) => ({
+        ...entry,
+        userId: entry.userId === userId ? null : entry.userId,
+      })),
+      sharingRule: this.sharingRuleStore.entries.map((entry) => ({
+        ...entry,
+        ownerId: entry.ownerId === userId ? null : entry.ownerId,
+      })),
       synchronizationOrder: this.synchronizationOrderStore.entries,
     };
 
@@ -80,6 +101,11 @@ export class AccountController {
     const writableStream = await fileHandle.createWritable();
     await writableStream.write(blob);
     await writableStream.close();
+
+    this.notificationShowEvent.push({
+      type: 'success',
+      message: 'Data successfully exported',
+    });
   }
 
   async import() {
@@ -142,13 +168,13 @@ export class AccountController {
     }
 
     if (data.synchronizationOrder) {
-      this.synchronizationOrderStore.entries = data.synchronizationOrder.map(
-        (order: synchronizationOrderStore.EntityType) => ({
-          ...order,
-          userId: order.userId === null ? currentUserId : order.userId,
-        }),
-      );
+      this.synchronizationOrderStore.entries = data.synchronizationOrder;
     }
+
+    this.notificationShowEvent.push({
+      type: 'success',
+      message: 'Data successfully imported',
+    });
   }
 
   handleNameInputChange(event: React.ChangeEvent<HTMLInputElement>) {

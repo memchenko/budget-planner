@@ -37,7 +37,7 @@ export class Greeting implements ICooperativeWorkflow {
     this.isInitiator = true;
 
     this.peer.startChannel();
-    this.peer.send(PEER_EVENTS.GREET, this.user.current);
+    this.peer.send(PEER_EVENTS.GREET, { ...this.user.current, avatarSrc: '' });
 
     const isAccepted = await this.isUserAccepted();
 
@@ -121,7 +121,7 @@ export class Greeting implements ICooperativeWorkflow {
     }
 
     this.peer.send(PEER_EVENTS.ENTITY_ACCEPTED, this.buildAcceptAnswer(initiator.id, true));
-    this.peer.send(PEER_EVENTS.GREET, this.user.current);
+    this.peer.send(PEER_EVENTS.GREET, { ...this.user.current, avatarSrc: '' });
 
     const isAccepted = await this.isUserAccepted();
 
