@@ -1,15 +1,16 @@
 import { State } from './constants';
+import { t } from '~/shared/translations';
 
 export const getTitle = (state: State) => {
   switch (state) {
     case State.TypeOfRecordStep:
-      return 'Choose type of record';
+      return t('Choose type of record');
     case State.AmountStep:
-      return 'Enter amount';
+      return t('Enter amount');
     case State.AccountStep:
-      return 'Choose fund';
+      return t('Choose fund');
     case State.TagsStep:
-      return 'Choose tags';
+      return t('Choose tags');
     default:
       return '';
   }
@@ -17,9 +18,9 @@ export const getTitle = (state: State) => {
 
 export const getNextButtonTitle = (state: State) => {
   if (state === State.TagsStep) {
-    return 'Finish';
+    return t('Finish');
   } else {
-    return 'Next';
+    return t('Next');
   }
 };
 

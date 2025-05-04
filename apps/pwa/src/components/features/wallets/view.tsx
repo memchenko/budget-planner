@@ -13,6 +13,7 @@ import { EditBalanceIcon } from '~/components/ui/icons/EditBalance';
 import { CardTitle } from '~/components/ui/card-title';
 import { WalletController } from './controller';
 import styles from './styles.module.css';
+import { t } from '~/shared/translations';
 
 export const Wallet = observer(() => {
   const ctrl = useController(WalletController);
@@ -43,14 +44,14 @@ export const Wallet = observer(() => {
             icon={ctrl.isEditing ? <TrashIcon className="size-5" /> : <PencilIcon className="size-5" />}
             onClick={ctrl.handleLeftButtonClick}
           >
-            {ctrl.isEditing ? 'Cancel' : 'Change title'}
+            {ctrl.isEditing ? t('Cancel') : 'Change title'}
           </CardButton>
           <Divider className="line h-12" orientation="vertical" />
           <CardButton
             icon={ctrl.isEditing ? <CheckIcon className="size-6" /> : <EditBalanceIcon className="size-6" />}
             onClick={ctrl.handleRightButtonClick}
           >
-            {ctrl.isEditing ? 'Confirm' : 'Edit balance'}
+            {ctrl.isEditing ? t('Confirm') : 'Edit balance'}
           </CardButton>
         </ButtonGroup>
       </CardFooter>

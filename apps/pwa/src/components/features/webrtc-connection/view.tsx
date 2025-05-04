@@ -7,6 +7,7 @@ import { PrimaryButton } from '~/components/ui/primary-button';
 import { Qr } from './components/qr';
 import { QrReader } from './components/qr-reader';
 import { Progress } from '@nextui-org/progress';
+import { t } from '~/shared/translations';
 
 export interface WebRTCConnectionProps {
   isInitiator: boolean;
@@ -36,7 +37,7 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
             <div className="w-full">
               <PrimaryButton fullWidth onPress={ctrl.readAnswer}>
                 <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
-                Proceed
+                {t('Proceed')}
               </PrimaryButton>
             </div>
           )}

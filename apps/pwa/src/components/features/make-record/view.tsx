@@ -21,6 +21,7 @@ import { Input } from '@nextui-org/input';
 import { AccountsList } from './accounts-list';
 import { Accordion, AccordionItem, AccordionProps } from '@nextui-org/accordion';
 import cn from 'classnames';
+import { t } from '~/shared/translations';
 
 export type MakeRecordProps = {
   onFinish?: VoidFunction;
@@ -125,7 +126,7 @@ export const MakeRecord = observer((props: MakeRecordProps) => {
 
       <DrawerFooter className="flex justify-end gap-2">
         <Button variant="faded" className="flex-1" onPress={ctrl.reset}>
-          Cancel
+          {t('Cancel')}
         </Button>
         <PrimaryButton
           isDisabled={isNextButtonDisabled}

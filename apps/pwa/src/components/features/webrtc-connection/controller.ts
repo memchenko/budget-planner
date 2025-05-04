@@ -6,6 +6,7 @@ import { WebRTC } from '~/shared/impl/webrtc/index.js';
 import { assert } from 'ts-essentials';
 import { matchesSchema } from '~/shared/type-guards.js';
 import { readyEventTypeSchema, webRtcDescriptionSchema, webRtcMessageSchema } from '~/shared/events/schemas';
+import { t } from '~/shared/translations';
 
 export enum Mode {
   OFFERER,
@@ -68,7 +69,7 @@ export class WebRTCConnectionController {
         return 'Establishing connection';
       }
       default: {
-        return 'Loading...';
+        return `${t('Loading')}...`;
       }
     }
   }

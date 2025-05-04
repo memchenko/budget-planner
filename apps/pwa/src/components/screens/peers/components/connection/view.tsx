@@ -7,6 +7,7 @@ import { PrimaryButton } from '~/components/ui/primary-button';
 import { SecondaryButton } from '~/components/ui/secondary-button';
 import { ConnectionController } from './controller';
 import { useUnmount } from '~/shared/hooks/useUnmount';
+import { t } from '~/shared/translations';
 
 export type ConnectionProps = {
   onConnected: VoidFunction;
@@ -31,11 +32,11 @@ export const Connection = observer((props: ConnectionProps) => {
         <div className="flex gap-2 p-2 justify-center">
           <PrimaryButton size="lg" className="flex gap-2" onPress={ctrl.initiate}>
             <span dangerouslySetInnerHTML={{ __html: feather.icons.grid.toSvg() }} />
-            Initiate
+            {t('Initiate')}
           </PrimaryButton>
           <SecondaryButton size="lg" className="flex gap-2" onPress={ctrl.answer}>
             <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
-            Answer
+            {t('Answer')}
           </SecondaryButton>
         </div>
       )}

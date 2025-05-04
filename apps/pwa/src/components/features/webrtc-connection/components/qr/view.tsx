@@ -4,6 +4,7 @@ import { useController } from '~/shared/hooks/useController';
 import { Button } from '~/components/ui/button';
 import styles from './styles.module.css';
 import { QRController } from './controller';
+import { t } from '~/shared/translations';
 
 export interface QrProps {
   data: string;
@@ -18,7 +19,7 @@ export const Qr = observer((props: QrProps) => {
       <canvas ref={(el) => ctrl.setCanvas(el)} className={styles.canvas} />
       <Button fullWidth size="lg" onPress={ctrl.handleClipboardClickButton}>
         <span dangerouslySetInnerHTML={{ __html: feather.icons.clipboard.toSvg() }} />
-        Copy the code
+        {t('Copy the code')}
       </Button>
     </div>
   );

@@ -12,6 +12,7 @@ import {
 import { useEffect } from 'react';
 import { PrimaryButton } from '~/components/ui/primary-button';
 import { Button } from '~/components/ui/button';
+import { t } from '~/shared/translations';
 
 export const Modal = observer(() => {
   const ctrl = useController(ModalController);
@@ -39,7 +40,7 @@ export const Modal = observer(() => {
                   ctrl.closeModal(false);
                 }}
               >
-                Close
+                {t('Close')}
               </Button>
               <PrimaryButton
                 onPress={() => {
@@ -47,7 +48,7 @@ export const Modal = observer(() => {
                   ctrl.closeModal(true);
                 }}
               >
-                Confirm
+                {t('Confirm')}
               </PrimaryButton>
             </ModalFooter>
           </>

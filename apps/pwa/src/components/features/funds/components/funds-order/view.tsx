@@ -4,6 +4,7 @@ import { Divider } from '@nextui-org/divider';
 import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort';
 import { GridDotsVerticalIcon } from '~/components/ui/icons/GridDotsVertical';
 import styles from './styles.module.css';
+import { t } from '~/shared/translations';
 
 export interface FundsOrderProps {
   list: {
@@ -47,7 +48,7 @@ export const FundsOrder = (props: FundsOrderProps) => {
       </SortableList>
       <div className={styles.actions}>
         <Button className="w-1/4" onPress={props.onCancel}>
-          Cancel
+          {t('Cancel')}
         </Button>
         <Button color="primary" className="w-1/4" onPress={handleButtonClick}>
           Save
