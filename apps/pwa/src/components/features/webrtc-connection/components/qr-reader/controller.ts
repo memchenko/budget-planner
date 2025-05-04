@@ -5,6 +5,7 @@ import QrScanner from 'qr-scanner';
 import { hasProperty } from '~/shared/type-guards';
 import { TOKENS } from '~/shared/constants/di';
 import { NotificationShowEvent } from '~/shared/events';
+import { t } from '~/shared/translations';
 
 @provide(QRReaderController)
 export class QRReaderController {
@@ -56,7 +57,7 @@ export class QRReaderController {
     } catch {
       this.notificationShowEvent.push({
         type: 'error',
-        message: 'Broken code',
+        message: t('Broken code'),
       });
     }
   }

@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { asMoney } from '#/libs/formatting/money';
+import { t } from '~/shared/translations';
 
 export interface ValueLabelProps {
   capacity: number;
@@ -15,7 +16,7 @@ export const ValueLabel = (props: ValueLabelProps) => {
     return label;
   }
 
-  const remainderText = `(${asMoney(dailyRemainder)} today)`;
+  const remainderText = `(${asMoney(dailyRemainder)} ${t('today')})`;
 
   return (
     <span>

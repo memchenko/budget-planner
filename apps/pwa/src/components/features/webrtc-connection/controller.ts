@@ -63,10 +63,10 @@ export class WebRTCConnectionController {
   get progressText() {
     switch (this.state) {
       case State.CREATING_OFFER: {
-        return 'Preparing connection settings';
+        return t('Preparing connection settings');
       }
       case State.ESTABLISHING_CONNECTION: {
-        return 'Establishing connection';
+        return t('Establishing connection');
       }
       default: {
         return `${t('Loading')}...`;

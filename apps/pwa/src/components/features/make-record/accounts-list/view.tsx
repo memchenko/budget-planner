@@ -3,6 +3,7 @@ import { AccountsListController } from './controller';
 import { useController } from '~/shared/hooks/useController';
 import { RadioGroup, Radio } from '@nextui-org/radio';
 import styles from './styles.module.css';
+import { t } from '~/shared/translations';
 
 export interface AccountsListProps {
   excludeFunds: boolean;
@@ -27,7 +28,7 @@ export const AccountsList = observer((props: AccountsListProps) => {
           </div>
         </>
       )}
-      <h4 className="text-foreground-400">Wallets</h4>
+      <h4 className="text-foreground-400">{t('Wallets')}</h4>
       <div className={styles.list}>
         {ctrl.allWallets.map(({ id, title }) => (
           <Radio key={id} value={`wallet/${id}`} size="lg" color="primary">

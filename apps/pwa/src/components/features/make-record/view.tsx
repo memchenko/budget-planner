@@ -59,7 +59,7 @@ export const MakeRecord = observer((props: MakeRecordProps) => {
 
   return (
     <div className="w-full">
-      <DrawerHeader className="text-large">Make new record</DrawerHeader>
+      <DrawerHeader className="text-large">{t('Make new record')}</DrawerHeader>
       <DrawerBody>
         <Accordion selectedKeys={[getSelectedKey(ctrl.state)]} onSelectionChange={handleAccordionSelection}>
           <AccordionItem
@@ -83,7 +83,7 @@ export const MakeRecord = observer((props: MakeRecordProps) => {
               type="number"
               step="0.01"
               min="0"
-              label="Amount"
+              label={t('Amount')}
               placeholder="0.00"
               size="lg"
               value={String(ctrl.values[AMOUNT_PROPERTY_NAME])}

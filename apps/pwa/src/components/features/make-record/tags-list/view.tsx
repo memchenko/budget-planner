@@ -9,6 +9,7 @@ import styles from './styles.module.css';
 import { getTagColor } from './helpers';
 import { EntityType } from '~/stores/tag';
 import { useUnmount } from '~/shared/hooks/useUnmount';
+import { t } from '~/shared/translations';
 
 export interface TagsListProps {
   type: TagsListController['type'];
@@ -30,7 +31,7 @@ export const TagsList = observer((props: TagsListProps) => {
     <div className={styles.tagsList}>
       {ctrl.recommendedTags.length > 0 && (
         <>
-          <span className={styles.label}>Recommended:</span>
+          <span className={styles.label}>{t('Recommended')}:</span>
           <ul className={styles.chipsList}>
             {ctrl.recommendedTags.map((tag) => (
               <li key={tag.id}>
@@ -51,15 +52,15 @@ export const TagsList = observer((props: TagsListProps) => {
       )}
 
       <Autocomplete
-        label="Select tag"
+        label={t('Select tag')}
         popoverProps={{
           updatePositionDeps: [ctrl.selectedTags.length],
         }}
         listboxProps={{
-          emptyContent: 'No more tags exist',
+          emptyContent: t('No more tags exist'),
           bottomContent: ctrl.shouldDisplayCreateTagButton ? (
             <Button fullWidth color="primary" onPress={ctrl.handleCreateTagClick}>
-              Create tag "{ctrl.searchQuery}"
+              {t('Create tag')} "{ctrl.searchQuery}"
             </Button>
           ) : null,
         }}
@@ -82,7 +83,7 @@ export const TagsList = observer((props: TagsListProps) => {
       {ctrl.selectedTags.length > 0 && (
         <>
           <Divider />
-          <span className={styles.label}>Selected tags:</span>
+          <span className={styles.label}>{t('Selected tags')}:</span>
           <ul className={styles.chipsList}>
             {ctrl.selectedTags.map((tag) => (
               <li key={tag.id}>

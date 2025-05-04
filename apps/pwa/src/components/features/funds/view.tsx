@@ -7,6 +7,7 @@ import { FundsState } from './components/funds-state';
 import { FundsOrder } from './components/funds-order';
 import { FundActionsMenu } from './components/fund-actions-menu';
 import { Button } from '~/components/ui/button';
+import { t } from '~/shared/translations';
 
 export interface FundsProps {
   onAddNewFund: () => void;
@@ -19,7 +20,7 @@ export const Funds = observer((props: FundsProps) => {
   return (
     <Card className="card">
       <CardHeader className="flex justify-between items-center">
-        <CardTitle>Funds</CardTitle>
+        <CardTitle>{t('Funds')}</CardTitle>
         {ctrl.hasFunds && <FundActionsMenu onChangePriority={ctrl.enableReorderMode} onDistribute={ctrl.distribute} />}
       </CardHeader>
       <CardBody className="flex gap-4 flex-col">

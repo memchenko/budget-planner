@@ -1,4 +1,5 @@
 import { ButtonGroup, Button } from '@nextui-org/button';
+import { t } from '~/shared/translations';
 
 export type TypeOfRecordValue = 'income' | 'cost';
 
@@ -18,7 +19,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         color={value === 'income' ? 'success' : 'default'}
         onPress={onChange.bind(null, 'income')}
       >
-        Income
+        {t('Income')}
       </Button>
       <Button
         className="uppercase"
@@ -26,7 +27,7 @@ export const TypeOfRecord = (props: TypeOfRecordProps) => {
         color={value === 'cost' ? 'danger' : 'default'}
         onPress={onChange.bind(null, 'cost')}
       >
-        Expense
+        {t('Expense')}
       </Button>
     </ButtonGroup>
   );
