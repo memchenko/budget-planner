@@ -64,6 +64,9 @@ export const TagsList = observer((props: TagsListProps) => {
             </Button>
           ) : null,
         }}
+        inputProps={{
+          size: 'lg',
+        }}
         selectedKey={null}
         onInputChange={ctrl.handleSearchQueryChange}
         onSelectionChange={(key) => {

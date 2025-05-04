@@ -36,7 +36,16 @@ export const Main = observer(() => {
             </PrimaryButton>
           </div>
         </TabPane>
-        <Drawer isOpen={isOpen} placement="bottom" backdrop="opaque" size="5xl" onOpenChange={onOpenChange}>
+        <Drawer
+          isOpen={isOpen}
+          placement="bottom"
+          backdrop="opaque"
+          size="5xl"
+          classNames={{
+            wrapper: 'h-full',
+          }}
+          onOpenChange={onOpenChange}
+        >
           <DrawerContent>{(onClose) => <MakeRecord onFinish={onClose} />}</DrawerContent>
         </Drawer>
       </Column>
