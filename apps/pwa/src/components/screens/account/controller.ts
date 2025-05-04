@@ -14,6 +14,7 @@ import * as tagStore from '~/stores/tag';
 import * as sharingRuleStore from '~/stores/sharing-rule';
 import * as synchronizationOrderStore from '~/stores/synchronization-order';
 import { NotificationShowEvent } from '~/shared/events';
+import { t } from '~/shared/translations';
 
 @provide(AccountController)
 export class AccountController {
@@ -246,153 +247,153 @@ export class AccountController {
 
     try {
       const currentBalance = this.getInputSafe({
-        message: 'How much money do you have on your bank account right now?',
-        errorMessage: 'Bank account balance must be a positive number or 0',
+        message: t('How much money do you have on your bank account right now?'),
+        errorMessage: t('Bank account balance must be a positive number or 0'),
         decoder: numberDecoder,
       });
 
       const income = this.getInputSafe({
-        message: "What's your regular monthly income?",
-        errorMessage: 'Regular monthly income must be a positive number or 0',
+        message: t("What's your regular monthly income?"),
+        errorMessage: t('Regular monthly income must be a positive number or 0'),
         decoder: numberDecoder,
       });
       // Necessary
       const rent = this.getInputSafe({
-        message: 'How much do you pay for rent monthly?',
-        errorMessage: 'Monthly rent must be a positive number or 0',
+        message: t('How much do you pay for rent monthly?'),
+        errorMessage: t('Monthly rent must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const water = this.getInputSafe({
-        message: 'How much do you pay for water monthly?',
-        errorMessage: 'Monthly water bill must be a positive number or 0',
+        message: t('How much do you pay for water monthly?'),
+        errorMessage: t('Monthly water bill must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const gas = this.getInputSafe({
-        message: 'How much do you pay for gas monthly?',
-        errorMessage: 'Monthly gas bill must be a positive number or 0',
+        message: t('How much do you pay for gas monthly?'),
+        errorMessage: t('Monthly gas bill must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const electricity = this.getInputSafe({
-        message: 'How much do you pay for electricity monthly?',
-        errorMessage: 'Monthly electricity bill must be a positive number or 0',
+        message: t('How much do you pay for electricity monthly?'),
+        errorMessage: t('Monthly electricity bill must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const homeFees = this.getInputSafe({
-        message: 'How much do you spend on other necessary home fees monthly?',
-        errorMessage: 'Other monthly home fees must be a positive number or 0',
+        message: t('How much do you spend on other necessary home fees monthly?'),
+        errorMessage: t('Other monthly home fees must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const transport = this.getInputSafe({
-        message: 'How much do you spend for transport monthly?',
-        errorMessage: 'Monthly transport spendings must be a positive number or 0',
+        message: t('How much do you spend for transport monthly?'),
+        errorMessage: t('Monthly transport spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const mobile = this.getInputSafe({
-        message: 'How much do you spend for mobile services monthly?',
-        errorMessage: 'Monthly mobile spendings must be a positive number or 0',
+        message: t('How much do you spend for mobile services monthly?'),
+        errorMessage: t('Monthly mobile spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const internet = this.getInputSafe({
-        message: 'How much do you spend for internet services monthly?',
-        errorMessage: 'Monthly internet spendings must be a positive number or 0',
+        message: t('How much do you spend for internet services monthly?'),
+        errorMessage: t('Monthly internet spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const loans = this.getInputSafe({
-        message: 'How much do you spend for loans monthly?',
-        errorMessage: 'Monthly loan payments must be a positive number or 0',
+        message: t('How much do you spend for loans monthly?'),
+        errorMessage: t('Monthly loan payments must be a positive number or 0'),
         decoder: numberDecoder,
       });
       // Groceries
       const food = this.getInputSafe({
-        message: 'How much do you spend for food and groceries monthly?',
-        errorMessage: 'Monthly food spendings must be a positive number or 0',
+        message: t('How much do you spend for food and groceries monthly?'),
+        errorMessage: t('Monthly food spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const pets = this.getInputSafe({
-        message: 'How much do you spend for pet supplies monthly?',
-        errorMessage: 'Monthly pet spendings must be a positive number or 0',
+        message: t('How much do you spend for pet supplies monthly?'),
+        errorMessage: t('Monthly pet spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const personalCare = this.getInputSafe({
-        message: 'How much do you spend for personal care monthly?',
-        errorMessage: 'Monthly personal care spendings must be a positive number or 0',
+        message: t('How much do you spend for personal care monthly?'),
+        errorMessage: t('Monthly personal care spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const householdSupplies = this.getInputSafe({
-        message: 'How much do you spend for household supplies monthly?',
-        errorMessage: 'Monthly household supplies spendings must be a positive number or 0',
+        message: t('How much do you spend for household supplies monthly?'),
+        errorMessage: t('Monthly household supplies spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       // Leisure
       const entertainmentSubscriptions = this.getInputSafe({
-        message: 'How much do you spend for entertainment subscriptions monthly?',
-        errorMessage: 'Monthly entertainment subscriptions must be a positive number or 0',
+        message: t('How much do you spend for entertainment subscriptions monthly?'),
+        errorMessage: t('Monthly entertainment subscriptions must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const sportsSubscriptions = this.getInputSafe({
-        message: 'How much do you spend for sports subscriptions monthly?',
-        errorMessage: 'Monthly sports subscriptions must be a positive number or 0',
+        message: t('How much do you spend for sports subscriptions monthly?'),
+        errorMessage: t('Monthly sports subscriptions must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const diningOut = this.getInputSafe({
-        message: 'How much do you spend for dining out monthly?',
-        errorMessage: 'Monthly dining out spendings must be a positive number or 0',
+        message: t('How much do you spend for dining out monthly?'),
+        errorMessage: t('Monthly dining out spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const entertainment = this.getInputSafe({
-        message: 'How much do you spend for entertainment monthly?',
-        errorMessage: 'Monthly entertainment spendings must be a positive number or 0',
+        message: t('How much do you spend for entertainment monthly?'),
+        errorMessage: t('Monthly entertainment spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const travel = this.getInputSafe({
-        message: 'How much do you spend for travel monthly?',
-        errorMessage: 'Monthly travel spendings must be a positive number or 0',
+        message: t('How much do you spend for travel monthly?'),
+        errorMessage: t('Monthly travel spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
 
       const currentRent = this.getInputSafe({
-        message: 'How much have you spent for rent in this month?',
-        errorMessage: 'Rent spendings must be a positive number or 0',
+        message: t('How much have you spent for rent in this month?'),
+        errorMessage: t('Rent spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentWater = this.getInputSafe({
-        message: 'How much have you spent for water in this month?',
-        errorMessage: 'Water spendings must be a positive number or 0',
+        message: t('How much have you spent for water in this month?'),
+        errorMessage: t('Water spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentGas = this.getInputSafe({
-        message: 'How much have you spent for gas in this month?',
-        errorMessage: 'Gas spendings must be a positive number or 0',
+        message: t('How much have you spent for gas in this month?'),
+        errorMessage: t('Gas spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentElectricity = this.getInputSafe({
-        message: 'How much have you spent for electricity in this month?',
-        errorMessage: 'Electricity spendings must be a positive number or 0',
+        message: t('How much have you spent for electricity in this month?'),
+        errorMessage: t('Electricity spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentHomeFees = this.getInputSafe({
-        message: 'How much have you spent for other home fees in this month?',
-        errorMessage: 'Home fees must be a positive number or 0',
+        message: t('How much have you spent for other home fees in this month?'),
+        errorMessage: t('Home fees must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentTransport = this.getInputSafe({
-        message: 'How much have you spent for transport in this month?',
-        errorMessage: 'Transport spendings must be a positive number or 0',
+        message: t('How much have you spent for transport in this month?'),
+        errorMessage: t('Transport spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentLoans = this.getInputSafe({
-        message: 'How much have you spent for loans in this month?',
-        errorMessage: 'Loan payments must be a positive number or 0',
+        message: t('How much have you spent for loans in this month?'),
+        errorMessage: t('Loan payments must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentMobile = this.getInputSafe({
-        message: 'How much have you spent for mobile services in this month?',
-        errorMessage: 'Mobile spendings must be a positive number or 0',
+        message: t('How much have you spent for mobile services in this month?'),
+        errorMessage: t('Mobile spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
       const currentInternet = this.getInputSafe({
-        message: 'How much have you spent for internet services in this month?',
-        errorMessage: 'Internet spendings must be a positive number or 0',
+        message: t('How much have you spent for internet services in this month?'),
+        errorMessage: t('Internet spendings must be a positive number or 0'),
         decoder: numberDecoder,
       });
 
@@ -434,19 +435,19 @@ export class AccountController {
 
       this.notificationShowEvent.push({
         type: 'success',
-        message: 'The funds are sucessfully calculated. Open main screen to check',
+        message: t('The funds are sucessfully calculated. Open main screen to check'),
       });
 
       if (res.capacityOverflow < 0) {
         this.notificationShowEvent.push({
           type: 'warning',
-          message: "You're income doesn't cover your spendings!",
+          message: t("You're income doesn't cover your spendings!"),
         });
       }
     } catch {
       this.notificationShowEvent.push({
         type: 'error',
-        message: "Couldn't calculate budgets",
+        message: t("Couldn't calculate budgets"),
       });
     } finally {
       this.isCalculating = false;
@@ -457,7 +458,7 @@ export class AccountController {
     try {
       return params.decoder(
         window.prompt(
-          `${params.message} (Don't type anything in the input if the questions doesn't apply to you and just click "confirm")`,
+          `${params.message} (${t('Don\'t type anything in the input if the questions doesn\'t apply to you and just click "confirm")')}`,
         ),
       );
     } catch (err) {
