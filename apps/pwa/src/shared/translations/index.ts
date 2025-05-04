@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 
-import * as ru from './ru.json';
-import * as en from './en.json';
+import ru from './ru.json';
+import en from './en.json';
 
 const language = navigator.language.split('-')[0];
 const dicts = {
@@ -14,5 +14,5 @@ export const t = (str: string): string => {
 
   if (translation !== null) return translation;
 
-  return get(en, str, '');
+  return get(en, str, null) ?? str;
 };

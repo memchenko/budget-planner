@@ -458,7 +458,8 @@ export class AccountController {
     try {
       return params.decoder(
         window.prompt(
-          `${params.message} (${t('Don\'t type anything in the input if the questions doesn\'t apply to you and just click "confirm")')}`,
+          // prettier-ignore
+          `${params.message} (${t("Don't type anything in the input if the questions doesn't apply to you and just click \"confirm\"")})`,
         ),
       );
     } catch (err) {

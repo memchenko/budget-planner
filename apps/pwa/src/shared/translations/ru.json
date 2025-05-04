@@ -144,5 +144,6 @@
     "Couldn't create a wallet": "Не удалось создать кошелек",
     "Couldn't revert scenario. User wasn't created": "Не удалось отменить сценарий. Пользователь не был создан",
     "Couldn't add sharing rule": "Не удалось добавить правило совместного использования",
-    "Couldn't delete sharing rule": "Не удалось удалить правило совместного использования"
+    "Couldn't delete sharing rule": "Не удалось удалить правило совместного использования",
+    "Don't type anything in the input if the questions doesn't apply to you and just click \"confirm\"": "Не вводите ничего в поле ввода, если вопрос не применим к вам, и просто нажмите \"подтвердить\""
 }

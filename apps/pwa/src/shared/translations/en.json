@@ -144,5 +144,6 @@
     "Couldn't create a wallet": "Couldn't create a wallet",
     "Couldn't revert scenario. User wasn't created": "Couldn't revert scenario. User wasn't created",
     "Couldn't add sharing rule": "Couldn't add sharing rule",
-    "Couldn't delete sharing rule": "Couldn't delete sharing rule"
+    "Couldn't delete sharing rule": "Couldn't delete sharing rule",
+    "Don't type anything in the input if the questions doesn't apply to you and just click \"confirm\"": "Don't type anything in the input if the questions doesn't apply to you and just click \"confirm\""
 }
