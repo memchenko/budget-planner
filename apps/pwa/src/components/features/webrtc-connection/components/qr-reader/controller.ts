@@ -101,6 +101,7 @@ export class QRReaderController {
       ]);
 
       if (this.qrScanner) {
+        await this.qrScanner.pause(true);
         this.qrScanner.stop();
         this.qrScanner.destroy();
 

@@ -54,9 +54,11 @@ export class Greeting implements ICooperativeWorkflow {
       this.notification.success('Connected');
       this.peer.endChannel();
       this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, answerer.id);
+      this.user.connectUser(answerer.id);
 
       const unsub = this.peer.onclose(() => {
         this.notification.info(`${answerer.firstName} ${answerer.lastName} disconnected`);
+        this.user.disconnectUser(answerer.id);
         unsub();
       });
       return;
@@ -81,9 +83,11 @@ export class Greeting implements ICooperativeWorkflow {
     this.notification.success('Connected');
     this.peer.endChannel();
     this.eventBus.send(LOCAL_EVENTS.GREETED_PEER, answerer.id);
+    this.user.connectUser(answerer.id);
 
     const unsub = this.peer.onclose(() => {
       this.notification.info(`${answerer.firstName} ${answerer.lastName} disconnected`);
+      this.user.disconnectUser(answerer.id);
       unsub();
     });
   }

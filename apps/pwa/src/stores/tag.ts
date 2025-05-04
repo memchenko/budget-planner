@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, action, computed, when } from 'mobx';
+import { makeAutoObservable, observable, action, computed } from 'mobx';
 import { makePersistable, isHydrated } from 'mobx-persist-store';
 import { entities } from '#/libs/core';
 import { injectable, inject } from 'inversify';
@@ -25,27 +25,6 @@ export class Tag {
       name: this.constructor.name,
       properties: ['entries'],
     });
-
-    let isMigrated = false;
-
-    when(
-      () => this.isReady,
-      () => {
-        const tagsWithoutId = this.entries.filter(({ id }) => id === undefined);
-
-        if (tagsWithoutId.length > 0 && !isMigrated) {
-          isMigrated = true;
-
-          tagsWithoutId.forEach((tag, index) => {
-            const tagIdx = this.entries.findIndex((entryTag) => tag === entryTag);
-
-            if (tagIdx > -1) {
-              this.entries[tagIdx].id = String(Date.now() + index * 10);
-            }
-          });
-        }
-      },
-    );
   }
 
   @action

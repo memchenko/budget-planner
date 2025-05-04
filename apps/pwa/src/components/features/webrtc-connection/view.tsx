@@ -32,12 +32,14 @@ export const WebRTCConnection = observer((props: WebRTCConnectionProps) => {
       {ctrl.shouldDisplayQrCode && (
         <div className="flex flex-col gap-4 items-center">
           <Qr data={ctrl.qrCodeValue} />
-          <div className="w-full">
-            <PrimaryButton fullWidth onPress={ctrl.readAnswer}>
-              <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
-              Proceed
-            </PrimaryButton>
-          </div>
+          {props.isInitiator && (
+            <div className="w-full">
+              <PrimaryButton fullWidth onPress={ctrl.readAnswer}>
+                <span dangerouslySetInnerHTML={{ __html: feather.icons.camera.toSvg() }} />
+                Proceed
+              </PrimaryButton>
+            </div>
+          )}
         </div>
       )}
 

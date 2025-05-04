@@ -6,6 +6,7 @@ import { Input } from '@nextui-org/input';
 import { useController } from '~/shared/hooks/useController';
 import { Button } from '~/components/ui/button';
 import { isMobile } from '~/shared/utils/device';
+import { useUnmount } from '~/shared/hooks/useUnmount';
 
 import { QRReaderController } from './controller';
 import styles from './styles.module.css';
@@ -17,6 +18,8 @@ export interface QrReaderProps extends PropsWithChildren<unknown> {
 export const QrReader = observer(({ onRead }: QrReaderProps) => {
   const ctrl = useController(QRReaderController);
   ctrl.onRead = onRead;
+
+  useUnmount(ctrl.reset);
 
   return (
     <div className="flex flex-col gap-4 items-end sm:items-center">
