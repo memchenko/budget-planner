@@ -3,11 +3,8 @@ import { ENTITY_NAME } from 'core/shared/constants';
 import { TOKENS } from 'core/types';
 import { User } from 'core/entities/User';
 import { Tag } from 'core/entities/Tag';
-import { Fund } from 'core/entities/Fund';
-import { Wallet } from 'core/entities/Wallet';
 import { SharingRule } from 'core/entities/SharingRule';
 import { SynchronizationOrder } from 'core/entities/SynchronizationOrder';
-import { fund } from 'core/shared/schemas';
 
 // User entity scenarios
 export { CreateUser } from './user/CreateUser';
@@ -38,34 +35,14 @@ export { AssignTagToEntity } from './tag/AssignTagToEntity';
 // Fund entity scenarios
 export { DistributeBalance } from './DistributeBalance';
 
-export const CreateFund = buildCreateEntityScenario<Fund>({
-  entityName: ENTITY_NAME.FUND,
-  repoType: TOKENS.FUND_REPO,
-});
-
-export const UpdateFund = buildUpdateEntityScenario<Fund>({
-  entityName: ENTITY_NAME.FUND,
-  repoType: TOKENS.FUND_REPO,
-  sharingRuleEntityName: fund,
-});
-
-export { DeleteFund } from './fund/DeleteFund';
+export { CreateFund, UpdateFund, DeleteFund } from './fund';
 
 // Transactions scenarios
 export { AddCost } from './cost/AddCost';
 
 export { AddIncome } from './income/AddIncome';
 
-// Wallet entity scenarios
-export const CreateWallet = buildCreateEntityScenario<Wallet>({
-  entityName: ENTITY_NAME.WALLET,
-  repoType: TOKENS.WALLET_REPO,
-});
-
-export const UpdateWallet = buildUpdateEntityScenario<Wallet>({
-  entityName: ENTITY_NAME.WALLET,
-  repoType: TOKENS.WALLET_REPO,
-});
+export { CreateWallet, UpdateWallet } from './wallet';
 
 // Sharing scenarios
 export { AddSharingRule } from './sharing/AddSharingRule';
@@ -86,3 +63,5 @@ export const DeleteSynchronizationOrder = buildDeleteEntityScenario<Synchronizat
 });
 
 export { SendMoneyToPeer } from './SendMoneyToPeer';
+
+export { CalculateFunds } from './CalculateFunds';

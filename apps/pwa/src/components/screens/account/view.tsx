@@ -29,7 +29,9 @@ export const Account = observer(() => {
       <Button fullWidth onPress={ctrl.export}>
         Export
       </Button>
-      <Button fullWidth>Calculate</Button>
+      <Button fullWidth onPress={ctrl.calculate}>
+        Calculate
+      </Button>
       <TabPane />
     </Column>
   );
