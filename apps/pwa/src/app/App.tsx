@@ -53,7 +53,7 @@ const Dependencies = (props: PropsWithChildren<unknown>) => {
 
 export function App() {
   return (
-    <BrowserRouter basename="/budget-tracker.github.io/">
+    <BrowserRouter basename="/budget-tracker/">
       <NextUI>
         <Dependencies>
           <ErrorBoundary>

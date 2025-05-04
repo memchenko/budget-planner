@@ -63,7 +63,7 @@ export class AccountController {
     const userId = this.userStore.current.id;
 
     const data = {
-      user: this.userStore.entries.map((entry) => omit(entry, 'avatarSrc')),
+      user: this.userStore.entries.map((entry) => ({ ...omit(entry, 'avatarSrc'), avatarSrc: '' })),
       wallet: this.walletStore.entries.map((entry) => ({
         ...entry,
         userId: entry.userId === userId ? null : entry.userId,
